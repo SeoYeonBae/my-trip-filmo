@@ -7,10 +7,10 @@
         <p>2022.12.20-2022.12.21</p>
       </b-col>
       <b-col md="10" class="my-plan shadow p-3 mb-5 bg-body rounded">
-        <b-row class="px-5 choiced-places">
+        <b-row class="px-5">
           <draggable v-model="mychoices">
             <transition-group>
-              <div v-for="(choice, index) in mychoices" v-bind:key="index">
+              <div v-for="(choice, index) in mychoices" v-bind:key="index" class="choiced-places">
                 <b-card
                   img-src="https://picsum.photos/600/300/?image=25"
                   img-alt="Image"
@@ -96,7 +96,7 @@ export default {
       end_date: "2022-12-20",
       mychoices: [
         { name: "멋진숙소1", type: "숙박" },
-        { name: "멋진숙소2", type: "숙박" },
+        { name: "아름다운숙소2", type: "숙박" },
       ],
       places: [],
       map: null,
@@ -150,6 +150,9 @@ export default {
 }
 .choiced-places {
   margin-right: 20px;
+}
+.choiced-places:hover {
+  filter: brightness(90%);
 }
 .places > * {
   margin-bottom: 10px;

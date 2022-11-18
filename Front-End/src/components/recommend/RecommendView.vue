@@ -101,6 +101,8 @@ export default {
   color: #171d3a;
 }
 #map {
+  /* width: 100%; */
+  /* height: 100%; */
   width: 500px;
   height: 450px;
 }
@@ -127,7 +129,7 @@ export default {
 .custom_zoomcontrol {
   position: absolute;
   top: 10px;
-  right: 30px;
+  right: 50px;
   width: 36px;
   height: 80px;
   overflow: hidden;
