@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.ssafy.enjoytrip.sigungu.model.mapper.SigunguMapper">
+<mapper namespace="com.ssafy.vue.sigungu.model.mapper.SigunguMapper">
 		
 	<resultMap type="SigunguDto" id="sigungu">
 		<result column="area_code" property="articleNo"/>
