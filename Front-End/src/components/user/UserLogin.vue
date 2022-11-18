@@ -15,7 +15,7 @@
             <b-form-group label="아이디" label-for="userid">
               <b-form-input
                 id="userid"
-                v-model="user.userid"
+                v-model="user.id"
                 required
                 placeholder="아이디를 입력해주세요"
                 @keyup.enter="confirm"
@@ -25,7 +25,7 @@
               <b-form-input
                 type="password"
                 id="userpwd"
-                v-model="user.userpwd"
+                v-model="user.password"
                 required
                 placeholder="비밀번호를 입력해주세요"
                 @keyup.enter="confirm"
@@ -58,8 +58,8 @@ export default {
     return {
       // isLoginError: false,
       user: {
-        userid: null,
-        userpwd: null,
+        id: null,
+        password: null,
       },
     };
   },
@@ -75,11 +75,8 @@ export default {
       if (this.isLogin) {
         await this.getUserInfo(token);
         // console.log("4. confirm() userInfo :: ", this.userInfo);
-        this.$router.push({ name: "main" });
+        this.$router.push({ name: "appMain" });
       }
-    },
-    movePage() {
-      this.$router.push({ name: "join" });
     },
   },
 };

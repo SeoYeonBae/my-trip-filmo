@@ -1,5 +1,4 @@
 <template>
-  <!-- <my-page-header></my-page-header> -->
   <b-col md="8">
     <b-jumbotron text-variant="black">
       <b-row id="title">
@@ -32,8 +31,8 @@
           <font-awesome-icon icon="fa-regular fa-face-smile" class="fa-4x" />
         </b-col>
         <b-col>
-          <h4 class="font-weight-bold">{{ userInfo.username }}</h4>
-          {{ userInfo.userid }}
+          <h4 class="font-weight-bold">{{ userInfo.name }}</h4>
+          {{ userInfo.id }}
         </b-col>
       </b-row>
       <div fluid>
@@ -43,7 +42,7 @@
           <label for="username">이름: &nbsp;</label>
           <b-form-input
             id="username"
-            v-model="userInfo.username"
+            v-model="userInfo.name"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -52,7 +51,7 @@
           <label for="userid">아이디: &nbsp;</label>
           <b-form-input
             id="userid"
-            v-model="userInfo.userid"
+            v-model="userInfo.id"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -61,7 +60,7 @@
           <label for="phone">휴대전화: &nbsp;</label>
           <b-form-input
             id="phone"
-            v-model="userInfo.phone"
+            v-model="userInfo.tel"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -71,15 +70,6 @@
           <b-form-input
             id="email"
             v-model="userInfo.email"
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="joindate">가입일: &nbsp;</label>
-          <b-form-input
-            id="joindate"
-            v-model="userInfo.joindate"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -113,23 +103,15 @@
 </template>
 
 <script>
-// import MyPageHeader from "@/components/user/mypage/MyPageHeader";
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
+
 export default {
   name: "MyPageUserInfo",
-  components: {
-    // MyPageHeader,
-  },
-  data() {
-    return {
-      userInfo: {
-        username: "융쭈",
-        userid: "jjooody",
-        phone: "010-1234-5678",
-        email: "jjooody@naver.com",
-        joindate: "yy-mm-dd",
-        password: "",
-      },
-    };
+  components: {},
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
   },
 };
 </script>

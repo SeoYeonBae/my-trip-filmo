@@ -17,6 +17,8 @@ public interface UserMapper {
 	int joinUser(UserDto userDto) throws SQLException;
 
 	UserDto loginUser(UserDto userDto) throws SQLException;
+	
+	public UserDto userInfo(String userid) throws SQLException;
 
 	int modifyUser(UserDto userDto) throws SQLException;
 

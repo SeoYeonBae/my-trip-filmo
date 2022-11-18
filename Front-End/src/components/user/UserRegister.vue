@@ -12,7 +12,7 @@
             <label for="userid">아이디</label>
             <b-form-input
               id="userid"
-              v-model="userInfo.userid"
+              v-model="user.id"
               required
               @keyup.enter="confirm"
             ></b-form-input>
@@ -21,17 +21,9 @@
             <label for="password">비밀번호</label>
             <b-form-input
               id="password"
-              v-model="userInfo.password"
+              type="password"
+              v-model="user.password"
               required
-              @keyup.enter="confirm"
-            ></b-form-input>
-          </b-form>
-          <b-form class="mt-3">
-            <label for="passconfirm">비밀번호 확인</label>
-            <b-form-input
-              id="passconfirm"
-              required
-              placeholder="비밀번호 재입력"
               @keyup.enter="confirm"
             ></b-form-input>
           </b-form>
@@ -39,7 +31,7 @@
             <label for="username">이름</label>
             <b-form-input
               id="username"
-              v-model="userInfo.username"
+              v-model="user.name"
               required
               @keyup.enter="confirm"
             ></b-form-input>
@@ -48,7 +40,7 @@
             <label for="phone">휴대전화</label>
             <b-form-input
               id="phone"
-              v-model="userInfo.phone"
+              v-model="user.tel"
               required
               @keyup.enter="confirm"
             ></b-form-input>
@@ -57,7 +49,7 @@
             <label for="email">이메일</label>
             <b-form-input
               id="email"
-              v-model="userInfo.email"
+              v-model="user.email"
               required
               @keyup.enter="confirm"
             ></b-form-input>
@@ -70,14 +62,14 @@
               <label for="managernum">Enter the manager number : &nbsp;</label>
               <b-form-input
                 id="managernum"
-                v-model="managernum"
+                v-model="user.managernum"
                 required
                 @keyup.enter="confirm"
               ></b-form-input>
             </b-form>
           </b-row>
           <b-row class="mt-3">
-            <b-button type="button" class="m-1">회원가입</b-button>
+            <b-button type="button" class="m-1" @click="checkValue">회원가입</b-button>
             <b-button type="button" class="m-1" @click="$router.push({ name: 'appMain' })"
               >취소</b-button
             >
@@ -89,20 +81,47 @@
 </template>
 
 <script>
+import { apiInstance } from "@/api/index.js";
+
+const api = apiInstance();
+
 export default {
   name: "UserRegister",
   data() {
     return {
-      checked: false,
-      userInfo: {
-        username: null,
-        userid: null,
-        phone: null,
-        email: null,
-        joindate: null,
-        password: null,
+      user: {
+        name: "",
+        id: "",
+        tel: "",
+        email: "",
+        password: "",
+        checked: false,
       },
     };
+  },
+  methods: {
+    checkValue() {
+      if (
+        this.user.name === "" ||
+        this.user.id === "" ||
+        this.user.tel === "" ||
+        this.user.email === "" ||
+        this.user.password === ""
+      ) {
+        alert("모든 내용을 입력해주세요!!");
+        return;
+      } else {
+        this.registuser();
+      }
+    },
+    registuser() {
+      api.post("/user/join", this.user).then(({ data }) => {
+        let msg = "등록 처리 중 문제 발생!!!";
+        if (data) msg = "등록 성공!!!";
+        alert(msg);
+        this.$router.push({ name: "appMain" });
+      });
+    },
   },
 };
 </script>

@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public UserDto userInfo(String userid) throws Exception {
+		return userMapper.userInfo(userid);
+	}
+	
+	@Override
 	public void saveRefreshToken(String userid, String refreshToken) throws Exception {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("userid", userid);

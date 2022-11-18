@@ -10,8 +10,8 @@
         </div>
         <div id="usericon">
           <font-awesome-icon icon="fa-regular fa-face-smile" class="fa-8x" />
-          <h4 class="mt-4 mb-3">{{ name }}</h4>
-          <h5 class="mb-4">id: {{ id }}</h5>
+          <h4 class="mt-4 mb-3">{{ userInfo.name }}</h4>
+          <h5 class="mb-4">id: {{ userInfo.id }}</h5>
         </div>
         <hr />
         <div>
@@ -33,13 +33,15 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
+
 export default {
   name: "AppUser",
-  data() {
-    return {
-      name: "융쭈",
-      id: "jjoody",
-    };
+  components: {},
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
   },
 };
 </script>

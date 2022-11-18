@@ -14,6 +14,8 @@ public interface UserService {
 
 	UserDto loginUser(UserDto userDto) throws Exception;
 
+	public UserDto userInfo(String userid) throws Exception;
+	
 	int modifyUser(UserDto userDto) throws Exception;
 
 	int deleteUser(String userId) throws Exception;

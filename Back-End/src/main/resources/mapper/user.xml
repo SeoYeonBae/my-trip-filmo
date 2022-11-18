@@ -18,13 +18,36 @@
 	</resultMap>
 
 	<select id="loginUser" parameterType="userDto" resultMap="userAll">
-		select
-		user_id, user_name, user_password, user_email, user_tel, manager
+		select user_id, user_name, user_password, user_email, user_tel, manager
 		from
 		users
-		where user_id = #{userid} and user_password = #{userpwd}
+		where user_id = #{id} and user_password = #{password}
 	</select>
 
+	<select id="userInfo" parameterType="string" resultMap="userAll">
+		select user_name, user_id, user_email, user_tel, user_password, manager
+		from users
+		where user_id = #{userid}
+	</select>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from users
+		where user_id = #{userid}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update users
+		set token = #{token}
+		where user_id = #{userid}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update users
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userid}
+	</update>
+	
 	<update id="modifyUser" parameterType="userDto">
 		update users
 		set
