@@ -8,46 +8,42 @@
       </b-col>
       <b-col md="10" class="my-plan shadow p-3 mb-5 bg-body rounded">
         <b-row class="px-5 choiced-places">
-          <b-card
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 12rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <font-awesome-icon icon="fa-solid fa-bed" />
-              멋진 숙소1
-              <b-button href="#" variant="warning" style="float: right">X</b-button>
-            </b-card-text>
-          </b-card>
-          <b-card
-            img-src="https://picsum.photos/600/300/?image=25"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 12rem"
-            class="mb-2"
-          >
-            <b-card-text>
-              <font-awesome-icon icon="fa-solid fa-bed" />
-              멋진 숙소2
-              <b-button href="#" variant="warning" style="float: right">X</b-button>
-            </b-card-text>
-          </b-card>
+          <!-- <draggable v-model="mychoices">
+            <transition-group>
+            -->
+          <div v-for="(choice, index) in mychoices" v-bind:key="index">
+            <b-card
+              img-src="https://picsum.photos/600/300/?image=25"
+              img-alt="Image"
+              img-top
+              tag="article"
+              style="max-width: 12rem"
+              class="mb-2"
+            >
+              <b-card-text>
+                <font-awesome-icon icon="fa-solid fa-bed" />
+                {{ choice }}
+                <button class="btn-delete">
+                  <font-awesome-icon icon="fa-solid fa-circle-xmark" style="color: red" />
+                </button>
+              </b-card-text>
+            </b-card>
+          </div>
+          <!--
+            </transition-group>
+          </draggable> -->
         </b-row>
       </b-col>
     </b-row>
     <b-row id="plan-content">
       <b-col md="1" class="trip-type">
-        <b-button type="button">관광지</b-button>
-        <b-button type="button">문화시설</b-button>
-        <b-button type="button">레포츠</b-button>
-        <b-button type="button">식당</b-button>
-        <b-button type="button">쇼핑</b-button>
-        <b-button type="button">숙박</b-button>
-        <b-button type="button">축제</b-button>
+        <button type="button">관광지</button>
+        <button type="button">문화시설</button>
+        <button type="button">레포츠</button>
+        <button type="button">식당</button>
+        <button type="button">쇼핑</button>
+        <button type="button">숙박</button>
+        <button type="button">축제</button>
       </b-col>
 
       <b-col md="8" id="map" class="mb-5"></b-col>
@@ -153,7 +149,10 @@ export default {
 .places > * {
   margin-bottom: 10px;
 }
-button {
+.places > * :hover {
+  filter: brightness(80%);
+}
+.trip-type > * {
   padding: 30px;
   margin: 20px;
   width: 80%;
@@ -165,7 +164,16 @@ button {
 }
 button:hover,
 button:active {
-  background-color: #dfe4ff;
+  background-color: transparent;
+  color: #dfe4ff;
+}
+.btn-delete {
+  float: right;
+  background-color: transparent;
+  border-style: none;
+  border: none;
+  box-shadow: none;
+  height: auto;
 }
 img {
   max-width: 500px;
