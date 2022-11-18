@@ -103,4 +103,7 @@ button:hover {
   background-color: #d4fcee;
   color: black;
 }
+.container {
+  height: 100%;
+}
 </style>

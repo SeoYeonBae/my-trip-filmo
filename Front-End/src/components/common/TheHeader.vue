@@ -15,14 +15,14 @@
           <!-- 로그인 했을 때 -->
           <b-nav-item-dropdown text="여행하기" right>
             <b-dropdown-item @click="$router.push({ name: 'tour' })">관광지 구경</b-dropdown-item>
-            <b-dropdown-item @click="$router.push({ name: 'sun' })">여행 계획</b-dropdown-item>
-            <b-dropdown-item @click="$router.push({ name: 'plan' })">일출 일몰</b-dropdown-item>
+            <b-dropdown-item @click="$router.push({ name: 'plan' })">여행 계획</b-dropdown-item>
+            <b-dropdown-item @click="$router.push({ name: 'sun' })">일출 일몰</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="게시판" right>
             <b-dropdown-item @click="$router.push({ name: 'board' })">핫플 자랑</b-dropdown-item>
             <b-dropdown-item @click="$router.push({ name: 'notice' })">공지사항</b-dropdown-item>
-            <b-dropdown-item @click="$router.push({ name: 'qna' })">Q&A</b-dropdown-item>
+            <b-dropdown-item @click="$router.push({ name: 'appQnA' })">Q&A</b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown text="User" right>

@@ -18,5 +18,7 @@ footer {
   background-color: rgb(255, 219, 219);
   color: black;
   font-weight: bold;
+  position: relative;
+  transform: translateY(100%);
 }
 </style>

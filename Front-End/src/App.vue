@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <the-header></the-header>
-    <router-view></router-view>
+    <div id="maincontentview">
+      <router-view></router-view>
+    </div>
     <the-footer></the-footer>
   </div>
 </template>
@@ -19,8 +21,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 * {
   font-family: "Gowun Dodum", sans-serif;
+}
+#maincontentview {
+  height: auto;
+  min-height: 800px;
 }
 </style>
