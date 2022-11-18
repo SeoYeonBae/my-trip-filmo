@@ -12,10 +12,16 @@ public interface UserService {
 
 	int joinUser(UserDto userDto) throws Exception;
 
-	UserDto loginUser(Map<String, Object> map) throws Exception;
+	UserDto loginUser(UserDto userDto) throws Exception;
 
 	int modifyUser(UserDto userDto) throws Exception;
 
 	int deleteUser(String userId) throws Exception;
+	
+	public void saveRefreshToken(String userid, String refreshToken) throws Exception;
+	
+	public Object getRefreshToken(String userid) throws Exception;
+	
+	public void deleRefreshToken(String userid) throws Exception;
 
 }

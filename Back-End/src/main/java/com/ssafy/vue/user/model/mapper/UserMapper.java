@@ -16,10 +16,16 @@ public interface UserMapper {
 
 	int joinUser(UserDto userDto) throws SQLException;
 
-	UserDto loginUser(Map<String, Object> map) throws SQLException;
+	UserDto loginUser(UserDto userDto) throws SQLException;
 
 	int modifyUser(UserDto userDto) throws SQLException;
 
 	int deleteUser(String userId) throws SQLException;
+	
+	public void saveRefreshToken(Map<String, String> map) throws SQLException;
+
+	public Object getRefreshToken(String userid) throws SQLException;
+	
+	public void deleteRefreshToken(Map<String, String> map) throws SQLException;
 
 }

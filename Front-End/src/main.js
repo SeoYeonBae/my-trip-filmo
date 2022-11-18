@@ -3,8 +3,8 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 
-import "@/api/fontAwesomeIcon.js"; // fontAwesomeIcon.js 불러옴
-import "@/api/vueBootstrap.js";
+import "@/api/lib/fontAwesomeIcon.js"; // fontAwesomeIcon.js 불러옴
+import "@/api/lib/vueBootstrap.js";
 
 Vue.config.productionTip = false;
 

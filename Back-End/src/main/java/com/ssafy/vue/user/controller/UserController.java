@@ -5,13 +5,7 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -20,35 +14,78 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.vue.do17.controller.DoController;
 import com.ssafy.vue.user.model.UserDto;
+import com.ssafy.vue.user.model.service.JwtServiceImpl;
 import com.ssafy.vue.user.model.service.UserService;
-import com.ssafy.vue.user.model.service.UserServiceImpl;
 
 @RestController
 @RequestMapping("/user")
 public class UserController extends HttpServlet {
 
 	private Logger logger = LoggerFactory.getLogger(DoController.class);
+	private static final String SUCCESS = "success";
+	private static final String FAIL = "fail";
 
 	private static final long serialVersionUID = 1L;
 
+	@Autowired
+	private JwtServiceImpl jwtService;
+	
 	private UserService userService;
 
 	@Autowired
 	public UserController(UserService userService) {
 		super();
 		this.userService = userService;
+	}
+
+	@PostMapping("/login")
+	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
+		Map<String, Object> resultMap = new HashMap<>();
+		HttpStatus status = null;
+		try {
+			UserDto loginUser = userService.loginUser(userDto);
+			if (loginUser != null) {
+				String accessToken = jwtService.createAccessToken("userid", loginUser.getId());// key, data
+				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getId());// key, data
+				userService.saveRefreshToken(userDto.getId(), refreshToken);
+				logger.debug("로그인 accessToken 정보 : {}", accessToken);
+				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
+				resultMap.put("access-token", accessToken);
+				resultMap.put("refresh-token", refreshToken);
+				resultMap.put("message", SUCCESS);
+				status = HttpStatus.ACCEPTED;
+			} else {
+				resultMap.put("message", FAIL);
+				status = HttpStatus.ACCEPTED;
+			}
+		} catch (Exception e) {
+			logger.error("로그인 실패 : {}", e);
+			resultMap.put("message", e.getMessage());
+			status = HttpStatus.INTERNAL_SERVER_ERROR;
+		}
+		return new ResponseEntity<Map<String, Object>>(resultMap, status);
+//		try {
+//			UserDto user = userService.loginUser(map); // JSON Array
+//			logger.debug("login dtd : {} " + user);
+//			if (user != null) {
+//				return new ResponseEntity<UserDto>(user, HttpStatus.OK);
+//			} else {
+//				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//			return exceptionHandling(e);
+//		}
 	}
 
 	@GetMapping("/{userid}")
@@ -72,21 +109,6 @@ public class UserController extends HttpServlet {
 		}
 	}
 
-	@PostMapping("/login")
-	public ResponseEntity<?> bookList(@RequestBody Map<String, Object> map) {
-		try {
-			UserDto user = userService.loginUser(map); // JSON Array
-			logger.debug("login dtd : {} " + user);
-			if (user != null) {
-				return new ResponseEntity<UserDto>(user, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return exceptionHandling(e);
-		}
-	}
 
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {

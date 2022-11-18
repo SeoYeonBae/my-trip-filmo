@@ -25,8 +25,6 @@
 </template>
 
 <script>
-import http from "@/api/http";
-
 export default {
   name: "BoardList",
   data() {
@@ -40,22 +38,6 @@ export default {
         { key: "hit", label: "조회수", tdClass: "tdClass" },
       ],
     };
-  },
-  created() {
-    http.get(`/board`).then(({ data }) => {
-      this.articles = data;
-    });
-  },
-  methods: {
-    moveWrite() {
-      this.$router.push({ name: "boardwrite" });
-    },
-    viewArticle(article) {
-      this.$router.push({
-        name: "boardview",
-        params: { articleno: article.articleno },
-      });
-    },
   },
 };
 </script>

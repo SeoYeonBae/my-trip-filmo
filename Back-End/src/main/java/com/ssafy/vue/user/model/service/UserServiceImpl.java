@@ -1,5 +1,6 @@
 package com.ssafy.vue.user.model.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,31 @@ public class UserServiceImpl implements UserService {
 		this.userMapper = userMapper;
 	}
 
+	@Override
+	public UserDto loginUser(UserDto userDto) throws Exception {
+		return userMapper.loginUser(userDto);
+	}
+	
+	@Override
+	public void saveRefreshToken(String userid, String refreshToken) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("token", refreshToken);
+		userMapper.saveRefreshToken(map);
+	}
+
+	@Override
+	public Object getRefreshToken(String userid) throws Exception {
+		return userMapper.getRefreshToken(userid);
+	}
+
+	@Override
+	public void deleRefreshToken(String userid) throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("userid", userid);
+		map.put("token", null);
+		userMapper.deleteRefreshToken(map);
+	}
 
 	@Override
 	public int checkID(String userId) throws Exception {
@@ -36,10 +62,6 @@ public class UserServiceImpl implements UserService {
 		return userMapper.joinUser(userDto);
 	}
 
-	@Override
-	public UserDto loginUser(Map<String, Object> map) throws Exception {
-		return userMapper.loginUser(map);
-	}
 
 	@Override
 	public int modifyUser(UserDto userDto) throws Exception {

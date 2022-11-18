@@ -17,7 +17,7 @@
 		<result column="manager" property="isManager" />
 	</resultMap>
 
-	<select id="loginUser" parameterType="map" resultMap="userAll">
+	<select id="loginUser" parameterType="userDto" resultMap="userAll">
 		select
 		user_id, user_name, user_password, user_email, user_tel, manager
 		from
