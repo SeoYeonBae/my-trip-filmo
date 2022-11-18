@@ -8,30 +8,28 @@
       </b-col>
       <b-col md="10" class="my-plan shadow p-3 mb-5 bg-body rounded">
         <b-row class="px-5 choiced-places">
-          <!-- <draggable v-model="mychoices">
+          <draggable v-model="mychoices">
             <transition-group>
-            -->
-          <div v-for="(choice, index) in mychoices" v-bind:key="index">
-            <b-card
-              img-src="https://picsum.photos/600/300/?image=25"
-              img-alt="Image"
-              img-top
-              tag="article"
-              style="max-width: 12rem"
-              class="mb-2"
-            >
-              <b-card-text>
-                <font-awesome-icon icon="fa-solid fa-bed" />
-                {{ choice }}
-                <button class="btn-delete">
-                  <font-awesome-icon icon="fa-solid fa-circle-xmark" style="color: red" />
-                </button>
-              </b-card-text>
-            </b-card>
-          </div>
-          <!--
+              <div v-for="(choice, index) in mychoices" v-bind:key="index">
+                <b-card
+                  img-src="https://picsum.photos/600/300/?image=25"
+                  img-alt="Image"
+                  img-top
+                  tag="article"
+                  style="max-width: 12rem"
+                  class="mb-2"
+                >
+                  <b-card-text>
+                    <font-awesome-icon icon="fa-solid fa-bed" />
+                    {{ choice.name }}
+                    <button class="btn-delete">
+                      <font-awesome-icon icon="fa-solid fa-circle-xmark" style="color: red" />
+                    </button>
+                  </b-card-text>
+                </b-card>
+              </div>
             </transition-group>
-          </draggable> -->
+          </draggable>
         </b-row>
       </b-col>
     </b-row>
@@ -87,6 +85,7 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
 export default {
   name: "PlanView",
   data() {
@@ -95,7 +94,10 @@ export default {
       period: 0,
       start_date: "2022-12-20",
       end_date: "2022-12-20",
-      mychoices: ["멋진숙소1", "멋진숙소2"],
+      mychoices: [
+        { name: "멋진숙소1", type: "숙박" },
+        { name: "멋진숙소2", type: "숙박" },
+      ],
       places: [],
       map: null,
       markers: [],
@@ -124,6 +126,9 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
     },
+  },
+  components: {
+    draggable,
   },
 };
 </script>
