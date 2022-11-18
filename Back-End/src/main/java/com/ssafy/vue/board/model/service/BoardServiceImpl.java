@@ -39,12 +39,14 @@ public class BoardServiceImpl implements BoardService {
 //		map.put("start", start + "");
 //		map.put("spl", spl + "");
 		
+		logger.debug("서비스 listarticle 진입");
+		
 		Map<String, Object> param = new HashMap<String, Object>();
 		int start = pgno * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
 		param.put("start", start);
 		param.put("listsize", SizeConstant.LIST_SIZE);
 		
-		logger.debug("보드맵퍼.리스트아티클(맵");
+		logger.debug("return 보드맵퍼.리스트아티클(맵)");
 		return boardMapper.listArticle(param);
 	}
 	

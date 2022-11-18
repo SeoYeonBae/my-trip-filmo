@@ -67,8 +67,16 @@ public class NoticeController extends HttpServlet {
 	}
 	
 	@PostMapping("/list")
-	public ResponseEntity<?> list(@RequestBody Map<String, String> map) {
-		try {
+//	public ResponseEntity<?> list(@RequestBody Map<String, String> map) {
+	public ResponseEntity<?> list() {
+		try 
+		{
+			logger.info("notice_listArticle - 호출");
+			Map<String, String> map = new HashMap<>();
+			map.put("pgno", "1");
+			map.put("key", "");
+			map.put("word", "");
+				
 			Map<String, Object> param = new HashMap<String, Object>();
 			logger.debug("reguest body : {} ", map);
 			PageNavigation pageNavigation = noticeService.makePageNavigation(map);

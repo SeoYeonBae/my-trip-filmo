@@ -9,7 +9,7 @@
       <b-col md="10" class="my-plan shadow p-3 mb-5 bg-body rounded">
         <b-row class="px-5">
           <draggable v-model="mychoices">
-            <transition-group>
+            <!-- <transition-group>
               <div v-for="(choice, index) in mychoices" v-bind:key="index" class="choiced-places">
                 <b-card
                   img-src="https://picsum.photos/600/300/?image=25"
@@ -28,7 +28,7 @@
                   </b-card-text>
                 </b-card>
               </div>
-            </transition-group>
+            </transition-group> -->
           </draggable>
         </b-row>
       </b-col>

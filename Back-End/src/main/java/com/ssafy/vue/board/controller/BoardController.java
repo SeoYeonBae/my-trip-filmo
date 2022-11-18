@@ -20,6 +20,8 @@ import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
 import com.ssafy.vue.util.PageNavigation;
 
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/board")
 public class BoardController extends HttpServlet {
@@ -51,8 +53,18 @@ public class BoardController extends HttpServlet {
 		}
 	}
 	
+	
+
+//	@ApiOperation(value = "게시판 글목록", notes = "모든 게시글의 정보를 반환한다.", response = List.class)
+//	@GetMapping
+//	public ResponseEntity<List<BoardDto>> listArticle(@ApiParam(value = "게시글을 얻기위한 부가정보.", required = true) BoardParameterDto boardParameterDto) throws Exception {
+//		logger.info("listArticle - 호출");
+//		return new ResponseEntity<List<BoardDto>>(boardService.listArticle(boardParameterDto), HttpStatus.OK);
+//	}
+	
 	@GetMapping("/list")
 	public ResponseEntity<?> totalList() {
+		logger.info("listArticle - 호출");
 		try {
 			Map<String, String> map = new HashMap<>();
 			map.put("pgno", "1");
@@ -63,12 +75,15 @@ public class BoardController extends HttpServlet {
 
 			List<BoardDto> list = boardService.listArticle(map);	// JSON Array
 			PageNavigation pageNavigation = boardService.makePageNavigation(map);
+//			PageNavigation pageNavigation = new PageNavigation();
 			
 			logger.debug("total board : {} ", list);
 			logger.debug("pageNavigation : " + pageNavigation);
+//			logger.debug("pageNavigation : " + "안됨");
 			
 			param.put("list", list);
 			param.put("pageNavigation", pageNavigation);
+//			logger.debug("pageNavigation : " + "안됨");
 			
 			if(list != null && !list.isEmpty()) {
 				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);

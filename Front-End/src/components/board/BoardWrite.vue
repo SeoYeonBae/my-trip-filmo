@@ -26,7 +26,7 @@ h3 {
 }
 button {
   margin-left: 30px;
-  background-color: #f8c5b4;
+  background-color: #d4fcee;
   border: 0;
   color: black;
   padding-left: 16px;
@@ -34,7 +34,7 @@ button {
   width: 100px;
 }
 button:hover {
-  background-color: #f8c5b4;
+  background-color: #d4fcee;
   color: white;
 }
 </style>
