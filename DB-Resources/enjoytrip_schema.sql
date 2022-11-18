@@ -345,6 +345,7 @@ CREATE TABLE IF NOT EXISTS `enjoytrip`.`users` (
   `user_email` VARCHAR(45) NOT NULL,
   `user_tel` VARCHAR(20) NOT NULL,
   `manager` TINYINT NOT NULL,
+  `token` VARCHAR(1000) NULL DEFAULT NULL,
   PRIMARY KEY (`user_id`))
 ENGINE = InnoDB;
 
@@ -399,8 +400,8 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- insert users
 insert into enjoytrip.users (user_id, user_name, user_password, user_email, user_tel, manager)
-values     ('ssafy', '김싸피', '1234', 'ssafy@ssafy.com', '010-1234-5678', 0), 
-        ('admin', '관리자', '1234', 'admin@google.com', '010-5678-1234', 1);
+values     ('ssafy', '김싸피', '1234', 'ssafy@ssafy.com', '010-1234-5678', 0,null), 
+        ('admin', '관리자', '1234', 'admin@google.com', '010-5678-1234', 1,null);
 select * from users;
 
 -- insert boarddo
