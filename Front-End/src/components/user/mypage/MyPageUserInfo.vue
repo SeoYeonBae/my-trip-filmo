@@ -28,7 +28,7 @@
         </b-col>
       </b-row>
       <b-row>
-        <b-col md="2">
+        <b-col md="1" class="p-0">
           <font-awesome-icon icon="fa-regular fa-face-smile" class="fa-4x" />
         </b-col>
         <b-col>
@@ -162,7 +162,6 @@ export default {
   box-shadow: none;
 }
 #title {
-  justify-content: left;
   margin-bottom: 3%;
 }
 h5.mb-4 {
