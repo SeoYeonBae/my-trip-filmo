@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.enjoytrip.notice.model.mapper.NoticeMapper">
+	
+	<resultMap type="NoticeDto" id="previewNotice">
+		<result column="subject" property="subject"/>
+		<result column="hit" property="hit"/>
+	</resultMap>
+	
+		<resultMap type="NoticeDto" id="noticeAll" extends="previewNotice">
+		<result column="user_id" property="userId"/>
+		<result column="article_no" property="articleNo"/>
+		<result column="content" property="content"/>
+		<result column="register_time" property="registerTime"/>
+	</resultMap>
+	
+	<select id="preview" parameterType="int" resultMap="previewNotice">
+		select subject, hit
+		from notice
+		order by article_no desc limit ${num}
+	</select>
+	
+	<select id="getTotalArticleCount" parameterType="map" resultType="int">
+		select count(article_no)
+		from notice
+		<include refid="search"></include>
+	</select>
+	
+	<select id="listArticle" parameterType="map" resultMap="noticeAll">
+		select article_no, user_id, subject, content, hit, register_time
+		from notice
+		<include refid="search"></include>
+		order by article_no desc
+		limit #{start}, #{listsize}
+	</select>
+	
+	<sql id="search">
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				where subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				where user_id = #{word}
+			</if>
+		</if>
+	</sql>
+	
+	<insert id="writeArticle" parameterType="noticeDto">
+		insert into notice (user_id, subject, content, hit, register_time)
+		values (#{userId}, #{subject}, #{content}, 0, now())
+	</insert>
+	
+	<select id="getArticle" parameterType="int" resultMap="noticeAll">
+		select article_no, user_id, subject, content, hit, register_time
+		from notice
+		where article_no = #{articleNo}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update notice
+		set hit = hit + 1
+		where article_no = #{articleNo}
+	</update>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from notice
+		where article_no = #{artcielNo}
+	</delete>
+	
+	<update id="modifyArticle" parameterType="map">
+		update notice
+		set subject = #{subject}, content = #{content}
+		where article_no = #{articleno}
+	</update>
+	
+		 
+		
+</mapper>
