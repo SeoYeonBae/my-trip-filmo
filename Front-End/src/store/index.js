@@ -1,17 +1,16 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
+import draggable from "vuedraggable";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  state: {
+  components: {
+    draggable,
   },
-  getters: {
-  },
-  mutations: {
-  },
-  actions: {
-  },
-  modules: {
-  }
-})
+  state: {},
+  getters: {},
+  mutations: {},
+  actions: {},
+  modules: {},
+});

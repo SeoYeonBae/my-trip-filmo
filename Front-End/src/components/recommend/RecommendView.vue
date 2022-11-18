@@ -3,13 +3,15 @@
     <!-- title -->
     <div class="container mt-3 p-4 title"></div>
 
-    <b-row class="px-5"> <h1 id="today-title" class="fx-4">제목입니다</h1></b-row>
+    <b-row class="px-5">
+      <h1 id="title" class="fx-4">{{ title }}</h1></b-row
+    >
     <b-row class="px-5">
       <b-col md="6" class="today-content mt-3">
-        <h4 id="today-addr" class="fx-3">주소입니다</h4>
-        <h5 id="today-tel" class="fx-3">연락처입니다</h5>
+        <h4 id="addr" class="fx-3">{{ addr }}</h4>
+        <h5 id="tel" class="fx-3">{{ tel }}</h5>
         <b-img
-          id="today-image"
+          id="image"
           class="mt-4"
           :src="require('@/assets/img/sun.jpg')"
           alt="이미지"
@@ -31,9 +33,9 @@
           /></span>
         </div>
         <b-row class="m-4">
-          <button id="btn-recommend float-right" class="fs-6" href="#recommend">
-            새로운 추천받기 왜 우측에 안붙냐?
-          </button>
+          <b-col class="recommend-col">
+            <button id="btn recommend" class="fs-6" href="#recommend">새로운 추천받기</button>
+          </b-col>
         </b-row>
       </b-col>
     </b-row>
@@ -47,6 +49,9 @@ export default {
   data() {
     return {
       typeId: "",
+      title: "임시 제목",
+      addr: "임시 주소",
+      tel: "임시 연락처",
       today: [],
       map: null,
       markers: [],
@@ -91,18 +96,18 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
-#today-title {
+#title {
   font-family: "Do Hyeon", sans-serif;
-  color: #2a356d;
+  color: #171d3a;
 }
 #map {
   width: 500px;
   height: 450px;
 }
-#today-content {
+#content {
   position: relative;
 }
-#today-image {
+#image {
   border-radius: 5px;
   position: absolute;
   bottom: 0;
@@ -152,10 +157,13 @@ button {
   color: black;
   font-weight: bold;
   padding: 16px;
-  float: right;
 }
 button:hover {
   background-color: #dfe4ff;
   color: white;
+}
+.recommend-col {
+  justify-content: center;
+  text-align: center;
 }
 </style>
