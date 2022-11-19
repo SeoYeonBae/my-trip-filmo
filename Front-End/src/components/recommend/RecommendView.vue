@@ -4,19 +4,24 @@
     <div class="container mt-3 p-4 title"></div>
 
     <b-row class="px-5">
-      <h1 id="title" class="fx-4">{{ title }}</h1></b-row
+      <h1 id="title" class="fx-4">{{ placeInfo.title }}</h1></b-row
     >
     <b-row class="px-5">
       <b-col md="6" class="today-content mt-3">
-        <h4 id="addr" class="fx-3">{{ addr }}</h4>
-        <h5 id="tel" class="fx-3">{{ tel }}</h5>
-        <b-img
-          id="image"
-          class="mt-4"
-          :src="require('@/assets/img/sun.jpg')"
-          alt="이미지"
-          width="100%"
-        />
+        <h4 id="addr" class="fx-3">{{ placeInfo.addr1 }}</h4>
+        <h5 id="tel" class="fx-3">{{ placeInfo.tel }}</h5>
+        <div v-if="placeInfo.image != ''">
+          <b-img id="image" class="mt-4" :src="placeInfo.image" alt="이미지" width="100%" />
+        </div>
+        <div v-else>
+          <b-img
+            id="image"
+            class="mt-4"
+            :src="require('@/assets/img/defaultImage.jpg')"
+            alt="이미지"
+            width="100%"
+          />
+        </div>
       </b-col>
       <b-col md="6" class="map_wrap">
         <b-row id="map" class="radius_border"></b-row>
@@ -34,7 +39,9 @@
         </div>
         <b-row class="m-4">
           <b-col class="recommend-col">
-            <button id="btn recommend" class="fs-6" href="#recommend">새로운 추천받기</button>
+            <b-button id="btn recommend" class="fs-6" @click="newRecommend"
+              >새로운 추천받기</b-button
+            >
           </b-col>
         </b-row>
       </b-col>
@@ -43,31 +50,40 @@
 </template>
 
 <script>
-// import axios from "axios";
+import { apiInstance } from "@/api/index.js";
+const api = apiInstance();
+
 export default {
   name: "RecommendView",
   data() {
     return {
-      typeId: "",
-      title: "임시 제목",
-      addr: "임시 주소",
-      tel: "임시 연락처",
-      today: [],
+      typeId: 12,
+      placeInfo: {},
       map: null,
+      mapx: null,
+      mapy: null,
       markers: [],
       latitude: 0,
       longitude: 0,
     };
   },
-  //   computed() {
-  //     const url = `http://localhost:9999/today/recommend/${this.typeId}`;
-  //     axios.get(url).then((response) => (this.today = response.data.response.body.items.item));
-  //   },
-  //   mounted() {},
   mounted() {
     window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
+  created() {
+    this.setInfo();
+  },
   methods: {
+    setInfo() {
+      api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => {
+        this.placeInfo = data;
+        console.log(typeof data.image);
+        if (data.image == "") console.log("이미지가 널이다");
+      });
+    },
+    newRecommend() {
+      this.setInfo();
+    },
     ZoomIn() {
       alert("확대");
     },
