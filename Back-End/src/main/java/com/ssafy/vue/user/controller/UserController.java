@@ -172,8 +172,8 @@ public class UserController extends HttpServlet {
 
 	@PostMapping("/join")
 	public String join(@RequestBody UserDto userDto, Model model) {
-		logger.debug("userDto info : {}", userDto);
 		try {
+			logger.info("userDto info : {}", userDto);
 			int cnt = userService.joinUser(userDto);
 			return cnt + "";
 		} catch (Exception e) {
@@ -182,14 +182,7 @@ public class UserController extends HttpServlet {
 			return "error/error";
 		}
 	}
-
-
-	@GetMapping("/logout")
-	public String logout(HttpSession session) {
-		session.invalidate();
-		return "redirect:/";
-	}
-
+	
 	@PutMapping("/modify")
 	public ResponseEntity<?> userModify(@RequestBody UserDto userDto) {
 		logger.debug("userModify userDto : {}", userDto);
