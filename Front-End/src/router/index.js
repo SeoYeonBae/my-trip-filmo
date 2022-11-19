@@ -98,6 +98,11 @@ const routes = [
         name: "plandetail",
         component: () => import("@/components/user/mypage/MyPagePlanDetail"),
       },
+      {
+        path: "articlelist",
+        name: "articlelist",
+        component: () => import("@/components/user/mypage/MyPageArticleList"),
+      },
     ],
   },
   {

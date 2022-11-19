@@ -25,6 +25,16 @@
               >여행 계획 관리</b-button
             >
           </b-row>
+          <b-row>
+            <b-button id="myarticlelist" @click="$router.push({ name: 'articlelist' })" class="mb-4"
+              >내가 쓴 글</b-button
+            >
+          </b-row>
+          <b-row>
+            <b-button id="myreplylist" @click="$router.push({ name: 'myreplylist' })" class="mb-4"
+              >내가 쓴 댓글</b-button
+            >
+          </b-row>
         </div>
       </b-col>
       <router-view></router-view>
@@ -82,7 +92,9 @@ h5 {
   width: 100%;
 }
 #btnprofile,
-#btnplanlist {
+#btnplanlist,
+#myarticlelist,
+#myreplylist {
   background-color: transparent;
   color: black;
   border-style: none;
