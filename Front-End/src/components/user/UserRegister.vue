@@ -12,7 +12,7 @@
           <h5 class="input-title">이름</h5>
           <input v-model="user.name" class="input-item" type="text" />
         </div>
-        <div class="input-box mt-5">
+        <div class="input-box mt-4">
           <h5 class="input-title" :class="{ 'title-danger': idHasError }">아이디</h5>
           <input
             v-model="user.id"
@@ -21,9 +21,11 @@
             placeholder="영어 또는 영어 숫자 조합 (5-15자)"
             :class="{ 'input-danger': idHasError }"
           />
-          <p v-show="valid.id" class="input-error">사용 불가능한 ID입니다.</p>
+          <p v-show="valid.id" class="input-error">
+            사용 불가능한 ID입니다. 영어 또는 영어 숫자 조합 (5-15자)
+          </p>
         </div>
-        <div class="input-box mt-5">
+        <div class="input-box mt-4">
           <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">비밀번호</h5>
           <input
             v-model="user.password"
@@ -36,7 +38,7 @@
             영문, 숫자, 특수문자를 조합하여 입력해주세요 (8-16자)
           </p>
         </div>
-        <div class="input-box mt-5">
+        <div class="input-box mt-4">
           <h5 class="input-title" :class="{ 'title-danger': telHasError }">핸드폰</h5>
           <input
             v-model="user.tel"
@@ -47,7 +49,7 @@
           />
           <p v-show="valid.tel" class="input-error">핸드폰 번호를 정확히 입력해주세요.</p>
         </div>
-        <div class="input-box mt-5">
+        <div class="input-box mt-4">
           <h5 class="input-title" :class="{ 'title-danger': emailHasError }">이메일 주소</h5>
           <input
             v-model="user.email"
