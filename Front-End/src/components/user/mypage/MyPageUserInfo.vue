@@ -38,11 +38,54 @@
       <div fluid>
         <hr class="my-4" />
         <h5 class="mb-4">상세 정보</h5>
-        <b-form inline>
+        <div class="input-box">
+          <h5 class="input-title">이름</h5>
+          <input v-model="user.name" class="input-item" type="text" />
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title">아이디</h5>
+          <input v-model="user.id" class="input-item" type="text" />
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">비밀번호</h5>
+          <input
+            v-model="user.password"
+            class="input-item"
+            type="password"
+            placeholder="영문, 숫자, 특수문자 조합 8-16자"
+            :class="{ 'input-danger': passwordHasError }"
+          />
+          <p v-show="valid.password" class="input-error">
+            영문, 숫자, 특수문자를 조합하여 입력해주세요 (8-16자)
+          </p>
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title" :class="{ 'title-danger': telHasError }">핸드폰</h5>
+          <input
+            v-model="user.tel"
+            class="input-item"
+            type="text"
+            placeholder="예) 010-1234-5678"
+            :class="{ 'input-danger': telHasError }"
+          />
+          <p v-show="valid.tel" class="input-error">핸드폰 번호를 정확히 입력해주세요.</p>
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title" :class="{ 'title-danger': emailHasError }">이메일 주소</h5>
+          <input
+            v-model="user.email"
+            class="input-item"
+            type="text"
+            placeholder="예) juyeon@juyeon.co.kr"
+            :class="{ 'input-danger': emailHasError }"
+          />
+          <p v-show="valid.email" class="input-error">이메일 주소를 정확히 입력해주세요.</p>
+        </div>
+        <!-- <b-form inline>
           <label for="username">이름: &nbsp;</label>
           <b-form-input
             id="username"
-            v-model="userInfo.name"
+            v-model="user.name"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -51,7 +94,8 @@
           <label for="userid">아이디: &nbsp;</label>
           <b-form-input
             id="userid"
-            v-model="userInfo.id"
+            v-model="user.id"
+            disabled
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -60,7 +104,7 @@
           <label for="phone">휴대전화: &nbsp;</label>
           <b-form-input
             id="phone"
-            v-model="userInfo.tel"
+            v-model="user.tel"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -69,7 +113,7 @@
           <label for="email">이메일: &nbsp;</label>
           <b-form-input
             id="email"
-            v-model="userInfo.email"
+            v-model="user.email"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -78,7 +122,7 @@
           <label for="password">비밀번호: &nbsp;</label>
           <b-form-input
             id="password"
-            v-model="userInfo.password"
+            v-model="user.password"
             required
             @keyup.enter="confirm"
           ></b-form-input>
@@ -91,10 +135,10 @@
             placeholder="회원정보 수정 시 기입"
             @keyup.enter="confirm"
           ></b-form-input>
-        </b-form>
+        </b-form> -->
         <hr class="my-4" />
         <b-row>
-          <b-button class="btn mr-3 float-left">정보수정</b-button>
+          <b-button class="btn mr-3 float-left" @click="checkValue">정보수정</b-button>
           <b-button class="btn float-left">회원탈퇴</b-button>
         </b-row>
       </div>
@@ -103,15 +147,137 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { apiInstance } from "@/api/index.js";
 
 const memberStore = "memberStore";
+const api = apiInstance();
 
 export default {
   name: "MyPageUserInfo",
-  components: {},
+  data() {
+    return {
+      user: {
+        name: "",
+        id: "",
+        email: "",
+        tel: "",
+        password: "",
+        isManager: "",
+      },
+      valid: {
+        email: false,
+        password: false,
+        tel: false,
+      },
+      emailHasError: false,
+      passwordHasError: false,
+      telHasError: false,
+    };
+  },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+  },
+  created() {
+    this.user = JSON.parse(JSON.stringify(this.userInfo));
+  },
+  methods: {
+    ...mapActions(memberStore, ["getUserInfo"]),
+    checkValue() {
+      if (
+        this.user.name === "" ||
+        this.user.id === "" ||
+        this.user.password === "" ||
+        this.user.tel === "" ||
+        this.user.email === ""
+      ) {
+        alert("모든 내용을 입력해주세요");
+        return;
+      }
+      if (this.passwordHasError) {
+        alert("비밀번호를 확인해주세요");
+        return;
+      }
+      if (this.telHasError) {
+        alert("핸드폰 번호를 확인해주세요");
+        return;
+      }
+      if (this.emailHasError) {
+        alert("이메일 주소를 확인해주세요");
+        return;
+      }
+      if (this.checked) {
+        if (this.user.isManager === "") {
+          alert("매니저 번호를 입력하세요");
+          return;
+        } else if (this.user.isManager != 1111) {
+          alert("매니저 암호가 바르지 않습니다");
+          return;
+        } else {
+          this.user.isManager = 1;
+        }
+      }
+      this.modifyuser();
+    },
+    modifyuser() {
+      api.put("/user/modify", this.user).then(({ data }) => {
+        let msg = "회원 정보 수정 중 문제 발생!!!";
+        if (data) {
+          msg = "회원 정보 수정 완료";
+          this.userInfo = JSON.parse(JSON.stringify(this.user));
+          let token = sessionStorage.getItem("access-token");
+          this.getUserInfo(token);
+          this.$router.go();
+        }
+        alert(msg);
+      });
+    },
+    checkEmail() {
+      // 이메일 형식 검사
+      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+
+      if (!validateEmail.test(this.user.email)) {
+        this.valid.email = true;
+        this.emailHasError = true;
+        return;
+      }
+      this.valid.email = false;
+      this.emailHasError = false;
+    },
+    checkPassword() {
+      // 비밀번호 형식 검사(영문, 숫자, 특수문자)
+      const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+
+      if (!validatePassword.test(this.user.password)) {
+        this.valid.password = true;
+        this.passwordHasError = true;
+        return;
+      }
+      this.valid.password = false;
+      this.passwordHasError = false;
+    },
+    checkTel() {
+      const validateTel = /^\d{3}-\d{3,4}-\d{4}$/;
+
+      if (!validateTel.test(this.user.tel)) {
+        this.valid.tel = true;
+        this.telHasError = true;
+        return;
+      }
+      this.valid.tel = false;
+      this.telHasError = false;
+    },
+  },
+  watch: {
+    "user.email": function () {
+      this.checkEmail();
+    },
+    "user.password": function () {
+      this.checkPassword();
+    },
+    "user.tel": function () {
+      this.checkTel();
+    },
   },
 };
 </script>
@@ -174,5 +340,29 @@ button {
 button:hover {
   background-color: #d4fcee;
   color: black;
+}
+.input-error {
+  line-height: 16px;
+  font-size: 11px;
+  color: red;
+}
+.title-danger {
+  color: red;
+}
+.input-danger {
+  border-bottom: 1px solid red !important;
+}
+input.input-item {
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1;
+  width: 100%;
+}
+input:focus {
+  outline: none;
+}
+.input-title {
+  font-weight: bold;
 }
 </style>

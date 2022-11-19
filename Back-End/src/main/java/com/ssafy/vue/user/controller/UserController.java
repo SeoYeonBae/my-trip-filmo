@@ -185,8 +185,8 @@ public class UserController extends HttpServlet {
 	
 	@PutMapping("/modify")
 	public ResponseEntity<?> userModify(@RequestBody UserDto userDto) {
-		logger.debug("userModify userDto : {}", userDto);
 		try {
+			logger.info("userModify userDto : {}", userDto);
 			userService.modifyUser(userDto);
 			return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
 		} catch (Exception e) {
