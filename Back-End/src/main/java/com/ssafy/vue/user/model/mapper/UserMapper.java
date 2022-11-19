@@ -12,7 +12,7 @@ public interface UserMapper {
 	
 	int checkID(String userId) throws SQLException;
 
-	String findPass(Map<String, Object> map) throws SQLException;
+	Map<String, String> findPass(Map<String, Object> map) throws SQLException;
 
 	int joinUser(UserDto userDto) throws SQLException;
 

@@ -56,7 +56,6 @@ export default {
   name: "UserLogin",
   data() {
     return {
-      // isLoginError: false,
       user: {
         id: null,
         password: null,

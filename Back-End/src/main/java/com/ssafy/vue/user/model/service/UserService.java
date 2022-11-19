@@ -8,7 +8,7 @@ public interface UserService {
 
 	int checkID(String userId) throws Exception;
 	
-	String findPass(Map<String, Object> map) throws Exception;
+	Map<String, String> findPass(Map<String, Object> map) throws Exception;
 
 	int joinUser(UserDto userDto) throws Exception;
 

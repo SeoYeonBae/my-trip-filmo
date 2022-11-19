@@ -14,7 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,6 +47,9 @@ public class UserController extends HttpServlet {
 
 	@Autowired
 	private JwtServiceImpl jwtService;
+	
+	@Autowired
+	public JavaMailSender javaMailSender;
 	
 	private UserService userService;
 
@@ -79,18 +85,6 @@ public class UserController extends HttpServlet {
 			status = HttpStatus.INTERNAL_SERVER_ERROR;
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
-//		try {
-//			UserDto user = userService.loginUser(map); // JSON Array
-//			logger.debug("login dtd : {} " + user);
-//			if (user != null) {
-//				return new ResponseEntity<UserDto>(user, HttpStatus.OK);
-//			} else {
-//				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return exceptionHandling(e);
-//		}
 	}
 
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
@@ -170,6 +164,7 @@ public class UserController extends HttpServlet {
 		return cnt + "";
 	}
 
+	// 회원 가입
 	@PostMapping("/join")
 	public String join(@RequestBody UserDto userDto, Model model) {
 		try {
@@ -183,6 +178,7 @@ public class UserController extends HttpServlet {
 		}
 	}
 	
+	// 회원 정보 수정
 	@PutMapping("/modify")
 	public ResponseEntity<?> userModify(@RequestBody UserDto userDto) {
 		try {
@@ -194,33 +190,44 @@ public class UserController extends HttpServlet {
 		}
 	}
 
+	// 비밀번호 찾기
 	@PostMapping("/findPass")
 	public ResponseEntity<?> findPass(@RequestBody Map<String, Object> map) {
-		logger.debug("find pass info : {}" + map);
 		try {
-			String pass = userService.findPass(map);
-			if (pass != null && pass != "")
-				return new ResponseEntity<String>(pass, HttpStatus.OK);
+			logger.info("find pass info : {}" + map);
+			Map<String, String> mailInfo = userService.findPass(map);
+			if (mailInfo != null) {
+				logger.info("mail : " + mailInfo);
+				String email = mailInfo.get("user_email");
+				String pass = mailInfo.get("user_password");
+				SimpleMailMessage simpleMessage = new SimpleMailMessage();
+				simpleMessage.setFrom("tjdus2033@naver.com"); // NAVER, DAUM, NATE일 경우 넣어줘야 함
+				simpleMessage.setTo(email);
+				simpleMessage.setSubject("여행의 주연 비밀번호 안내");
+				simpleMessage.setText("안녕하세요 여행의 주연입니다. \n 요청하신 회원님의 비밀번호는 " + pass + "입니다. \n 감사합니다.");
+				javaMailSender.send(simpleMessage);				
+				return new ResponseEntity<Map<String, String>>(mailInfo, HttpStatus.OK);
+			}
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-
-//	@DeleteMapping("/{userid}")
-//	public ResponseEntity<?> deleteUser(@PathVariable("userid") String userId) {
-//		try {
-//			String cnt = userService.deleteUser(userId) + "";
-//			if("1".equals(cnt))
-//				return new ResponseEntity<String>(cnt, HttpStatus.OK);
-//			else
-//				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-//		} catch (Exception e) {
-//			return exceptionHandling(e);
-//		}
-//	}
+	
+	// 회원 탈퇴
+	@DeleteMapping("/{id}")
+	public ResponseEntity<?> deleteUser(@PathVariable("id") String userId) {
+		try {
+			String cnt = userService.deleteUser(userId) + "";
+			if("1".equals(cnt))
+				return new ResponseEntity<String>(cnt, HttpStatus.OK);
+			else
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

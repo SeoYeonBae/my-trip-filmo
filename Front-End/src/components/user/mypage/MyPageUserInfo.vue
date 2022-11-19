@@ -81,65 +81,10 @@
           />
           <p v-show="valid.email" class="input-error">이메일 주소를 정확히 입력해주세요.</p>
         </div>
-        <!-- <b-form inline>
-          <label for="username">이름: &nbsp;</label>
-          <b-form-input
-            id="username"
-            v-model="user.name"
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="userid">아이디: &nbsp;</label>
-          <b-form-input
-            id="userid"
-            v-model="user.id"
-            disabled
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="phone">휴대전화: &nbsp;</label>
-          <b-form-input
-            id="phone"
-            v-model="user.tel"
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="email">이메일: &nbsp;</label>
-          <b-form-input
-            id="email"
-            v-model="user.email"
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="password">비밀번호: &nbsp;</label>
-          <b-form-input
-            id="password"
-            v-model="user.password"
-            required
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form>
-        <b-form inline class="mt-3">
-          <label for="passconfirm">비밀번호 확인: &nbsp;</label>
-          <b-form-input
-            id="passconfirm"
-            required
-            placeholder="회원정보 수정 시 기입"
-            @keyup.enter="confirm"
-          ></b-form-input>
-        </b-form> -->
         <hr class="my-4" />
         <b-row>
           <b-button class="btn mr-3 float-left" @click="checkValue">정보수정</b-button>
-          <b-button class="btn float-left">회원탈퇴</b-button>
+          <b-button class="btn float-left" @click="userDelete">회원탈퇴</b-button>
         </b-row>
       </div>
     </b-jumbotron>
@@ -182,7 +127,23 @@ export default {
     this.user = JSON.parse(JSON.stringify(this.userInfo));
   },
   methods: {
-    ...mapActions(memberStore, ["getUserInfo"]),
+    ...mapActions(memberStore, ["getUserInfo", "userLogout"]),
+    userDelete() {
+      // 참조키 해제
+      api.delete(`/user/${this.userInfo.id}`).then(({ data }) => {
+        let msg = "회원 탈퇴 중 문제 발생!!!";
+        if (data) {
+          msg = "회원 탈퇴 완료";
+          console.log(this.userInfo.id);
+          this.userLogout(this.userInfo.userid);
+          sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
+          sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
+        }
+        alert(msg);
+        this.$router.push({ name: "appMain" });
+      });
+      // 참조키 재설정
+    },
     checkValue() {
       if (
         this.user.name === "" ||
@@ -362,7 +323,8 @@ input.input-item {
 input:focus {
   outline: none;
 }
-.input-title {
+.input-title,
+p {
   font-weight: bold;
 }
 </style>

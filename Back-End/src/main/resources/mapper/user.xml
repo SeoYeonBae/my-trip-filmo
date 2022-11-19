@@ -56,12 +56,11 @@
 		where user_id = #{id}
 	</update>
 
-	<select id="findPass" parameterType="map" resultType="string">
+	<select id="findPass" parameterType="map" resultType="map">
 		select
-		user_password
+		user_password, user_email
 		from users
-		where user_id = #{userid} and user_name =
-		#{username}
+		where user_id = #{id} and user_name = #{name}
 	</select>
 
 	<select id="checkID" parameterType="string" resultType="int">
@@ -77,14 +76,14 @@
 		values (#{id},
 		#{password}, #{name}, #{email}, #{tel}, #{isManager})
 	</insert>
-<!-- 
+
+<!-- 		SET foreign_key_checks = 0;
+		SET foreign_key_checks = 1; -->
 	<delete id="deleteUser" parameterType="string">
-		SET foreign_key_checks = 0;
 
 		delete from users
 		where user_id = #{userId};
 
-		SET foreign_key_checks = 1;
 	</delete>
- -->
+
 </mapper>

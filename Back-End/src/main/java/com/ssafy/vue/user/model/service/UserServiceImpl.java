@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String findPass(Map<String, Object> map) throws Exception {
+	public Map<String, String> findPass(Map<String, Object> map) throws Exception {
 		// TODO Auto-generated method stub
 		return userMapper.findPass(map);
 	}
