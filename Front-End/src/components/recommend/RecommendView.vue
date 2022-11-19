@@ -57,7 +57,7 @@ export default {
   name: "RecommendView",
   data() {
     return {
-      typeId: 12,
+      typeId: 0,
       placeInfo: {},
       map: null,
       mapx: null,
@@ -71,14 +71,13 @@ export default {
     window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
   created() {
+    this.typeId = this.$route.params.typeid;
     this.setInfo();
   },
   methods: {
     setInfo() {
       api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => {
         this.placeInfo = data;
-        console.log(typeof data.image);
-        if (data.image == "") console.log("이미지가 널이다");
       });
     },
     newRecommend() {

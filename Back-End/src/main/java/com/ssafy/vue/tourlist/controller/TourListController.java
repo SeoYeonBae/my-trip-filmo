@@ -26,6 +26,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.vue.do17.controller.DoController;
+import com.ssafy.vue.notice.model.NoticeDto;
 import com.ssafy.vue.tourlist.model.TourListDto;
 import com.ssafy.vue.tourlist.model.service.TourListService;
 import com.ssafy.vue.tourlist.model.service.TourListServiceImpl;
@@ -47,37 +48,37 @@ public class TourListController extends HttpServlet {
 		this.tourListService = tourListService;
 	}
 
-	@GetMapping("/today/{typeId}")
-	public ModelAndView TodaysTour(@PathVariable("typeId") int typeId) {
-		logger.debug("today's TourList 진입 :  타입은 " +typeId);
-		
-		ModelAndView mav = new ModelAndView();
-		
-		String todayTitle = "";
-	
-		switch(typeId) {
-		case 12:
-			mav.addObject("typeId", 12);
-			todayTitle = "오늘의 관광지";
-			break;
-		case 15:
-			mav.addObject("typeId", 15);
-			todayTitle = "오늘의 행사/공연/축제";
-			break;
-		case 39:
-			mav.addObject("typeId", 39);
-			todayTitle = "오늘의 맛집";
-			break;
-		}
 
-		mav.addObject("keywordRecommend", todayTitle);
-		mav.setViewName("/recommend/recommend");
-		return mav;
-		
-	}
+//	@GetMapping("/today/{typeId}")
+//	public ModelAndView TodaysTour(@PathVariable("typeId") int typeId) {
+//		logger.debug("today's TourList 진입 :  타입은 " +typeId);
+//		
+//		ModelAndView mav = new ModelAndView();
+//		
+//		String todayTitle = "";
+//	
+//		switch(typeId) {
+//		case 12:
+//			mav.addObject("typeId", 12);
+//			todayTitle = "오늘의 관광지";
+//			break;
+//		case 15:
+//			mav.addObject("typeId", 15);
+//			todayTitle = "오늘의 행사/공연/축제";
+//			break;
+//		case 39:
+//			mav.addObject("typeId", 39);
+//			todayTitle = "오늘의 맛집";
+//			break;
+//		}
+//
+//		mav.addObject("keywordRecommend", todayTitle);
+//		mav.setViewName("/recommend/recommend");
+//		return mav;
+//		
+//	}
 	
-	
-	@GetMapping("/recommend/{typeId}")
+	@GetMapping(value = "/recommend/{typeId}")
 	private ResponseEntity<?> recommend(@PathVariable("typeId") int typeId) {
 		logger.debug("typeId : " + typeId);
 		try {
