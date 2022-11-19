@@ -45,6 +45,12 @@
 		where article_no = #{articleNo}
 	</select>
 	
+	<update id="modifyArticle" parameterType="boardDto">
+		update board
+		set subject = #{subject}, content = #{content}
+		where article_no = #{articleNo}
+	</update>
+	
 	<update id="updateHit" parameterType="int">
 		update board
 		set hit = hit + 1

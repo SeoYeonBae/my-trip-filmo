@@ -12,15 +12,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
+import com.ssafy.vue.notice.model.NoticeDto;
 import com.ssafy.vue.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/board")
@@ -52,6 +55,18 @@ public class BoardController extends HttpServlet {
 			return exceptionHandling(e);
 		}
 	}
+
+
+	@ApiOperation(value = "게시판 글수정", notes = "수정할 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@PutMapping
+	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) BoardDto boardDto) throws Exception {
+		logger.info("modifyArticle - 호출 {}", boardDto);
+		boardService.modifyArticle(boardDto);
+		if (boardDto != null) {
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		}
+		return new ResponseEntity<String>("fail", HttpStatus.OK);
+	}
 	
 	
 
@@ -74,16 +89,16 @@ public class BoardController extends HttpServlet {
 			Map<String, Object> param = new HashMap<String, Object>();
 
 			List<BoardDto> list = boardService.listArticle(map);	// JSON Array
-			PageNavigation pageNavigation = boardService.makePageNavigation(map);
-//			PageNavigation pageNavigation = new PageNavigation();
+//			PageNavigation pageNavigation = boardService.makePageNavigation(map);
+			PageNavigation pageNavigation = new PageNavigation();
 			
 			logger.debug("total board : {} ", list);
-			logger.debug("pageNavigation : " + pageNavigation);
-//			logger.debug("pageNavigation : " + "안됨");
+//			logger.debug("pageNavigation : " + pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
 			
 			param.put("list", list);
-			param.put("pageNavigation", pageNavigation);
-//			logger.debug("pageNavigation : " + "안됨");
+//			param.put("pageNavigation", pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
 			
 			if(list != null && !list.isEmpty()) {
 				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);

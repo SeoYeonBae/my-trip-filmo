@@ -46,7 +46,7 @@ export default {
   },
   methods: {
     fetchBoard() {
-      api.get(`/notice/list`).then(({ data }) => (this.articles = data.list));
+      api.get(`/notice/list`).then(({ data }) => console.log(data.list));
     },
     viewArticle() {},
     moveWrite() {},

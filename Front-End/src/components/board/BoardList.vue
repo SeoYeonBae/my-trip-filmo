@@ -14,7 +14,7 @@
       <b-col>
         <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
           <template #cell(subject)="data">
-            <router-link :to="{ name: 'boardview', params: { articleno: data.item.articleno } }">
+            <router-link :to="{ name: 'boardview', params: { articleno: data.item.articleNo } }">
               {{ data.item.subject }}
             </router-link>
           </template>
@@ -49,8 +49,15 @@ export default {
     fetchBoard() {
       api.get(`/board/list`).then(({ data }) => (this.articles = data.list));
     },
-    moveWrite() {},
-    viewArticle() {},
+    moveWrite() {
+      this.$router.push({ name: "boardwrite" });
+    },
+    viewArticle(article) {
+      this.$router.push({
+        name: "boardview",
+        params: { articleno: article.articleNo },
+      });
+    },
   },
 };
 </script>
