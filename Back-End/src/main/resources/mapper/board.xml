@@ -57,4 +57,9 @@
 		where article_no = #{articleNo}
 	</update>
 	
+	<delete id="deleteArticle" parameterType="int">
+		delete from board
+		where article_no = #{artcielNo}
+	</delete>
+	
 </mapper>
