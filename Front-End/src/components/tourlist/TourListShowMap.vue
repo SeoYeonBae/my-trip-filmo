@@ -1,18 +1,18 @@
 <template>
   <b-container>
-    <tour-list-option-bar></tour-list-option-bar>
+    <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
     <div class="tab-content mt-2" id="mapcontent">
       <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 700px"></div>
           <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
           <div class="custom_zoomcontrol radius_border">
-            <span onclick="zoomIn()"
+            <span @click="zoomIn"
               ><img
                 src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
                 alt="확대"
             /></span>
-            <span onclick="zoomOut()"
+            <span @click="zoomOut"
               ><img
                 src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
                 alt="축소"
@@ -26,11 +26,17 @@
 
 <script>
 import TourListOptionBar from "@/components/tourlist/TourListOptionBar";
+import { mapState } from "vuex";
+
+const tourListStore = "tourListStore";
 
 export default {
   name: "TourListShowMap",
   components: {
     TourListOptionBar,
+  },
+  computed: {
+    ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
   },
   data() {
     return {
@@ -44,11 +50,11 @@ export default {
     window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
   methods: {
-    ZoomIn() {
-      alert("확대");
+    zoomIn() {
+      this.map.setLevel(this.map.getLevel() - 1);
     },
-    ZoomOut() {
-      alert("축소");
+    zoomOut() {
+      this.map.setLevel(this.map.getLevel() + 1);
     },
     addKakaoMapScript() {
       const script = document.createElement("script");
@@ -65,6 +71,74 @@ export default {
         level: 3,
       };
       this.map = new kakao.maps.Map(container, options);
+    },
+    makeMapMarkers() {
+      console.log("마커 만들어용!!");
+      // ****** 여러개 마커에 이벤트 등록하기1 ******
+      this.markers.forEach(function (mark) {
+        mark.setMap(null);
+      });
+      this.markers = [];
+
+      var positions = [];
+      this.tourList.forEach((tour) => {
+        let addr = tour.addr1;
+        let image = tour.image;
+        let mapx = tour.mapx;
+        let mapy = tour.mapy;
+        let tel = tour.tel;
+        let title = tour.title;
+        let zipcode = tour.zipcode;
+        positions.push({
+          content: `<div class="wrap">
+        <div class="info bg-light">
+          <div class="title">${title}</div>
+          <div class="body">
+            <div class="img">
+              <img src="${image}" width="73" height="70">
+            </div>
+            <div class="desc">
+              <div class="ellipsis">${addr}</div>
+              <div class="ellipsis">(우) ${zipcode}</div>
+              <div class="ellipsis">(전화번호) ${tel}</div>
+            </div>
+          </div>
+        </div>
+      </div>`,
+          latlng: new kakao.maps.LatLng(mapy, mapx),
+        });
+      });
+
+      for (var i = 0; i < positions.length; i++) {
+        // 마커를 생성합니다
+        var marker = new kakao.maps.Marker({
+          map: this.map, // 마커를 표시할 지도
+          position: positions[i].latlng, // 마커의 위치
+        });
+
+        this.map.setLevel(7);
+        this.map.setCenter(positions[i].latlng);
+
+        this.markers.push(marker);
+
+        // 마커 위에 커스텀오버레이를 표시합니다
+        // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
+        let overlay = new kakao.maps.CustomOverlay({
+          content: positions[i].content,
+          map: this.map,
+          position: marker.getPosition(),
+        });
+        overlay.setMap(null);
+
+        // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
+        kakao.maps.event.addListener(marker, "mouseover", () => {
+          overlay.setMap(this.map);
+        });
+
+        kakao.maps.event.addListener(marker, "mouseout", () => {
+          overlay.setMap(null);
+        });
+      }
     },
   },
 };

@@ -95,10 +95,10 @@ public class TourListController extends HttpServlet {
 	}
 	
 	
-	@GetMapping("/{areaCode}/{sigunguCode}/{contentTypeId}")
-	public ResponseEntity<?> map(@PathVariable("areaCode") int areaCode, @PathVariable("sigunguCode") int sigunguCode, @PathVariable("contentTypeId") int contentTypeId) {
+	@GetMapping("/{sidoCode}/{gunguCode}/{contentTypeId}")
+	public ResponseEntity<?> map(@PathVariable("sidoCode") int areaCode, @PathVariable("gunguCode") int sigunguCode, @PathVariable("contentTypeId") int contentTypeId) {
 		try {
-			logger.debug("contentTypeId : " + contentTypeId);
+			logger.info("contentTypeId : " + contentTypeId);
 			Map<String, Integer> map = new HashMap<String, Integer>();
 			map.put("areaCode", areaCode);
 			map.put("sigunguCode", sigunguCode);

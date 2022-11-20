@@ -44,8 +44,8 @@ public class SigunguController extends HttpServlet {
 		this.sigugnuService = sigugnuService;
 	}
 
-	@GetMapping("/{areacode}")
-	public ResponseEntity<?> sigunguGet(@PathVariable("areacode") int areaCode) {
+	@GetMapping("/{areaCode}")
+	public ResponseEntity<?> sigunguGet(@PathVariable("areaCode") int areaCode) {
 		try {
 			List<SigunguDto> list = sigugnuService.list(areaCode);
 			logger.debug("시군구!!! " + list);
