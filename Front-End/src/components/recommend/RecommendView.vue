@@ -60,25 +60,31 @@ export default {
       typeId: 0,
       placeInfo: {},
       map: null,
-      mapx: null,
-      mapy: null,
       markers: [],
       latitude: 0,
       longitude: 0,
     };
   },
-  mounted() {
-    window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
-  },
   created() {
     this.typeId = this.$route.params.typeid;
-    this.setInfo();
+    // this.setInfo();
+    api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => (this.placeInfo = data));
+    // {
+    // this.placeInfo = data;
+    // console.log(data);
+    // this.latitude = data.mapy;
+    // this.longitude = data.mapx;
+    // console.log("1.5 setInfo 정보세팅" + this.latitude + "," + this.longitude);
+    // });
+    this.setmap();
+  },
+  mounted() {
+    this.setmap();
   },
   methods: {
-    setInfo() {
-      api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => {
-        this.placeInfo = data;
-      });
+    setInfo() {},
+    setmap() {
+      window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
     },
     newRecommend() {
       this.setInfo();
@@ -100,10 +106,36 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
+        // center: new kakao.maps.LatLng(33.450701, 126.570667),
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3,
       };
+      console.log("플레이스인포" + this.placeInfo.title);
       this.map = new kakao.maps.Map(container, options);
+    },
+    displayMarker(markerPositions) {
+      if (this.markers.length > 0) {
+        this.markers.forEach((marker) => marker.setMap(null));
+      }
+
+      const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
+
+      if (positions.length > 0) {
+        this.markers = positions.map(
+          (position) =>
+            new kakao.maps.Marker({
+              map: this.map,
+              position,
+            })
+        );
+
+        const bounds = positions.reduce(
+          (bounds, latlng) => bounds.extend(latlng),
+          new kakao.maps.LatLngBounds()
+        );
+
+        this.map.setBounds(bounds);
+      }
     },
   },
 };
