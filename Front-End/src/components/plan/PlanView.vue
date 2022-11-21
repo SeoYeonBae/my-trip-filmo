@@ -9,10 +9,10 @@
       <b-col md="10" class="my-plan shadow p-3 mb-5 bg-body rounded">
         <b-row class="px-5">
           <draggable v-model="mychoices">
-            <!-- <transition-group>
-              <div v-for="(choice, index) in mychoices" v-bind:key="index" class="choiced-places">
+            <transition-group>
+              <b-col v-for="(choice, index) in mychoices" v-bind:key="index" class="choiced-places">
                 <b-card
-                  img-src="https://picsum.photos/600/300/?image=25"
+                  img-src="https://cdn.travie.com/news/photo/first/201710/img_19975_1.jpg"
                   img-alt="Image"
                   img-top
                   tag="article"
@@ -27,8 +27,8 @@
                     </button>
                   </b-card-text>
                 </b-card>
-              </div>
-            </transition-group> -->
+              </b-col>
+            </transition-group>
           </draggable>
         </b-row>
       </b-col>
@@ -88,6 +88,9 @@
 import draggable from "vuedraggable";
 export default {
   name: "PlanView",
+  components: {
+    draggable,
+  },
   data() {
     return {
       place: "제주도",
@@ -114,8 +117,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
@@ -126,9 +128,6 @@ export default {
       };
       this.map = new kakao.maps.Map(container, options);
     },
-  },
-  components: {
-    draggable,
   },
 };
 </script>
