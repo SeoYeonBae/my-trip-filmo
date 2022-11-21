@@ -2,25 +2,16 @@
   <b-container>
     <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
     <div class="tab-content mt-2" id="mapcontent">
-      <div
-        class="tab-pane fade show active"
-        id="tabpane"
-        role="tabpanel"
-        aria-labelledby="tabpane"
-      >
+      <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 700px"></div>
           <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
           <div class="custom_zoomcontrol radius_border">
             <span @click="zoomIn"
-              ><img
-                src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-                alt="확대"
+              ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
             /></span>
             <span @click="zoomOut"
-              ><img
-                src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-                alt="축소"
+              ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
             /></span>
           </div>
         </div>
@@ -41,12 +32,7 @@ export default {
     TourListOptionBar,
   },
   computed: {
-    ...mapState(tourListStore, [
-      "sidoCode",
-      "gugunCode",
-      "contentTypeId",
-      "tourList",
-    ]),
+    ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
   },
   data() {
     return {
@@ -57,9 +43,7 @@ export default {
     };
   },
   mounted() {
-    window.kakao && window.kakao.maps
-      ? this.initMap()
-      : this.addKakaoMapScript();
+    window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
   methods: {
     zoomIn() {
@@ -72,8 +56,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
@@ -101,13 +84,14 @@ export default {
         let tel = tour.tel;
         let title = tour.title;
         let zipcode = tour.zipcode;
+        console.log(">>>>>>", image);
         positions.push({
           content: `<div class="wrap" style="border-radius: 5px;">
         <div class="info" style="border-radius: 5px; background-color: white;">
           <div class="title" style=" border-radius: 5px; background-color: #ffdbdb;">${title}</div>
           <div class="body">
-            <div class="img" v-if="${image} != ''">
-              <img src="${image}" width="73" height="70">
+            <div class="img">
+              <img src="${tour.image}" width="73" height="70">
             </div>
             <div class="desc">
               <div class="ellipsis">${addr}</div>
