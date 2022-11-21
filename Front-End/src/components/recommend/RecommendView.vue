@@ -14,34 +14,18 @@
           <b-img id="image" class="mt-4" :src="placeInfo.image" alt="이미지" width="100%" />
         </div>
         <div v-else>
-          <b-img
-            id="image"
-            class="mt-4"
-            :src="require('@/assets/img/defaultImage.jpg')"
-            alt="이미지"
-            width="100%"
-          />
+          <b-img id="image" class="mt-4" :src="require('@/assets/img/defaultImage.jpg')" alt="이미지" width="100%" />
         </div>
       </b-col>
       <b-col md="6" class="map_wrap">
         <b-row id="map" class="radius_border"></b-row>
         <div class="custom_zoomcontrol radius_border">
-          <span
-            ><img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-              alt="확대"
-          /></span>
-          <span
-            ><img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-              alt="축소"
-          /></span>
+          <span><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대" /></span>
+          <span><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소" /></span>
         </div>
         <b-row class="m-4">
           <b-col class="recommend-col">
-            <b-button id="btn recommend" class="fs-6" @click="newRecommend"
-              >새로운 추천받기</b-button
-            >
+            <b-button id="btn recommend" class="fs-6" @click="newRecommend">새로운 추천받기</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -61,33 +45,31 @@ export default {
       placeInfo: {},
       map: null,
       markers: [],
-      latitude: 0,
-      longitude: 0,
+      isBtnClicked: false,
     };
   },
   created() {
     this.typeId = this.$route.params.typeid;
-    // this.setInfo();
-    api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => (this.placeInfo = data));
-    // {
-    // this.placeInfo = data;
-    // console.log(data);
-    // this.latitude = data.mapy;
-    // this.longitude = data.mapx;
-    // console.log("1.5 setInfo 정보세팅" + this.latitude + "," + this.longitude);
-    // });
-    this.setmap();
+    this.setInfo();
   },
-  mounted() {
-    this.setmap();
+  watch: {
+    placeInfo: function () {
+      this.setmap();
+    },
+    isBtnClicked: function () {
+      this.setInfo();
+      this.isBtnClicked = false;
+    },
   },
   methods: {
-    setInfo() {},
+    setInfo() {
+      api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => (this.placeInfo = data));
+    },
     setmap() {
       window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
     },
     newRecommend() {
-      this.setInfo();
+      this.isBtnClicked = true;
     },
     ZoomIn() {
       alert("확대");
@@ -99,44 +81,41 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
       const container = document.getElementById("map");
       const options = {
-        // center: new kakao.maps.LatLng(33.450701, 126.570667),
-        center: new kakao.maps.LatLng(33.450701, 126.570667),
+        center: new kakao.maps.LatLng(this.placeInfo.mapy, this.placeInfo.mapx),
         level: 3,
       };
-      console.log("플레이스인포" + this.placeInfo.title);
       this.map = new kakao.maps.Map(container, options);
     },
-    displayMarker(markerPositions) {
-      if (this.markers.length > 0) {
-        this.markers.forEach((marker) => marker.setMap(null));
-      }
+    // displayMarker(markerPositions) {
+    //   if (this.markers.length > 0) {
+    //     this.markers.forEach((marker) => marker.setMap(null));
+    //   }
 
-      const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
+    //   const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
 
-      if (positions.length > 0) {
-        this.markers = positions.map(
-          (position) =>
-            new kakao.maps.Marker({
-              map: this.map,
-              position,
-            })
-        );
+    //   if (positions.length > 0) {
+    //     this.markers = positions.map(
+    //       (position) =>
+    //         new kakao.maps.Marker({
+    //           map: this.map,
+    //           position,
+    //         })
+    //     );
 
-        const bounds = positions.reduce(
-          (bounds, latlng) => bounds.extend(latlng),
-          new kakao.maps.LatLngBounds()
-        );
+    //     const bounds = positions.reduce(
+    //       (bounds, latlng) => bounds.extend(latlng),
+    //       new kakao.maps.LatLngBounds()
+    //     );
 
-        this.map.setBounds(bounds);
-      }
-    },
+    //     this.map.setBounds(bounds);
+    //   }
+    // },
   },
 };
 </script>
