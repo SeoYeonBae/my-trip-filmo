@@ -5,7 +5,7 @@
         <b-form-group id="userid-group" label="작성자:" label-for="userid" description="작성자를 입력하세요.">
           <b-form-input
             id="userid"
-            :disabled="isUserid"
+            :disabled="true"
             v-model="article.userId"
             type="text"
             required
@@ -43,10 +43,21 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 const api = apiInstance();
+const memberStore = "memberStore";
 
 export default {
-  name: "BoardInputItem",
+  name: "NoticeInputItem",
+  props: {
+    type: { type: String },
+  },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  mounted() {
+    if (this.type == "register") this.setUserId();
+  },
   data() {
     return {
       article: {
@@ -58,17 +69,12 @@ export default {
       isUserid: false,
     };
   },
-  props: {
-    type: { type: String },
-  },
   created() {
     if (this.type === "modify") {
-      api.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
+      api.get(`/notice/${this.$route.params.articleno}`).then(({ data }) => {
         this.article = data;
       });
-      this.isUserid = true;
-    } else if (this.type === "register") {
-      // this.setUserInfo();
+      // this.isUserid = true;
     }
   },
   methods: {
@@ -128,10 +134,9 @@ export default {
     moveList() {
       this.$router.push({ name: "noticelist" });
     },
-    // setUserInfo() {
-    //   alert(this.userInfo.id);
-    //   this.article.userId = this.userInfo.id;
-    // },
+    setUserId() {
+      this.article.userId = this.userInfo.id;
+    },
   },
 };
 </script>

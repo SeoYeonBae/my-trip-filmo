@@ -10,8 +10,10 @@
         <b-button @click="moveList">목록</b-button>
       </b-col>
       <b-col class="text-right">
-        <b-button size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
-        <b-button size="sm" @click="deleteArticle">글삭제</b-button>
+        <div v-show="this.userInfo.id == 'admin'">
+          <b-button size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
+          <b-button size="sm" @click="deleteArticle">글삭제</b-button>
+        </div>
       </b-col>
     </b-row>
     <b-row class="mb-1">

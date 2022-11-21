@@ -7,7 +7,9 @@
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button @click="moveWrite()">글쓰기</b-button>
+        <div v-show="this.userInfo.id == 'admin'">
+          <b-button @click="moveWrite()">글쓰기</b-button>
+        </div>
       </b-col>
     </b-row>
     <b-row>
@@ -26,9 +28,15 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 const api = apiInstance();
+const memberStore = "memberStore";
+
 export default {
   name: "NoticeList",
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   data() {
     return {
       articles: [],
