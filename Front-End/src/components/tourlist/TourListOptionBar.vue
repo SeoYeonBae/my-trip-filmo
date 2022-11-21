@@ -108,8 +108,9 @@ export default {
       this.$router.push({ name: "tour" });
     },
     makeContents() {
-      if (this.mapShow) this.$emit("makeMarker");
-      else if (this.imageShow) this.$emit("makeCard");
+      if (this.mapShow && this.tourList.length != 0) this.$emit("makeMarker");
+      else if (this.imageShow && this.tourList.length != 0)
+        this.$emit("makeCard");
     },
     makeGugun() {
       this.SET_SIDO_CODE(this.selectSidoCode);
