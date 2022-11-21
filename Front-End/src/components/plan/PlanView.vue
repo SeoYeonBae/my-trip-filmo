@@ -44,7 +44,8 @@
         <button type="button">축제</button>
       </b-col>
 
-      <b-col md="8" id="map" class="mb-5"></b-col>
+      <!-- <b-col md="8" id="map" class="mb-5"></b-col> -->
+      <tour-list-map></tour-list-map>
       <b-col id="list" class="shadow p-3 mb-5 bg-body rounded row justify-content-center">
         <div class="col-lg-5 mb-4 mb-lg-0 places">
           <b-card
@@ -86,6 +87,8 @@
 
 <script>
 import draggable from "vuedraggable";
+import TourListMap from "@/components/tourlist/TourListShowMap.vue";
+
 export default {
   name: "PlanView",
   components: {

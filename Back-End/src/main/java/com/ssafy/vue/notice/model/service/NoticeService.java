@@ -15,6 +15,6 @@ public interface NoticeService {
 	List<NoticeDto> preview(int num) throws Exception;
 	NoticeDto getArticle(int articleNo) throws Exception;
 	void updateHit(int articleNo) throws Exception;
-	void modifyArticle(Map<String, String> map) throws Exception;
+	void modifyArticle(NoticeDto noticeDto) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
 }

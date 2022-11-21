@@ -33,6 +33,9 @@ import com.ssafy.vue.util.PageNavigation;
 import com.ssafy.vue.util.ParameterCheck;
 import com.ssafy.vue.util.SizeConstant;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+
 
 @RestController
 @RequestMapping("/notice")
@@ -66,12 +69,12 @@ public class NoticeController extends HttpServlet {
 		}
 	}
 	
-	@PostMapping("/list")
+	@GetMapping("/list")
 //	public ResponseEntity<?> list(@RequestBody Map<String, String> map) {
 	public ResponseEntity<?> list() {
+		logger.info("notice_listArticle - 호출");
 		try 
 		{
-			logger.info("notice_listArticle - 호출");
 			Map<String, String> map = new HashMap<>();
 			map.put("pgno", "1");
 			map.put("key", "");
@@ -79,13 +82,18 @@ public class NoticeController extends HttpServlet {
 				
 			Map<String, Object> param = new HashMap<String, Object>();
 			logger.debug("reguest body : {} ", map);
-			PageNavigation pageNavigation = noticeService.makePageNavigation(map);
-			logger.debug(pageNavigation + "");
+//			PageNavigation pageNavigation = noticeService.makePageNavigation(map);
+//			logger.debug(pageNavigation + "");
+			
+			PageNavigation pageNavigation = new PageNavigation();
+			
 			param.put("pageNavigation", pageNavigation);
 			List<NoticeDto> list = noticeService.listArticle(map);
-			logger.debug("notice : {} ", list);
+			logger.debug(list.size() + "리스트 사이즈");
+//			logger.debug("notice : {} ", list);
 			param.put("list", list);
-			if (! param.isEmpty()) {
+			
+			if(list != null && !list.isEmpty()) {
 				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);
 			} else {
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
@@ -127,32 +135,57 @@ public class NoticeController extends HttpServlet {
 		}
 	}
 	
-	@DeleteMapping("{id}")
-	public ResponseEntity<?> userDelete(@PathVariable("id") int articleNo) {
-		logger.debug("삭제!!!!!!!!!!!!!!!!!!!!");
-		logger.debug("Delete notice id : {}", articleNo);
-		try {
-			noticeService.deleteArticle(articleNo);
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("pgno", "1");
-			List<NoticeDto> list = noticeService.listArticle(map);
-			return new ResponseEntity<List<NoticeDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
+	@ApiOperation(value = "게시판 글삭제", notes = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
+	@DeleteMapping("/{articleno}")
+	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {
+		logger.info("deleteArticle - 호출");
+		noticeService.deleteArticle(articleno);
+		if (articleno != 0) {
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
+		return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
 	}
+	
+//	@DeleteMapping("{id}")
+//	public ResponseEntity<?> userDelete(@PathVariable("id") int articleNo) {
+//		logger.debug("삭제!!!!!!!!!!!!!!!!!!!!");
+//		logger.debug("Delete notice id : {}", articleNo);
+//		try {
+//			noticeService.deleteArticle(articleNo);
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("pgno", "1");
+//			List<NoticeDto> list = noticeService.listArticle(map);
+//			return new ResponseEntity<List<NoticeDto>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
+	
+	
+
+	@ApiOperation(value = "게시판 글수정", notes = "수정할 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
-	public ResponseEntity<?> noticeModify(@RequestBody Map<String, String> map) {
-		logger.debug("Modify map : {}", map);
-		try {
-			noticeService.modifyArticle(map);
-			map.put("pgno", "1");
-			List<NoticeDto> list = noticeService.listArticle(map);
-			return new ResponseEntity<List<NoticeDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
+	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) NoticeDto noticeDto) throws Exception {
+		logger.info("modifyArticle - 호출 {}", noticeDto);
+		noticeService.modifyArticle(noticeDto);
+		if (noticeDto != null) {
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
+		return new ResponseEntity<String>("fail", HttpStatus.OK);
 	}
+	
+//	@PutMapping
+//	public ResponseEntity<?> noticeModify(@RequestBody Map<String, String> map) {
+//		logger.debug("Modify map : {}", map);
+//		try {
+//			noticeService.modifyArticle(map);
+//			map.put("pgno", "1");
+//			List<NoticeDto> list = noticeService.listArticle(map);
+//			return new ResponseEntity<List<NoticeDto>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}

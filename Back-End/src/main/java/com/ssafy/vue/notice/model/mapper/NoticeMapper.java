@@ -18,6 +18,6 @@ public interface NoticeMapper {
 	List<NoticeDto> preview(int num) throws SQLException;
 	NoticeDto getArticle(int articleNo) throws SQLException;
 	void updateHit(int articleNo) throws SQLException;
-	void modifyArticle(Map<String, String> map) throws SQLException;
+	void modifyArticle(NoticeDto noticeDto) throws SQLException;
 	void deleteArticle(int articleNo) throws SQLException;
 }
