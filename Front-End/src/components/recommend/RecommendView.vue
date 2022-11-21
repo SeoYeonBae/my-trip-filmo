@@ -54,9 +54,11 @@ export default {
   },
   watch: {
     placeInfo: function () {
+      // 카카오맵 띄우기
       this.setmap();
     },
     isBtnClicked: function () {
+      // '새로운 추천받기' 버튼 클릭 시 명소 정보 다시 받아오기
       this.setInfo();
       this.isBtnClicked = false;
     },
@@ -69,6 +71,7 @@ export default {
       window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
     },
     newRecommend() {
+      // '새로운 추천받기' 버튼 클릭 감지
       this.isBtnClicked = true;
     },
     ZoomIn() {
@@ -87,35 +90,32 @@ export default {
     initMap() {
       const container = document.getElementById("map");
       const options = {
+        // 추천 명소의 위도, 경도 값 삽입
         center: new kakao.maps.LatLng(this.placeInfo.mapy, this.placeInfo.mapx),
         level: 3,
       };
       this.map = new kakao.maps.Map(container, options);
+      this.displayMarker();
     },
-    // displayMarker(markerPositions) {
-    //   if (this.markers.length > 0) {
-    //     this.markers.forEach((marker) => marker.setMap(null));
-    //   }
+    displayMarker() {
+      if (this.markers.length > 0) {
+        // 현재 표시되어 있는 marker들이 있다면 삭제한다
+        this.markers.forEach((marker) => marker.setMap(null));
+      }
 
-    //   const positions = markerPositions.map((position) => new kakao.maps.LatLng(...position));
+      // 마커 이미지 커스터마이징
+      const imgSrc = require("@/assets/img/MarkerIcon.png");
+      const imgSize = new kakao.maps.Size(40, 45);
+      const markerImg = new kakao.maps.MarkerImage(imgSrc, imgSize);
 
-    //   if (positions.length > 0) {
-    //     this.markers = positions.map(
-    //       (position) =>
-    //         new kakao.maps.Marker({
-    //           map: this.map,
-    //           position,
-    //         })
-    //     );
+      let markerPosition = new kakao.maps.LatLng(this.placeInfo.mapy, this.placeInfo.mapx);
 
-    //     const bounds = positions.reduce(
-    //       (bounds, latlng) => bounds.extend(latlng),
-    //       new kakao.maps.LatLngBounds()
-    //     );
-
-    //     this.map.setBounds(bounds);
-    //   }
-    // },
+      let marker = new kakao.maps.Marker({
+        position: markerPosition,
+        image: markerImg,
+      });
+      marker.setMap(this.map);
+    },
   },
 };
 </script>
