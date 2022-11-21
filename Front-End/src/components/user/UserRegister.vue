@@ -2,8 +2,8 @@
   <b-container class="mt-5 mb-5">
     <b-row>
       <b-col cols="7" class="text-center">
-        <h3>여행의 주연</h3>
-        <h5>어떤 여행을 꿈꾸시나요?</h5>
+        <h3><strong>여행의 주연</strong></h3>
+        <p><em>- 내가 만드는 나만의 여행</em></p>
       </b-col>
     </b-row>
     <b-row class="mt-5">
@@ -239,11 +239,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&family=Song+Myung&display=swap");
-* {
-  font-family: "Noto Sans KR", sans-serif;
-  color: #171d3a;
-}
 .row {
   justify-content: center;
 }
@@ -282,5 +277,7 @@ input.input-item {
 }
 input:focus {
   outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
 }
 </style>

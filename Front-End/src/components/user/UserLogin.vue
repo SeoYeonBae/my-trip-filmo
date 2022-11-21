@@ -2,46 +2,49 @@
   <b-container class="mt-5 mb-5">
     <b-row>
       <b-col cols="7" class="text-center">
-        <b-alert variant="secondary" show><h3>로그인</h3></b-alert>
+        <h3><strong>여행의 주연</strong></h3>
+        <p><em>- 내가 만드는 나만의 여행</em></p>
       </b-col>
     </b-row>
     <b-row>
       <b-col cols="7">
-        <b-card class="text-center mt-3" style="max-width: 40rem">
-          <b-form class="text-left">
-            <b-alert show variant="danger" v-if="isLoginError"
-              >아이디 또는 비밀번호를 확인하세요.</b-alert
+        <b-form class="text-left">
+          <b-alert show variant="danger" v-if="isLoginError"
+            >아이디 또는 비밀번호를 확인하세요.</b-alert
+          >
+          <div class="mt-4">
+            <p class="input-title">아이디</p>
+            <input
+              id="userid"
+              v-model="user.id"
+              class="input-item"
+              required
+              placeholder="아이디를 입력해주세요"
+              @keyup.enter="confirm"
+            />
+          </div>
+          <div class="mt-4 mb-5">
+            <p class="input-title">비밀번호</p>
+            <input
+              type="password"
+              id="userpwd"
+              class="input-item"
+              v-model="user.password"
+              required
+              placeholder="비밀번호를 입력해주세요"
+              @keyup.enter="confirm"
+            />
+          </div>
+          <b-row>
+            <b-button type="button" class="m-1" @click="confirm">로그인</b-button>
+            <b-button type="button" class="m-1" @click="$router.push({ name: 'findpassword' })"
+              >비밀번호 찾기</b-button
             >
-            <b-form-group label="아이디" label-for="userid">
-              <b-form-input
-                id="userid"
-                v-model="user.id"
-                required
-                placeholder="아이디를 입력해주세요"
-                @keyup.enter="confirm"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group label="비밀번호" label-for="userpwd">
-              <b-form-input
-                type="password"
-                id="userpwd"
-                v-model="user.password"
-                required
-                placeholder="비밀번호를 입력해주세요"
-                @keyup.enter="confirm"
-              ></b-form-input>
-            </b-form-group>
-            <b-row>
-              <b-button type="button" class="m-1" @click="confirm">로그인</b-button>
-              <b-button type="button" class="m-1" @click="$router.push({ name: 'findpassword' })"
-                >비밀번호 찾기</b-button
-              >
-              <b-button type="button" class="m-1" @click="$router.push({ name: 'join' })"
-                >회원가입</b-button
-              >
-            </b-row>
-          </b-form>
-        </b-card>
+            <b-button type="button" class="m-1 mb-3" @click="$router.push({ name: 'join' })"
+              >회원가입</b-button
+            >
+          </b-row>
+        </b-form>
       </b-col>
     </b-row>
   </b-container>
@@ -85,6 +88,10 @@ export default {
 .row {
   justify-content: center;
 }
+.input-label {
+  color: black;
+  font-weight: bold;
+}
 button {
   background-color: #dfe4ff;
   border: 0;
@@ -94,6 +101,8 @@ button {
   border-style: none;
   border: none;
   box-shadow: none;
+  width: 80%;
+  height: 50px;
 }
 button:hover {
   background-color: #d4fcee;
@@ -101,5 +110,19 @@ button:hover {
 }
 .container {
   height: 100%;
+}
+input.input-item {
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1;
+  width: 100%;
+  border-radius: 0;
+  border-bottom-color: lightgray;
+}
+input:focus {
+  outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
 }
 </style>

@@ -2,37 +2,40 @@
   <b-container class="mt-5 mb-5">
     <b-row>
       <b-col cols="7" class="text-center">
-        <b-alert variant="secondary" show><h3>비밀번호 찾기</h3></b-alert>
+        <h3><strong>여행의 주연</strong></h3>
+        <p><em>- 내가 만드는 나만의 여행</em></p>
       </b-col>
     </b-row>
     <b-row>
       <b-col cols="7">
-        <b-card class="text-center mt-3" style="max-width: 40rem">
-          <b-form class="text-left">
-            <b-form-group label="아이디" label-for="userid">
-              <b-form-input
-                id="userid"
-                v-model="user.id"
-                required
-                placeholder="아이디를 입력해주세요"
-              ></b-form-input>
-            </b-form-group>
-            <b-form-group label="이름" label-for="username">
-              <b-form-input
-                id="username"
-                v-model="user.name"
-                required
-                placeholder="이름을 입력해주세요"
-              ></b-form-input>
-            </b-form-group>
-            <b-row>
-              <b-button type="button" class="m-1" @click="$router.push({ name: 'login' })"
-                >로그인</b-button
-              >
-              <b-button type="button" class="m-1" @click="checkValue">비밀번호 찾기</b-button>
-            </b-row>
-          </b-form>
-        </b-card>
+        <b-form class="text-left">
+          <div class="mt-4">
+            <p class="input-title">아이디</p>
+            <input
+              id="userid"
+              v-model="user.id"
+              class="input-item"
+              required
+              placeholder="비밀번호를 찾으실 아이디를 입력해주세요"
+            />
+          </div>
+          <div class="mt-4 mb-5">
+            <p class="input-title">이름</p>
+            <input
+              id="username"
+              v-model="user.name"
+              class="input-item"
+              required
+              placeholder="본인 확인을 위한 이름을 입력해주세요"
+            />
+          </div>
+          <b-row>
+            <b-button type="button" class="m-1" @click="$router.push({ name: 'login' })"
+              >로그인</b-button
+            >
+            <b-button type="button" class="m-1 mb-3" @click="checkValue">비밀번호 찾기</b-button>
+          </b-row>
+        </b-form>
       </b-col>
     </b-row>
   </b-container>
@@ -89,9 +92,25 @@ button {
   border-style: none;
   border: none;
   box-shadow: none;
+  width: 80%;
+  height: 50px;
 }
 button:hover {
   background-color: #d4fcee;
   color: black;
+}
+input.input-item {
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1;
+  width: 100%;
+  border-radius: 0;
+  border-bottom-color: lightgray;
+}
+input:focus {
+  outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
 }
 </style>
