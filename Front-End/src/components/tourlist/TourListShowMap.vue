@@ -102,11 +102,11 @@ export default {
         let title = tour.title;
         let zipcode = tour.zipcode;
         positions.push({
-          content: `<div class="wrap">
-        <div class="info bg-light">
-          <div class="title">${title}</div>
+          content: `<div class="wrap" style="border-radius: 5px;">
+        <div class="info" style="border-radius: 5px; background-color: white;">
+          <div class="title" style=" border-radius: 5px; background-color: #ffdbdb;">${title}</div>
           <div class="body">
-            <div class="img">
+            <div class="img" v-if="${image} != ''">
               <img src="${image}" width="73" height="70">
             </div>
             <div class="desc">

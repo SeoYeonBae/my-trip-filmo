@@ -23,8 +23,8 @@
         <h5>로 떠나고 싶어요</h5>
       </b-row>
       <div>
-        <b-tabs content-class="mt-3" fill>
-          <b-tab title="전체" active @click="setContentTypeId(0)"></b-tab>
+        <b-tabs content-class="mt-3" v-model="tabInit" fill>
+          <b-tab title="전체" @click="setContentTypeId(0)"></b-tab>
           <b-tab title="관광지" @click="setContentTypeId(12)"></b-tab>
           <b-tab title="문화시설" @click="setContentTypeId(14)"></b-tab>
           <b-tab
@@ -53,6 +53,7 @@ export default {
     return {
       selectSidoCode: "",
       selectGugunCode: "",
+      tabInit: 0,
     };
   },
   computed: {
@@ -68,7 +69,9 @@ export default {
     ]),
   },
   created() {
+    this.CLEAR_SIDO_CODE();
     this.CLEAR_SIDO_LIST();
+    this.CLEAR_GUGUN_CODE();
     this.CLEAR_GUGUN_LIST();
     this.CLEAR_CONTENT_TYPE_ID();
     this.CLEAR_TOUR_LIST();
@@ -82,9 +85,11 @@ export default {
   methods: {
     ...mapActions(tourListStore, ["getSido", "getGugun", "getTourList"]),
     ...mapMutations(tourListStore, [
+      "CLEAR_SIDO_CODE",
+      "CLEAR_GUGUN_CODE",
+      "CLEAR_CONTENT_TYPE_ID",
       "CLEAR_SIDO_LIST",
       "CLEAR_GUGUN_LIST",
-      "CLEAR_CONTENT_TYPE_ID",
       "CLEAR_TOUR_LIST",
       "SET_SIDO_CODE",
       "SET_GUGUN_CODE",
@@ -103,7 +108,6 @@ export default {
       this.$router.push({ name: "tour" });
     },
     makeContents() {
-      console.log(this.mapShow);
       if (this.mapShow) this.$emit("makeMarker");
       else if (this.imageShow) this.$emit("makeCard");
     },
@@ -113,6 +117,8 @@ export default {
       this.getGugun(this.selectSidoCode);
     },
     async makeList() {
+      this.CLEAR_CONTENT_TYPE_ID();
+      this.tabInit = 0;
       this.SET_GUGUN_CODE(this.selectGugunCode);
       this.CLEAR_TOUR_LIST();
       this.getTourList();
