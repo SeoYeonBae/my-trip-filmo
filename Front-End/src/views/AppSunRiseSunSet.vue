@@ -1,5 +1,5 @@
 <template>
-  <b-container class="mt-5 mb-5">
+  <b-container style="margin-top: 120px">
     <b-alert show variant="warning"><h3>그 날의 일출 일몰</h3></b-alert>
     <h4 class="mt-4 mb-4">{{ subtitle }}</h4>
     <b-row class="justify-content-md-center">

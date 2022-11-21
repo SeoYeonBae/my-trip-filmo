@@ -3,16 +3,40 @@
     <h4 class="fw-bold mb-5 mt-5">목적지가 없다면? 취향 저격 추천 명소</h4>
     <b-container fluid>
       <div class="recommend-cards row">
-        <b-col class="card me-1" @click="$router.push({ name: 'recommend', params: { typeid: 12 } })">
-          <b-img class="img" fluid :src="require('@/assets/img/TodayTourSpot.png')" alt="관광명소"></b-img>
+        <b-col
+          class="card me-1"
+          @click="$router.push({ name: 'recommend', params: { typeid: 12 } })"
+        >
+          <b-img
+            class="img"
+            fluid
+            :src="require('@/assets/img/TodayTourSpot.png')"
+            alt="관광명소"
+          ></b-img>
           <p class="desc">오늘의 관광지</p>
         </b-col>
-        <b-col class="card ms-1 me-1" @click="$router.push({ name: 'recommend', params: { typeid: 15 } })">
-          <b-img class="img" fluid :src="require('@/assets/img/TodayFestival.jpg')" alt="축제"></b-img>
+        <b-col
+          class="card ms-1 me-1"
+          @click="$router.push({ name: 'recommend', params: { typeid: 15 } })"
+        >
+          <b-img
+            class="img"
+            fluid
+            :src="require('@/assets/img/TodayFestival.jpg')"
+            alt="축제"
+          ></b-img>
           <p class="desc">오늘의 축제</p>
         </b-col>
-        <b-col class="card ms-1" @click="$router.push({ name: 'recommend', params: { typeid: 39 } })">
-          <b-img class="img" fluid :src="require('@/assets/img/TodayRestaurant.jpg')" alt="맛집"></b-img>
+        <b-col
+          class="card ms-1"
+          @click="$router.push({ name: 'recommend', params: { typeid: 39 } })"
+        >
+          <b-img
+            class="img"
+            fluid
+            :src="require('@/assets/img/TodayRestaurant.jpg')"
+            alt="맛집"
+          ></b-img>
           <p class="desc">오늘의 맛집</p>
         </b-col>
       </div>

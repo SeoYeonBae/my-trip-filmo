@@ -27,6 +27,6 @@ export default {
 }
 #maincontentview {
   height: auto;
-  min-height: 800px;
+  min-height: 650px;
 }
 </style>

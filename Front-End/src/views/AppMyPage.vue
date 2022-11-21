@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid style="margin-top: 120px">
     <b-row>
       <b-col md="3" class="text-center">
         <div>

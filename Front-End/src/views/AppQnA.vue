@@ -1,5 +1,5 @@
 <template>
-  <b-container>
+  <b-container style="margin-top: 120px">
     <b-alert show variant="warning"><h3>자주 묻는 Q&A</h3></b-alert>
     <h4>회원 정보 관련 QnA</h4>
     <hr />
