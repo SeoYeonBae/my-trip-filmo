@@ -38,22 +38,6 @@ export default {
   name: "TourListChoicePanel",
   computed: {
     ...mapState(tourListStore, ["mapShow", "imageShow"]),
-    mapShow: {
-      get() {
-        return this.$store.state.mapShow;
-      },
-      set(value) {
-        this.$store.commit("tourListStore/SET_MAP_SHOW", value);
-      },
-    },
-    imageShow: {
-      get() {
-        return this.$store.state.imageShow;
-      },
-      set(value) {
-        this.$store.commit("tourListStore/SET_IMAGE_SHOW", value);
-      },
-    },
   },
   methods: {
     ...mapMutations(tourListStore, [
@@ -63,13 +47,13 @@ export default {
       "SET_IMAGE_SHOW",
     ]),
     moveMap() {
-      this.mapShow = true;
-      this.imageShow = false;
+      this.SET_MAP_SHOW(true);
+      this.SET_IMAGE_SHOW(false);
       this.$router.push({ name: "tourmap" });
     },
     moveImage() {
-      this.mapShow = false;
-      this.imageShow = true;
+      this.SET_MAP_SHOW(false);
+      this.SET_IMAGE_SHOW(true);
       this.$router.push({ name: "tourimage" });
     },
   },
