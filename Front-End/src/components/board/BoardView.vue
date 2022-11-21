@@ -31,12 +31,17 @@
         </b-card>
       </b-col>
     </b-row>
+    <b-row>
+      <board-reply-item :articleno="`${article.articleNo}`"></board-reply-item>
+    </b-row>
   </b-container>
 </template>
 
 <script>
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
+import BoardReplyItem from "@/components/board/item/BoardReplyItem.vue";
+
 const api = apiInstance();
 const memberStore = "memberStore";
 
@@ -51,6 +56,9 @@ export default {
     api.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
       this.article = data;
     });
+  },
+  components: {
+    BoardReplyItem,
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
