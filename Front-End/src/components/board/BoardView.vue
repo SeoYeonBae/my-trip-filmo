@@ -34,6 +34,9 @@
     <b-row>
       <board-reply-item :articleno="`${article.articleNo}`"></board-reply-item>
     </b-row>
+    <b-row>
+      <reply-list></reply-list>
+    </b-row>
   </b-container>
 </template>
 
@@ -41,6 +44,7 @@
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 import BoardReplyItem from "@/components/board/item/BoardReplyItem.vue";
+// import ReplyList from "@/components/board/ReplyList.vue";
 
 const api = apiInstance();
 const memberStore = "memberStore";
@@ -59,6 +63,7 @@ export default {
   },
   components: {
     BoardReplyItem,
+    // ReplyList,
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),

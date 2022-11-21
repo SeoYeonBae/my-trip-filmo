@@ -1,5 +1,7 @@
 package com.ssafy.vue.reply.service;
 
+import java.util.List;
+
 import com.ssafy.vue.reply.model.ReplyDto;
 
 public interface ReplyService {
