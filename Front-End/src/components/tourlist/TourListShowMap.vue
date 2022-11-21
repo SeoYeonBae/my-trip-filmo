@@ -41,12 +41,7 @@ export default {
     TourListOptionBar,
   },
   computed: {
-    ...mapState(tourListStore, [
-      "sidoCode",
-      "gugunCode",
-      "contentTypeId",
-      "tourList",
-    ]),
+    ...mapState(tourListStore, ["tourList"]),
   },
   data() {
     return {
