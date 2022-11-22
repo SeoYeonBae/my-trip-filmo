@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
 import com.ssafy.vue.notice.model.NoticeDto;
+import com.ssafy.vue.reply.service.ReplyService;
 import com.ssafy.vue.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,11 +35,13 @@ public class BoardController extends HttpServlet {
 	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	private BoardService boardService;
+	private ReplyService replyService;
 
 	@Autowired
-	public BoardController(BoardService boardService) {
+	public BoardController(BoardService boardService, ReplyService replyService) {
 		super();
 		this.boardService = boardService;
+		this.replyService = replyService;
 	}
 
 	@GetMapping("/preview")
@@ -166,6 +169,7 @@ public class BoardController extends HttpServlet {
 	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {
 		logger.info("deleteArticle - 호출");
 		boardService.deleteArticle(articleno);
+		replyService.deleteAll(articleno);
 		if (articleno != 0) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}

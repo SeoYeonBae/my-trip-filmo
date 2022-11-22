@@ -23,15 +23,14 @@
     <hr />
     <b-container flex>
       <b-row class="replydiv" v-for="(reply, idx) in replys" :key="idx">
-        <b-col id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
-        <b-col md="9">
+        <b-col md="1" id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
+        <b-col>
           <b-row>
             <b-col md="2" id="userid">{{ reply.user_id }}</b-col>
             <b-col md="10" id="content">{{ reply.content }}</b-col>
           </b-row>
           <b-row id="replytime">{{ reply.regist_time }}</b-row>
         </b-col>
-        <!-- <div :class="{ showbtn: isMatch }"> -->
         <b-col md="1">
           <!-- <div v-show="this.userInfo.id == reply.user_id"> -->
           <b-button type="button" class="btn" @click="deleteReply(reply.idx)">삭제</b-button>
@@ -56,7 +55,6 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
-    // replyIdMatch();
   },
   data() {
     return {
@@ -75,7 +73,6 @@ export default {
       console.log(this.userInfo.id);
       this.setReplyInfo();
       this.getReplys();
-      // this.showBtn();
     },
   },
   methods: {
@@ -96,6 +93,8 @@ export default {
           if (data === "success") msg = "댓글 등록이 완료되었습니다.";
 
           alert(msg);
+
+          this.newReply.content = "";
           this.getReplys();
         });
     },
@@ -123,9 +122,6 @@ export default {
     moveList() {
       this.$router.push({ name: "boardlist" });
     },
-    // replyIdMatch(){
-    //   if(this.userInfo.id == this.repl)
-    // },
   },
 };
 </script>
