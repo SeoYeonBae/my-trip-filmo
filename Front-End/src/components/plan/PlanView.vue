@@ -116,10 +116,10 @@ export default {
       console.log(this.mychoices[0].name);
     },
     sidoCode: function () {
-      let doname;
+      // let doname;
       switch (this.sidoCode) {
         case 1:
-          doname = "서울";
+          // doname = "서울";
           break;
         case 2:
       }
@@ -128,7 +128,7 @@ export default {
   },
   data() {
     return {
-      // doname: [
+      // donames: [
       //   " ",
       //   "서울",
       //   "인천",
