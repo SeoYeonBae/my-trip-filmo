@@ -5,13 +5,26 @@
         <div class="choice">
           <h3 id="region">{{ place }}</h3>
           <h3 id="period">3 DAY</h3>
-          <p>2022.12.20 ~ 2022.12.21</p>
+          <b-row class="calrow"
+            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-1" />
+            <p class="my-auto">시작일&nbsp;</p>
+            <datetime type="datetime" v-model="start_date" use12-hour class="cal"></datetime>
+          </b-row>
+          <b-row class="calrow"
+            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-1" />
+            <p class="my-auto">종료일&nbsp;</p>
+            <datetime type="datetime" v-model="end_date" use12-hour class="cal"></datetime>
+          </b-row>
         </div>
         <hr />
         <div id="choicediv">
           <draggable v-model="mychoices">
             <transition-group>
-              <b-col v-for="(choice, index) in mychoices" v-bind:key="index" class="choiced-places">
+              <div
+                v-for="(choice, idx) in mychoices"
+                :key="idx + 0"
+                class="choiced text-align-center"
+              >
                 <b-card
                   img-src="https://cdn.travie.com/news/photo/first/201710/img_19975_1.jpg"
                   img-alt="Image"
@@ -20,24 +33,24 @@
                   style="max-width: 10rem"
                   class="mb-2 cards"
                 >
-                  <button class="btn-delete">
-                    <font-awesome-icon icon="fa-solid fa-circle-xmark" style="color: red" />
+                  <button class="xbutton" @click="deleteChoice(choice.name)">
+                    <font-awesome-icon icon="fa-solid fa-circle-minus" style="color: red" />
                   </button>
                   <b-card-text>
-                    <font-awesome-icon icon="fa-solid fa-bed" />
+                    <!-- <font-awesome-icon icon="fa-solid fa-bed" /> -->
                     {{ choice.name }}
                   </b-card-text>
                 </b-card>
-              </b-col>
+              </div>
             </transition-group>
           </draggable>
         </div>
       </b-col>
       <b-col md="8">
-        <b-row class="optionbar"><plan-option-bar></plan-option-bar></b-row>
+        <!-- <b-row class="optionbar"><plan-option-bar></plan-option-bar></b-row> -->
         <b-row>
           <b-container>
-            <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
+            <plan-option-bar @makeMarker="makeMapMarkers"></plan-option-bar>
             <div class="tab-content mt-2" id="mapcontent">
               <div
                 class="tab-pane fade show active"
@@ -72,20 +85,26 @@
             no-body
             class="overflow-hidden cards"
             style="max-width: 300px"
-            v-for="(tour, index) in this.tourList"
-            :key="index"
+            v-for="(tour, idx) in this.tourList"
+            :key="idx"
           >
             <b-row no-gutters>
               <b-col md="3">
                 <b-card-img :img-src="`${tour.image}`" img-alt="Image" img-top></b-card-img>
               </b-col>
-              <b-col>
+              <b-col md="8">
                 <b-card-body id="cardfont">
                   <b-card-title>{{ tour.title }}</b-card-title>
-                  <!-- <b-card-text>{{ tour.addr1 }}</b-card-text>
-                  <b-card-text>{{ tour.tel }}</b-card-text> -->
+                  {{ tour.content_type_id }}
                 </b-card-body>
               </b-col>
+              <b-col>
+                <button class="xbutton" @click="addChoice(tour)">
+                  <font-awesome-icon
+                    icon="fa-solid fa-circle-plus"
+                    style="color: #dfe4ff"
+                  /></button
+              ></b-col>
             </b-row>
           </b-card>
         </b-container>
@@ -96,10 +115,15 @@
 
 <script>
 import { mapState } from "vuex";
+import Vue from "vue";
 import draggable from "vuedraggable";
 import PlanOptionBar from "@/components/plan/PlanOptionBar";
+import Datetime from "vue-datetime";
+import "vue-datetime/dist/vue-datetime.css";
+// https://www.npmjs.com/package/vue-datetime
 
 const tourListStore = "tourListStore";
+Vue.use(Datetime);
 
 export default {
   name: "PlanView",
@@ -111,46 +135,42 @@ export default {
     ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
   },
   watch: {
-    // 디버깅용
     mychoices: function () {
       console.log(this.mychoices[0].name);
     },
     sidoCode: function () {
-      // let doname;
-      switch (this.sidoCode) {
-        case 1:
-          // doname = "서울";
-          break;
-        case 2:
-      }
-      this.place = this.sidoCode;
+      this.place = this.donames[this.sidoCode];
+      // let code = this.sidoCode;
+      // console.log(this.donames[1]);
+    },
+    period: function () {
+      console.log(this.period);
     },
   },
   data() {
     return {
-      // donames: [
-      //   " ",
-      //   "서울",
-      //   "인천",
-      //   "대전",
-      //   "대구",
-      //   "광주",
-      //   "부산",
-      //   "울산",
-      //   "세종특별자치시",
-      //   "경기도",
-      //   "강원도",
-      //   "충청북도",
-      //   "충청남도",
-      //   "경상북도",
-      //   "전라북도",
-      //   "전라남도",
-      //   "제주도",
-      // ],
-      place: "제주도",
-      period: 0,
-      start_date: "2022-12-20",
-      end_date: "2022-12-20",
+      donames: {
+        1: "서울",
+        2: "인천",
+        3: "대전",
+        4: "대구",
+        5: "광주",
+        6: "부산",
+        7: "울산",
+        8: "세종시",
+        31: "경기도",
+        32: "강원도",
+        33: "충청북도",
+        34: "충청남도",
+        35: "경상북도",
+        36: "경상남도",
+        37: "전라북도",
+        38: "전라남도",
+        39: "제주도",
+      },
+      place: "어디로?",
+      start_date: "2022-11-25",
+      end_date: "2022-11-25",
       mychoices: [
         { name: "멋진숙소1", type: "숙박" },
         { name: "아름다운숙소2", type: "숙박" },
@@ -167,6 +187,21 @@ export default {
     window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
   methods: {
+    addChoice(tour_info) {
+      let newInfo = {
+        name: tour_info.title,
+        type: "기본값",
+        lat: tour_info.mapy,
+        lng: tour_info.mapx,
+      };
+      this.mychoices.push(newInfo);
+    },
+    deleteChoice(delete_name) {
+      console.log(delete_name + "삭제할게");
+      let filtered = this.mychoices.filter((o) => o.name !== delete_name);
+      // console.log(filtered);
+      this.mychoices = filtered;
+    },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },
@@ -268,7 +303,7 @@ export default {
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 
 #main {
-  margin: 50px;
+  margin: 30px;
 }
 #mainrow {
   max-height: 950px;
@@ -278,10 +313,13 @@ export default {
   font-size: 15px;
 }
 #choicediv {
+  display: flex;
+  justify-content: center;
   overflow-y: scroll;
   min-height: 700px;
   max-height: 700px;
 }
+
 .scrollcol {
   max-height: 950px;
 }
@@ -290,8 +328,8 @@ export default {
   overflow-y: scroll;
 }
 .cards {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  min-width: 180px;
+  margin: 20px 20px 10px 0;
 }
 .choice > * {
   /* font-family: "Noto Sans KR", sans-serif; */
@@ -301,7 +339,7 @@ export default {
   padding: 10px 0;
 }
 
-.btn-delete {
+.xbutton {
   float: right;
   background-color: transparent;
   border-style: none;

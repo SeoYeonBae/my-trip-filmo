@@ -15,13 +15,18 @@
     "bootstrap-vue": "^2.23.1",
     "core-js": "^3.8.3",
     "jwt-decode": "^3.1.2",
+    "luxon": "^1.28.0",
     "moment": "^2.29.4",
     "vue": "^2.7.14",
+    "vue-datetime": "^1.0.0-beta.14",
     "vue-open-weather-widget": "^1.0.3",
     "vue-router": "^3.5.1",
+    "vue2-datepicker": "^3.11.0",
     "vuedraggable": "^2.24.3",
+    "vuejs-datepicker": "^1.6.2",
     "vuex": "^3.6.2",
-    "vuex-persistedstate": "^4.1.0"
+    "vuex-persistedstate": "^4.1.0",
+    "weekstart": "^1.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
