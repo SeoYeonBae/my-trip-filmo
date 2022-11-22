@@ -36,11 +36,19 @@
             />
           </div>
           <b-row>
-            <b-button type="button" class="m-1" @click="confirm">로그인</b-button>
-            <b-button type="button" class="m-1" @click="$router.push({ name: 'findpassword' })"
+            <b-button type="button" class="m-1" @click="confirm"
+              >로그인</b-button
+            >
+            <b-button
+              type="button"
+              class="m-1"
+              @click="$router.push({ name: 'findpassword' })"
               >비밀번호 찾기</b-button
             >
-            <b-button type="button" class="m-1 mb-3" @click="$router.push({ name: 'join' })"
+            <b-button
+              type="button"
+              class="m-1 mb-3"
+              @click="$router.push({ name: 'join' })"
               >회원가입</b-button
             >
           </b-row>
@@ -52,6 +60,7 @@
 
 <script>
 import { mapState, mapActions } from "vuex";
+import ChatbotService from "@/store/modules/chatbotService";
 
 const memberStore = "memberStore";
 
@@ -77,6 +86,15 @@ export default {
       if (this.isLogin) {
         await this.getUserInfo(token);
         // console.log("4. confirm() userInfo :: ", this.userInfo);
+        ChatbotService.boot({
+          pluginKey: "ed1fa025-5bce-4243-b9d2-f7d84930428c", //please fill with your plugin key
+          memberId: this.userInfo.id,
+          profile: {
+            name: this.userInfo.name, //fill with user name
+            mobileNumber: this.userInfo.tel, //fill with user phone number
+            email: this.userInfo.email,
+          },
+        });
         this.$router.push({ name: "appMain" });
       }
     },
