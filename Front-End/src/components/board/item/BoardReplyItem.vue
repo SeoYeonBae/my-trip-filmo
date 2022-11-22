@@ -23,7 +23,9 @@
     <hr />
     <b-container flex>
       <b-row class="replydiv" v-for="(reply, idx) in replys" :key="idx">
-        <b-col md="1" id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
+        <b-col md="1" id="profile"
+          ><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img
+        ></b-col>
         <b-col>
           <b-row>
             <b-col md="2" id="userid">{{ reply.user_id }}</b-col>
@@ -32,9 +34,9 @@
           <b-row id="replytime">{{ reply.regist_time }}</b-row>
         </b-col>
         <b-col md="1">
-          <!-- <div v-show="this.userInfo.id == reply.user_id"> -->
-          <b-button type="button" class="btn" @click="deleteReply(reply.idx)">삭제</b-button>
-          <!-- </div> -->
+          <div v-show="userInfo.id == reply.user_id">
+            <b-button type="button" class="btn" @click="deleteReply(reply.idx)">삭제</b-button>
+          </div>
         </b-col>
       </b-row>
     </b-container>
