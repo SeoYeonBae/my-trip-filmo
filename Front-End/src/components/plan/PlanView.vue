@@ -39,16 +39,25 @@
           <b-container>
             <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
             <div class="tab-content mt-2" id="mapcontent">
-              <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
+              <div
+                class="tab-pane fade show active"
+                id="tabpane"
+                role="tabpanel"
+                aria-labelledby="tabpane"
+              >
                 <div class="map_wrap">
                   <div id="map" style="width: 100%; height: 700px"></div>
                   <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
                   <div class="custom_zoomcontrol radius_border">
                     <span @click="zoomIn"
-                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
+                      ><img
+                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+                        alt="확대"
                     /></span>
                     <span @click="zoomOut"
-                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
+                      ><img
+                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
+                        alt="축소"
                     /></span>
                   </div>
                 </div>
@@ -119,25 +128,25 @@ export default {
   },
   data() {
     return {
-      doname: [
-        " ",
-        "서울",
-        "인천",
-        "대전",
-        "대구",
-        "광주",
-        "부산",
-        "울산",
-        "세종특별자치시",
-        "경기도",
-        "강원도",
-        "충청북도",
-        "충청남도",
-        "경상북도",
-        "전라북도",
-        "전라남도",
-        "제주도",
-      ],
+      // doname: [
+      //   " ",
+      //   "서울",
+      //   "인천",
+      //   "대전",
+      //   "대구",
+      //   "광주",
+      //   "부산",
+      //   "울산",
+      //   "세종특별자치시",
+      //   "경기도",
+      //   "강원도",
+      //   "충청북도",
+      //   "충청남도",
+      //   "경상북도",
+      //   "전라북도",
+      //   "전라남도",
+      //   "제주도",
+      // ],
       place: "제주도",
       period: 0,
       start_date: "2022-12-20",
@@ -168,7 +177,8 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
