@@ -26,7 +26,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.vue.board.model.service.BoardService;
+import com.ssafy.vue.board.model.service.BoardServiceImpl;
 import com.ssafy.vue.do17.controller.DoController;
+import com.ssafy.vue.reply.service.ReplyService;
 import com.ssafy.vue.user.model.UserDto;
 import com.ssafy.vue.user.model.service.JwtServiceImpl;
 import com.ssafy.vue.user.model.service.UserService;
@@ -52,7 +55,7 @@ public class UserController extends HttpServlet {
 	public JavaMailSender javaMailSender;
 	
 	private UserService userService;
-
+	
 	@Autowired
 	public UserController(UserService userService) {
 		super();
@@ -218,8 +221,11 @@ public class UserController extends HttpServlet {
 	// 회원 탈퇴
 	@DeleteMapping("/{id}")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") String userId) {
+		logger.debug("탈퇴 아이디 : " + userId);
 		try {
+			userService.offFk();
 			String cnt = userService.deleteUser(userId) + "";
+			userService.onFk();
 			if("1".equals(cnt))
 				return new ResponseEntity<String>(cnt, HttpStatus.OK);
 			else

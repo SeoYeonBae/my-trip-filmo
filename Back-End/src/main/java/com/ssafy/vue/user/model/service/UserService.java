@@ -26,4 +26,7 @@ public interface UserService {
 	
 	public void deleRefreshToken(String userid) throws Exception;
 
+	public void offFk() throws Exception;
+	
+	public void onFk() throws Exception;
 }

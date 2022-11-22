@@ -77,13 +77,17 @@
 		#{password}, #{name}, #{email}, #{tel}, #{isManager})
 	</insert>
 
-<!-- 		SET foreign_key_checks = 0;
-		SET foreign_key_checks = 1; -->
 	<delete id="deleteUser" parameterType="string">
-
 		delete from users
 		where user_id = #{userId};
-
 	</delete>
+	
+	<select id="offFk">
+		SET foreign_key_checks = 0;
+	</select>
+
+	<select id="onFk">
+		SET foreign_key_checks = 1;
+	</select>
 
 </mapper>
