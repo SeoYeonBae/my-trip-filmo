@@ -12,8 +12,8 @@
           <b-tooltip id="infotooltip" target="infohelp" placement="bottom">
             <p>
               <strong>사용자 이름</strong><br />
-              서비스를 이용하려면 사용자의 이름 확인이 필요합니다. 이름 외에 연락처, 이메일 등의
-              정보가 변경되었다면 수정도 할 수 있습니다.
+              서비스를 이용하려면 사용자의 이름 확인이 필요합니다. 이름 외에
+              연락처, 이메일 등의 정보가 변경되었다면 수정도 할 수 있습니다.
             </p>
             <p>
               <strong>연락처 이메일</strong><br />
@@ -21,14 +21,19 @@
             </p>
             <p>
               <strong>본인확인 이메일</strong><br />
-              비밀번호 찾기, 로그인이 안되는 경우 등 본인확인이 필요한 경우 사용합니다.
+              비밀번호 찾기, 로그인이 안되는 경우 등 본인확인이 필요한 경우
+              사용합니다.
             </p>
           </b-tooltip>
         </b-col>
       </b-row>
       <b-row>
         <b-col md="1" class="p-0">
-          <font-awesome-icon icon="fa-regular fa-face-smile" class="fa-4x" />
+          <font-awesome-icon
+            icon="fa-solid fa-circle-user"
+            color="grey"
+            class="fa-4x"
+          />
         </b-col>
         <b-col>
           <h4 class="font-weight-bold">{{ userInfo.name }}</h4>
@@ -47,7 +52,9 @@
           <input v-model="user.id" class="input-item" type="text" />
         </div>
         <div class="input-box mt-4">
-          <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">비밀번호</h5>
+          <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">
+            비밀번호
+          </h5>
           <input
             v-model="user.password"
             class="input-item"
@@ -60,7 +67,9 @@
           </p>
         </div>
         <div class="input-box mt-4">
-          <h5 class="input-title" :class="{ 'title-danger': telHasError }">핸드폰</h5>
+          <h5 class="input-title" :class="{ 'title-danger': telHasError }">
+            핸드폰
+          </h5>
           <input
             v-model="user.tel"
             class="input-item"
@@ -68,10 +77,14 @@
             placeholder="예) 010-1234-5678"
             :class="{ 'input-danger': telHasError }"
           />
-          <p v-show="valid.tel" class="input-error">핸드폰 번호를 정확히 입력해주세요.</p>
+          <p v-show="valid.tel" class="input-error">
+            핸드폰 번호를 정확히 입력해주세요.
+          </p>
         </div>
         <div class="input-box mt-4">
-          <h5 class="input-title" :class="{ 'title-danger': emailHasError }">이메일 주소</h5>
+          <h5 class="input-title" :class="{ 'title-danger': emailHasError }">
+            이메일 주소
+          </h5>
           <input
             v-model="user.email"
             class="input-item"
@@ -79,12 +92,18 @@
             placeholder="예) juyeon@juyeon.co.kr"
             :class="{ 'input-danger': emailHasError }"
           />
-          <p v-show="valid.email" class="input-error">이메일 주소를 정확히 입력해주세요.</p>
+          <p v-show="valid.email" class="input-error">
+            이메일 주소를 정확히 입력해주세요.
+          </p>
         </div>
         <hr class="my-4" />
         <b-row>
-          <b-button class="btn mr-3 float-left" @click="checkValue">정보수정</b-button>
-          <b-button class="btn float-left" @click="userDelete">회원탈퇴</b-button>
+          <b-button class="btn mr-3 float-left" @click="checkValue"
+            >정보수정</b-button
+          >
+          <b-button class="btn float-left" @click="userDelete"
+            >회원탈퇴</b-button
+          >
         </b-row>
       </div>
     </b-jumbotron>
@@ -195,7 +214,8 @@ export default {
     },
     checkEmail() {
       // 이메일 형식 검사
-      const validateEmail = /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
+      const validateEmail =
+        /^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\.[A-Za-z0-9\\-]+/;
 
       if (!validateEmail.test(this.user.email)) {
         this.valid.email = true;
@@ -207,7 +227,8 @@ export default {
     },
     checkPassword() {
       // 비밀번호 형식 검사(영문, 숫자, 특수문자)
-      const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
+      const validatePassword =
+        /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/;
 
       if (!validatePassword.test(this.user.password)) {
         this.valid.password = true;
