@@ -9,5 +9,7 @@
 		values (#{article_no},#{user_id},#{content},now())
 	</insert>
 	
-	
+	<select id="list" parameterType="int" resultType="replyDto">
+		select * from reply where article_no = #{article_no}
+	</select>
 </mapper>
