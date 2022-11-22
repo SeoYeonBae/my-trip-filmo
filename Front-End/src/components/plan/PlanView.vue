@@ -6,14 +6,14 @@
           <h3 id="region">{{ place }}</h3>
           <h3 id="period">3 DAY</h3>
           <b-row class="calrow"
-            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-1" />
+            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-2" />
             <p class="my-auto">시작일&nbsp;</p>
-            <datetime type="datetime" v-model="start_date" use12-hour class="cal"></datetime>
+            <datetime type="date" v-model="start_date" use12-hour class="cal"></datetime>
           </b-row>
           <b-row class="calrow"
-            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-1" />
+            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-2" />
             <p class="my-auto">종료일&nbsp;</p>
-            <datetime type="datetime" v-model="end_date" use12-hour class="cal"></datetime>
+            <datetime type="date" v-model="end_date" use12-hour class="cal"></datetime>
           </b-row>
         </div>
         <hr />
@@ -137,14 +137,15 @@ export default {
   watch: {
     mychoices: function () {
       console.log(this.mychoices[0].name);
+      // ++ 리스트의 마커 선 긋는 함수 추가하기
     },
     sidoCode: function () {
       this.place = this.donames[this.sidoCode];
       // let code = this.sidoCode;
       // console.log(this.donames[1]);
     },
-    period: function () {
-      console.log(this.period);
+    start_date: function () {
+      console.log(this.start_date);
     },
   },
   data() {
@@ -319,7 +320,6 @@ export default {
   min-height: 700px;
   max-height: 700px;
 }
-
 .scrollcol {
   max-height: 950px;
 }
