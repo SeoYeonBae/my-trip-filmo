@@ -14,6 +14,7 @@ public interface BoardMapper {
 	int countArticle() throws SQLException;
 	int writeArticle(BoardDto boardDto) throws SQLException;
 	List<BoardDto> listArticle(Map<String, Object> map) throws SQLException;
+//	List<BoardDto> listById(Map<String, Object> map) throws SQLException;  유저 아이디로 내가 쓴글 받아오기
 	List<BoardDto> preview(int num) throws SQLException;
 	BoardDto getArticle(int articleNo) throws SQLException;
 	void updateHit(int articleNo) throws SQLException;

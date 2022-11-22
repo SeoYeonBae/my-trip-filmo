@@ -39,9 +39,9 @@ public class ReplyServiceImpl implements ReplyService {
 	}
 
 	@Override
-	public List<ReplyDto> list_by_id(String user_id) throws Exception {
+	public List<ReplyDto> listById(String user_id) throws Exception {
 		// TODO Auto-generated method stub
-		return replyMapper.list_by_id(user_id);
+		return replyMapper.listById(user_id);
 	}
 
 	@Override

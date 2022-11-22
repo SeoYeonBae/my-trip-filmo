@@ -17,4 +17,7 @@
 		delete from reply where idx = #{idx}
 	</delete>
 	
+	<select id="listById"  parameterType="String"  resultType="replyDto">		
+		select * from reply where user_id = #{user_id}
+	</select>
 </mapper>
