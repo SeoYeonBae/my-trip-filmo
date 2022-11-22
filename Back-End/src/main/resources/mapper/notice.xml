@@ -69,10 +69,10 @@
 		where article_no = #{artcielNo}
 	</delete>
 	
-	<update id="modifyArticle" parameterType="map">
+	<update id="modifyArticle" parameterType="noticeDto">
 		update notice
 		set subject = #{subject}, content = #{content}
-		where article_no = #{articleno}
+		where article_no = #{articleNo}
 	</update>
 	
 		 

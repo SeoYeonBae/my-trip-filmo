@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show variant="warning"><h3>핫플 자랑하기</h3></b-alert>
+        <div><h3>핫플 자랑하기</h3></div>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -12,7 +12,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
+        <b-table hover :items="articles" :fields="fields" @row-clicked="viewArticle">
           <template #cell(subject)="data">
             <router-link :to="{ name: 'boardview', params: { articleno: data.item.articleNo } }">
               {{ data.item.subject }}
@@ -63,7 +63,14 @@ export default {
 </script>
 
 <style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
+
+a {
+  text-decoration: none;
+  color: black;
+}
 h3 {
+  font-family: "Noto Sans KR", sans-serif;
   text-align: center;
 }
 .tdClass {
@@ -75,7 +82,7 @@ h3 {
   text-align: left;
 }
 button {
-  background-color: #f8c5b4;
+  background-color: #dfe4ff;
   border: 0;
   color: black;
   padding-left: 16px;
@@ -84,7 +91,7 @@ button {
   margin-bottom: 10px;
 }
 button:hover {
-  background-color: #f8c5b4;
+  background-color: rgb(203, 209, 255);
   color: white;
 }
 </style>

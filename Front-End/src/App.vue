@@ -12,21 +12,28 @@
 import TheHeader from "@/components/common/TheHeader";
 import TheFooter from "./components/common/TheFooter";
 
+import { mapState } from "vuex";
+
+const memberStore = "memberStore";
+
 export default {
   name: "App",
   components: {
     TheHeader,
     TheFooter,
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
 };
 </script>
 
 <style scoped>
 * {
-  font-family: "Gowun Dodum", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 #maincontentview {
   height: auto;
-  min-height: 800px;
+  min-height: 650px;
 }
 </style>

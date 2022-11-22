@@ -1,37 +1,56 @@
 <template>
-  <b-container fluid>
+  <b-container fluid style="margin-top: 120px">
     <b-row>
       <b-col md="3" class="text-center">
         <div>
           <b-row id="logo">
-            <font-awesome-icon icon="fa-regular fa-address-card" class="fa-2x" />
+            <font-awesome-icon
+              icon="fa-regular fa-address-card"
+              class="fa-2x"
+            />
             <h4>&nbsp;my page</h4>
           </b-row>
         </div>
         <div id="usericon">
-          <font-awesome-icon icon="fa-regular fa-face-smile" class="fa-8x" />
+          <font-awesome-icon
+            icon="fa-solid fa-circle-user"
+            color="grey"
+            class="fa-8x"
+          />
           <h4 class="mt-4 mb-3">{{ userInfo.name }}</h4>
           <h5 class="mb-4">id: {{ userInfo.id }}</h5>
         </div>
         <hr />
         <div>
           <b-row>
-            <b-button id="btnprofile" class="mb-3" @click="$router.push({ name: 'userinfo' })"
+            <b-button
+              id="btnprofile"
+              class="mb-3"
+              @click="$router.push({ name: 'userinfo' })"
               >내 프로필</b-button
             >
           </b-row>
           <b-row>
-            <b-button id="btnplanlist" @click="$router.push({ name: 'planlist' })" class="mb-4"
+            <b-button
+              id="btnplanlist"
+              @click="$router.push({ name: 'planlist' })"
+              class="mb-4"
               >여행 계획 관리</b-button
             >
           </b-row>
           <b-row>
-            <b-button id="myarticlelist" @click="$router.push({ name: 'articlelist' })" class="mb-4"
+            <b-button
+              id="myarticlelist"
+              @click="$router.push({ name: 'myarticlelist' })"
+              class="mb-4"
               >내가 쓴 글</b-button
             >
           </b-row>
           <b-row>
-            <b-button id="myreplylist" @click="$router.push({ name: 'myreplylist' })" class="mb-4"
+            <b-button
+              id="myreplylist"
+              @click="$router.push({ name: 'myreplylist' })"
+              class="mb-4"
               >내가 쓴 댓글</b-button
             >
           </b-row>

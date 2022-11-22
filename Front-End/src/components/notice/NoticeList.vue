@@ -7,14 +7,16 @@
     </b-row>
     <b-row class="mb-1">
       <b-col class="text-right">
-        <b-button @click="moveWrite()">글쓰기</b-button>
+        <div v-show="this.userInfo.id == 'admin'">
+          <b-button @click="moveWrite()">글쓰기</b-button>
+        </div>
       </b-col>
     </b-row>
     <b-row>
       <b-col>
         <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
           <template #cell(subject)="data">
-            <router-link :to="{ name: 'noticeview', params: { articleno: data.item.articleno } }">
+            <router-link :to="{ name: 'noticeview', params: { articleno: data.item.articleNo } }">
               {{ data.item.subject }}
             </router-link>
           </template>
@@ -26,9 +28,15 @@
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 const api = apiInstance();
+const memberStore = "memberStore";
+
 export default {
   name: "NoticeList",
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   data() {
     return {
       articles: [],
@@ -46,10 +54,17 @@ export default {
   },
   methods: {
     fetchBoard() {
-      api.get(`/notice/list`).then(({ data }) => console.log(data.list));
+      api.get(`/notice/list`).then(({ data }) => (this.articles = data.list));
     },
-    viewArticle() {},
-    moveWrite() {},
+    viewArticle(article) {
+      this.$router.push({
+        name: "noticeview",
+        params: { articleno: article.articleNo },
+      });
+    },
+    moveWrite() {
+      this.$router.push({ name: "noticewrite" });
+    },
   },
 };
 </script>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
 import com.ssafy.vue.notice.model.NoticeDto;
+import com.ssafy.vue.reply.service.ReplyService;
 import com.ssafy.vue.util.PageNavigation;
 
 import io.swagger.annotations.ApiOperation;
@@ -34,11 +35,13 @@ public class BoardController extends HttpServlet {
 	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	private BoardService boardService;
+	private ReplyService replyService;
 
 	@Autowired
-	public BoardController(BoardService boardService) {
+	public BoardController(BoardService boardService, ReplyService replyService) {
 		super();
 		this.boardService = boardService;
+		this.replyService = replyService;
 	}
 
 	@GetMapping("/preview")
@@ -112,6 +115,40 @@ public class BoardController extends HttpServlet {
 		}
 	}
 
+	@GetMapping("/list/{id}")
+	public ResponseEntity<?> myList(@PathVariable("id") String id) {
+		logger.info("myListArticle - 호출");
+		try {
+			Map<String, String> map = new HashMap<>();
+			map.put("pgno", "1");
+			map.put("key", "");
+			map.put("word", "");
+			map.put("id", id);
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			List<BoardDto> list = boardService.myListArticle(map);	// JSON Array
+//			PageNavigation pageNavigation = boardService.makePageNavigation(map);
+			PageNavigation pageNavigation = new PageNavigation();
+			
+			logger.debug("total board : {} ", list);
+//			logger.debug("pageNavigation : " + pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
+			
+			param.put("list", list);
+//			param.put("pageNavigation", pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
+			
+			if(list != null && !list.isEmpty()) {
+				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
+	}
+	
 	@PostMapping("/register")
 	public ResponseEntity<?> userRegister(@RequestBody BoardDto boardDto) {
 		logger.debug("boardRegister boardDto : {}", boardDto);
@@ -132,6 +169,7 @@ public class BoardController extends HttpServlet {
 	public ResponseEntity<String> deleteArticle(@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleno) throws Exception {
 		logger.info("deleteArticle - 호출");
 		boardService.deleteArticle(articleno);
+		replyService.deleteAll(articleno);
 		if (articleno != 0) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}

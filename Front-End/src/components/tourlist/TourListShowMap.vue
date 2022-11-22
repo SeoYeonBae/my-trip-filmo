@@ -2,7 +2,12 @@
   <b-container>
     <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
     <div class="tab-content mt-2" id="mapcontent">
-      <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
+      <div
+        class="tab-pane fade show active"
+        id="tabpane"
+        role="tabpanel"
+        aria-labelledby="tabpane"
+      >
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 700px"></div>
           <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
@@ -36,7 +41,12 @@ export default {
     TourListOptionBar,
   },
   computed: {
-    ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
+    ...mapState(tourListStore, [
+      "sidoCode",
+      "gugunCode",
+      "contentTypeId",
+      "tourList",
+    ]),
   },
   data() {
     return {
@@ -44,10 +54,13 @@ export default {
       markers: [],
       latitude: 0,
       longitude: 0,
+      overlay: null,
     };
   },
   mounted() {
-    window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
+    window.kakao && window.kakao.maps
+      ? this.initMap()
+      : this.addKakaoMapScript();
   },
   methods: {
     zoomIn() {
@@ -83,16 +96,19 @@ export default {
       var positions = [];
       this.tourList.forEach((tour) => {
         let addr = tour.addr1;
-        let image = tour.image;
+        let image;
+        if (tour.image) image = tour.image;
+        else image = "/defaultImage.jpg";
         let mapx = tour.mapx;
         let mapy = tour.mapy;
         let tel = tour.tel;
         let title = tour.title;
         let zipcode = tour.zipcode;
         positions.push({
-          content: `<div class="wrap">
-        <div class="info bg-light">
-          <div class="title">${title}</div>
+          content: `<div class="wrap" style="border-radius: 5px; margin-top: 3%;">
+        <div class="info" style="border-radius: 5px; background-color: white;">
+          <div class="title" style=" border-radius: 5px; background-color: #ffdbdb; padding-left:5px; padding-right:5px;">${title}
+         </div>
           <div class="body">
             <div class="img">
               <img src="${image}" width="73" height="70">
@@ -128,8 +144,8 @@ export default {
           map: this.map,
           position: marker.getPosition(),
         });
-        overlay.setMap(null);
 
+        overlay.setMap(null);
         // 마커를 클릭했을 때 커스텀 오버레이를 표시합니다
         kakao.maps.event.addListener(marker, "mouseover", () => {
           overlay.setMap(this.map);
@@ -184,7 +200,7 @@ export default {
 }
 
 /* map overlay */
-.wrap {
+#map >>> .wrap {
   position: absolute;
   left: 0;
   bottom: 40px;
@@ -193,9 +209,9 @@ export default {
   margin-left: -144px;
   text-align: left;
   overflow: hidden;
-  font-size: 12px;
-  font-family: "Malgun Gothic", dotum, "돋움", sans-serif;
+  font-size: 18px;
   line-height: 1.5;
+  text-align: center;
 }
 .wrap * {
   padding: 0;
@@ -214,7 +230,7 @@ export default {
   border: 0;
   box-shadow: 0px 1px 2px #888;
 }
-.info .title {
+.info >>> .title {
   padding: 5px 0 0 10px;
   min-height: 30px;
   background: rgb(208, 222, 240);

@@ -78,4 +78,13 @@ public class UserServiceImpl implements UserService {
 		return userMapper.deleteUser(userId);
 	}
 
+	@Override
+	public void offFk() throws Exception {
+		userMapper.offFk();
+	}
+
+	@Override
+	public void onFk() throws Exception {
+		userMapper.onFk();
+	}
 }

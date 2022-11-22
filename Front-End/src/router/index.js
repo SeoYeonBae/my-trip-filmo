@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import AppMain from "@/views/AppMain";
-import RecommendView from "@/components/recommend/RecommendView";
-import PlanView from "@/components/plan/PlanView";
 
 Vue.use(VueRouter);
 
@@ -15,12 +13,12 @@ const routes = [
   {
     path: "/recommend/:typeid",
     name: "recommend",
-    component: RecommendView,
+    component: () => import("@/components/recommend/RecommendView"),
   },
   {
     path: "/plan",
     name: "plan",
-    component: PlanView,
+    component: () => import("@/views/AppPlan"),
   },
   {
     path: "/qna",
@@ -100,8 +98,13 @@ const routes = [
       },
       {
         path: "articlelist",
-        name: "articlelist",
+        name: "myarticlelist",
         component: () => import("@/components/user/mypage/MyPageArticleList"),
+      },
+      {
+        path: "replylist",
+        name: "myreplylist",
+        component: () => import("@/components/user/mypage/MyPageReplyList"),
       },
     ],
   },

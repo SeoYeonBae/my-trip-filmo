@@ -33,6 +33,14 @@
 		order by article_no desc
 		limit #{start}, #{listsize}
 	</select>	
+
+	<select id="myListArticle" parameterType="map" resultMap="boardAll">
+		select article_no, user_id, subject, content, hit, register_time
+		from board
+		where user_id = #{id}
+		order by article_no desc
+		limit #{start}, #{listsize}
+	</select>	
 	
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time)

@@ -1,29 +1,63 @@
 <template>
   <b-col md="8">
-    <b-jumbotron text-variant="black">
-      <b-card-group deck v-for="(article, index) in this.articles" :key="index">
-        <b-card class="mb-4">
-          <b-card-text>{{ article.subject }}</b-card-text>
-        </b-card>
-      </b-card-group>
-    </b-jumbotron>
+    <div class="text-center my-5">
+      <h5 class="mb-0">내가 쓴 글</h5>
+    </div>
+    <b-table
+      hover
+      :items="articles"
+      :fields="fields"
+      @row-clicked="viewArticle"
+    >
+      <template #cell(subject)="data">
+        <router-link
+          :to="{
+            name: 'boardview',
+            params: { articleno: data.item.articleNo },
+          }"
+        >
+          {{ data.item.subject }}
+        </router-link>
+      </template>
+    </b-table>
   </b-col>
 </template>
 
 <script>
 import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
 
 const api = apiInstance();
+const memberStore = "memberStore";
 
 export default {
   name: "MyPageArticleList",
   data() {
     return {
       articles: [],
+      fields: [
+        { key: "subject", label: "제목", tdClass: "tdSubject" },
+        { key: "registerTime", label: "작성일", tdClass: "tdClass" },
+        { key: "hit", label: "조회수", tdClass: "tdClass" },
+      ],
     };
   },
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
   mounted() {
-    api.get(`/board/list`).then(({ data }) => (this.articles = data.list));
+    api.get(`/board/list/${this.userInfo.id}`).then(({ data }) => {
+      this.articles = data.list;
+      console.log(this.articles);
+    });
+  },
+  methods: {
+    viewArticle(article) {
+      this.$router.push({
+        name: "boardview",
+        params: { articleno: article.articleNo },
+      });
+    },
   },
 };
 </script>
@@ -39,10 +73,5 @@ export default {
 }
 .col-md-8 {
   padding-top: 3%;
-}
-.jumbotron {
-  border: 2px solid #ffd5e5;
-  border-radius: 15px;
-  background-color: transparent;
 }
 </style>

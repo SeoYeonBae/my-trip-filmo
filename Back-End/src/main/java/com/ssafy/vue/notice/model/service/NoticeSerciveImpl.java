@@ -46,6 +46,7 @@ public class NoticeSerciveImpl implements NoticeService {
 		int naviSize = SizeConstant.NAVIGATION_SIZE;
 		int sizePerPage = SizeConstant.LIST_SIZE;
 		int currentPage = Integer.parseInt(map.get("pgno"));
+		
 		pageNavigation.setCurrentPage(currentPage);
 		pageNavigation.setNaviSize(naviSize);
 		Map<String, Object> param = new HashMap<String, Object>();
@@ -90,8 +91,8 @@ public class NoticeSerciveImpl implements NoticeService {
 	}
 
 	@Override
-	public void modifyArticle(Map<String, String> map) throws Exception {
-		noticeMapper.modifyArticle(map);
+	public void modifyArticle(NoticeDto noticeDto) throws Exception {
+		noticeMapper.modifyArticle(noticeDto);
 		
 	}
 
