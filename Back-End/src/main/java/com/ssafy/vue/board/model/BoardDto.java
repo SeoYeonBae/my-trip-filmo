@@ -1,5 +1,7 @@
 package com.ssafy.vue.board.model;
 
+import java.util.List;
+
 public class BoardDto {
 	
 	private int articleNo;
@@ -8,6 +10,14 @@ public class BoardDto {
 	private String content;
 	private int hit;
 	private String registerTime;
+	private List<FileInfoDto> fileInfos;
+	
+	public List<FileInfoDto> getFileInfos() {
+		return fileInfos;
+	}
+	public void setFileInfos(List<FileInfoDto> fileInfos) {
+		this.fileInfos = fileInfos;
+	}
 	public int getArticleNo() {
 		return articleNo;
 	}

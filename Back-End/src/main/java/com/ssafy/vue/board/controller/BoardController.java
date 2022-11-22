@@ -7,6 +7,7 @@ import javax.servlet.http.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
@@ -149,18 +152,34 @@ public class BoardController extends HttpServlet {
 		}
 	}
 	
+//	@PostMapping("/register")
+//	public void userRegister(@RequestBody BoardDto boardDto) {
+//		logger.info("boardRegister boardDto : {}", map);
+//		logger.info("boardRegister boardDto : {}", map.get("fileInfos"));
+//		try {
+//			boardService.writeArticle(boardDto);
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("pgno", "1");
+//			List<BoardDto> list = boardService.listArticle(map);
+//			return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
+
 	@PostMapping("/register")
-	public ResponseEntity<?> userRegister(@RequestBody BoardDto boardDto) {
-		logger.debug("boardRegister boardDto : {}", boardDto);
-		try {
-			boardService.writeArticle(boardDto);
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("pgno", "1");
-			List<BoardDto> list = boardService.listArticle(map);
-			return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
+	public void userRegister(@Value("${file.path.upload-files}") String filePath, @RequestBody BoardDto boardDto, @RequestParam("fileInfos") MultipartFile[] files) {
+		logger.info("boardRegister boardDto : {}", boardDto);
+		logger.info("MultipartFile.isEmpty : {}", files[0].isEmpty());
+//		try {
+//			boardService.writeArticle(boardDto);
+//			Map<String, String> map = new HashMap<String, String>();
+//			map.put("pgno", "1");
+//			List<BoardDto> list = boardService.listArticle(map);
+//			return new ResponseEntity<List<BoardDto>>(list, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
 	}
 	
 
