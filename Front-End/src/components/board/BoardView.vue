@@ -1,13 +1,8 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show variant="warning"><h3>글보기</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
       <b-col class="text-left">
-        <b-button @click="moveList">목록</b-button>
+        <b-button size="sm" @click="moveList">목록</b-button>
       </b-col>
       <b-col class="text-right">
         <div v-show="this.article.userId == this.userInfo.id">
@@ -34,9 +29,6 @@
     <b-row>
       <board-reply-item :articleno="`${article.articleNo}`"></board-reply-item>
     </b-row>
-    <b-row>
-      <reply-list></reply-list>
-    </b-row>
   </b-container>
 </template>
 
@@ -44,7 +36,6 @@
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 import BoardReplyItem from "@/components/board/item/BoardReplyItem.vue";
-// import ReplyList from "@/components/board/ReplyList.vue";
 
 const api = apiInstance();
 const memberStore = "memberStore";
@@ -63,7 +54,6 @@ export default {
   },
   components: {
     BoardReplyItem,
-    // ReplyList,
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
@@ -103,15 +93,16 @@ h3 {
 }
 button {
   margin-left: 30px;
-  background-color: #f8c5b4;
+  background-color: #dfe4ff;
   border: 0;
   color: black;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 30px;
   width: 100px;
 }
 button:hover {
-  background-color: #f8c5b4;
+  background-color: #dfe4ff;
   color: white;
 }
 </style>

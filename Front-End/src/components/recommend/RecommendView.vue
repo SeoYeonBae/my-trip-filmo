@@ -14,34 +14,22 @@
           <b-img id="image" class="mt-4" :src="placeInfo.image" alt="이미지" width="100%" />
         </div>
         <div v-else>
-          <b-img
-            id="image"
-            class="mt-4"
-            :src="require('@/assets/img/defaultImage.jpg')"
-            alt="이미지"
-            width="100%"
-          />
+          <b-img id="image" class="mt-4" :src="require('@/assets/img/defaultImage.jpg')" alt="이미지" width="100%" />
         </div>
       </b-col>
       <b-col md="6" class="map_wrap">
         <b-row id="map" class="radius_border"></b-row>
         <div class="custom_zoomcontrol radius_border">
-          <span
-            ><img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-              alt="확대"
+          <span @click="zoomIn"
+            ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
           /></span>
-          <span
-            ><img
-              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-              alt="축소"
+          <span @click="zoomOut"
+            ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
           /></span>
         </div>
         <b-row class="m-4">
           <b-col class="recommend-col">
-            <b-button id="btn recommend" class="fs-6" @click="newRecommend"
-              >새로운 추천받기</b-button
-            >
+            <b-button id="btn recommend" class="fs-6" @click="newRecommend">새로운 추천받기</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -90,18 +78,17 @@ export default {
       // '새로운 추천받기' 버튼 클릭 감지
       this.isBtnClicked = true;
     },
-    ZoomIn() {
-      alert("확대");
+    zoomIn() {
+      this.map.setLevel(this.map.getLevel() - 1);
     },
-    ZoomOut() {
-      alert("축소");
+    zoomOut() {
+      this.map.setLevel(this.map.getLevel() + 1);
     },
     addKakaoMapScript() {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {

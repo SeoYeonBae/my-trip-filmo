@@ -87,7 +87,7 @@
 
 <script>
 import draggable from "vuedraggable";
-import TourListMap from "@/components/tourlist/TourListShowMap.vue";
+// import TourListMap from "@/components/tourlist/TourListShowMap.vue";
 
 export default {
   name: "PlanView",
