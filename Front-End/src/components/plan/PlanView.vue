@@ -1,10 +1,12 @@
 <template>
   <div id="main">
     <b-row id="mainrow">
-      <b-col md="2" class="choice shadow p-3 bg-body rounded text-center">
-        <h3 id="region">{{ place }}</h3>
-        <h3 id="period">3 DAY</h3>
-        <p>2022.12.20 ~ 2022.12.21</p>
+      <b-col md="2" class="shadow p-3 bg-body rounded text-center">
+        <div class="choice">
+          <h3 id="region">{{ place }}</h3>
+          <h3 id="period">3 DAY</h3>
+          <p>2022.12.20 ~ 2022.12.21</p>
+        </div>
         <hr />
         <div id="choicediv">
           <draggable v-model="mychoices">
@@ -100,12 +102,42 @@ export default {
     ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
   },
   watch: {
+    // 디버깅용
     mychoices: function () {
       console.log(this.mychoices[0].name);
+    },
+    sidoCode: function () {
+      let doname;
+      switch (this.sidoCode) {
+        case 1:
+          doname = "서울";
+          break;
+        case 2:
+      }
+      this.place = this.sidoCode;
     },
   },
   data() {
     return {
+      doname: [
+        " ",
+        "서울",
+        "인천",
+        "대전",
+        "대구",
+        "광주",
+        "부산",
+        "울산",
+        "세종특별자치시",
+        "경기도",
+        "강원도",
+        "충청북도",
+        "충청남도",
+        "경상북도",
+        "전라북도",
+        "전라남도",
+        "제주도",
+      ],
       place: "제주도",
       period: 0,
       start_date: "2022-12-20",
@@ -237,8 +269,8 @@ export default {
 }
 #choicediv {
   overflow-y: scroll;
-  min-height: 950px;
-  max-height: 950px;
+  min-height: 700px;
+  max-height: 700px;
 }
 .scrollcol {
   max-height: 950px;
