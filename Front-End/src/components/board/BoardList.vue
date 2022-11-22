@@ -63,13 +63,14 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
+
 a {
   text-decoration: none;
   color: black;
 }
 h3 {
-  font-family: "Do Hyeon", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
   text-align: center;
 }
 .tdClass {

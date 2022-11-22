@@ -30,7 +30,7 @@ export default {
 
 <style scoped>
 * {
-  font-family: "Gowun Dodum", sans-serif;
+  font-family: "Noto Sans KR", sans-serif;
 }
 #maincontentview {
   height: auto;
