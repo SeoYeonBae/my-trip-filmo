@@ -12,4 +12,9 @@
 	<select id="list" parameterType="int" resultType="replyDto">
 		select * from reply where article_no = #{article_no}
 	</select>
+	
+	<delete id="delete"  parameterType="int">
+		delete from reply where idx = #{idx}
+	</delete>
+	
 </mapper>

@@ -23,12 +23,18 @@
     <b-container flex>
       <b-row class="replydiv" v-for="(reply, idx) in replys" :key="idx">
         <b-col id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
-        <b-col md="11">
+        <b-col md="9">
           <b-row>
             <b-col md="2" id="userid">{{ reply.user_id }}</b-col>
             <b-col md="10" id="content">{{ reply.content }}</b-col>
           </b-row>
           <b-row id="replytime">{{ reply.regist_time }}</b-row>
+        </b-col>
+        <!-- <div :class="{ showbtn: isMatch }"> -->
+        <b-col md="2">
+          <!-- <div v-show="this.userInfo.id == reply.user_id"> -->
+          <b-button type="button" class="btn" @click="deleteReply(reply.idx)">삭제</b-button>
+          <!-- </div> -->
         </b-col>
       </b-row>
     </b-container>
@@ -49,9 +55,11 @@ export default {
   },
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+    // replyIdMatch();
   },
   data() {
     return {
+      isMatch: false,
       replys: [],
       newReply: {
         user_id: "",
@@ -66,6 +74,7 @@ export default {
       console.log(this.userInfo.id);
       this.setReplyInfo();
       this.getReplys();
+      // this.showBtn();
     },
   },
   methods: {
@@ -93,6 +102,16 @@ export default {
       this.newReply.user_id = this.userInfo.id;
       this.newReply.article_no = this.articleno;
     },
+    deleteReply(idx) {
+      api.delete(`/reply/${idx}`).then(({ data }) => {
+        alert(idx + "idx 댓글을 삭제합니다");
+
+        let msg = " 문제가 발생하였습니다.";
+        if (data === "success") msg = "댓글 삭제가 완료되었습니다.";
+        alert(msg);
+        this.getReplys();
+      });
+    },
     onSubmit(event) {
       event.preventDefault();
 
@@ -103,6 +122,9 @@ export default {
     moveList() {
       this.$router.push({ name: "boardlist" });
     },
+    // replyIdMatch(){
+    //   if(this.userInfo.id == this.repl)
+    // },
   },
 };
 </script>
@@ -148,4 +170,7 @@ img {
   width: 40px;
   height: 40px;
 }
+/* .show {
+  display: block;
+} */
 </style>
