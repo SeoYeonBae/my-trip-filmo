@@ -21,7 +21,7 @@
       </b-form>
     </b-container>
     <b-container flex>
-      <b-row class="replydiv" v-for="reply in replys" :key="reply.idx">
+      <b-row class="replydiv" v-for="(reply, idx) in replys" :key="idx">
         <b-col id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
         <b-col md="11">
           <b-row>
