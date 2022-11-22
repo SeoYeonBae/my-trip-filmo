@@ -12,7 +12,11 @@
 	<select id="list" parameterType="int" resultType="replyDto">
 		select * from reply where article_no = #{article_no}
 	</select>
-	
+
+	<select id="myList" parameterType="String" resultType="replyDto">
+		select * from reply where user_id = #{id}
+	</select>
+
 	<delete id="delete"  parameterType="int">
 		delete from reply where idx = #{idx}
 	</delete>

@@ -11,7 +11,7 @@ import com.ssafy.vue.reply.model.ReplyDto;
 public interface ReplyMapper {
 	void regist(ReplyDto replyDto) throws SQLException;
 	List<ReplyDto> list(int article_no) throws SQLException;
-	List<ReplyDto> list_by_id(String user_id) throws SQLException;
+	List<ReplyDto> myList(String user_id) throws SQLException;
 	void modify(ReplyDto replyDto) throws SQLException;
 	void delete(int idx) throws SQLException;
 	void deleteAll(int article_no) throws SQLException;

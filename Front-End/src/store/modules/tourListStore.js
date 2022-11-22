@@ -6,8 +6,8 @@ const houseStore = {
     sidoCode: 0,
     gugunCode: 0,
     contentTypeId: 0,
-    sidos: [{ value: null, text: "선택하세요" }],
-    guguns: [{ value: null, text: "선택하세요" }],
+    sidos: [{ value: null, text: "우리나라의" }],
+    guguns: [{ value: null, text: "이곳으로" }],
     tourList: [],
     mapShow: false,
     imageShow: false,
@@ -15,10 +15,10 @@ const houseStore = {
   getters: {},
   mutations: {
     CLEAR_SIDO_LIST(state) {
-      state.sidos = [{ value: null, text: "선택하세요" }];
+      state.sidos = [{ value: null, text: "우리나라의" }];
     },
     CLEAR_GUGUN_LIST(state) {
-      state.guguns = [{ value: null, text: "선택하세요" }];
+      state.guguns = [{ value: null, text: "이곳으로" }];
     },
     CLEAR_CONTENT_TYPE_ID(state) {
       state.contentTypeId = 0;

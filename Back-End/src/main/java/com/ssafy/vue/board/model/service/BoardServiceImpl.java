@@ -50,7 +50,25 @@ public class BoardServiceImpl implements BoardService {
 		return boardMapper.listArticle(param);
 	}
 	
-
+	@Override
+	public List<BoardDto> myListArticle(Map<String, String> map) throws Exception {
+		int pgno = Integer.parseInt(map.get("pgno"));
+//		int spl = SizeConstant.LIST_SIZE;
+//		int start = (pgno - 1) * spl;
+//		map.put("start", start + "");
+//		map.put("spl", spl + "");
+		
+		logger.debug("서비스 listarticle 진입");
+		
+		Map<String, Object> param = new HashMap<String, Object>();
+		int start = pgno * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+		param.put("start", start);
+		param.put("listsize", SizeConstant.LIST_SIZE);
+		param.put("id", map.get("id"));
+		logger.debug("return 보드맵퍼.리스트아티클(맵)");
+		return boardMapper.myListArticle(param);
+	}
+	
 	@Override
 	public PageNavigation makePageNavigation(Map<String, String> map) throws Exception {
 		PageNavigation pageNavigation = new PageNavigation();

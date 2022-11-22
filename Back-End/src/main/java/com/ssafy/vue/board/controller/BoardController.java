@@ -112,6 +112,40 @@ public class BoardController extends HttpServlet {
 		}
 	}
 
+	@GetMapping("/list/{id}")
+	public ResponseEntity<?> myList(@PathVariable("id") String id) {
+		logger.info("myListArticle - 호출");
+		try {
+			Map<String, String> map = new HashMap<>();
+			map.put("pgno", "1");
+			map.put("key", "");
+			map.put("word", "");
+			map.put("id", id);
+			Map<String, Object> param = new HashMap<String, Object>();
+			
+			List<BoardDto> list = boardService.myListArticle(map);	// JSON Array
+//			PageNavigation pageNavigation = boardService.makePageNavigation(map);
+			PageNavigation pageNavigation = new PageNavigation();
+			
+			logger.debug("total board : {} ", list);
+//			logger.debug("pageNavigation : " + pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
+			
+			param.put("list", list);
+//			param.put("pageNavigation", pageNavigation);
+			logger.debug("pageNavigation : " + "안됨");
+			
+			if(list != null && !list.isEmpty()) {
+				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);
+			}else {
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
+	}
+	
 	@PostMapping("/register")
 	public ResponseEntity<?> userRegister(@RequestBody BoardDto boardDto) {
 		logger.debug("boardRegister boardDto : {}", boardDto);

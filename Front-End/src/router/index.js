@@ -98,8 +98,13 @@ const routes = [
       },
       {
         path: "articlelist",
-        name: "articlelist",
+        name: "myarticlelist",
         component: () => import("@/components/user/mypage/MyPageArticleList"),
+      },
+      {
+        path: "replylist",
+        name: "myreplylist",
+        component: () => import("@/components/user/mypage/MyPageReplyList"),
       },
     ],
   },

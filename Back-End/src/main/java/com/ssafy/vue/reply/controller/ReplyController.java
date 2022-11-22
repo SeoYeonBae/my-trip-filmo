@@ -67,6 +67,20 @@ public class ReplyController {
 			return exceptionHandling(e);
 		}
 	}
+
+	@GetMapping("/my/{id}")
+	public ResponseEntity<?> replyMyList(@PathVariable("id") String id){
+		logger.debug("view myList : {}", id);
+		try {
+			List<ReplyDto> totalList = replyService.myList(id);
+			if(totalList != null)
+				return new ResponseEntity<List<ReplyDto>>(totalList, HttpStatus.OK);
+			else
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 	
 	@DeleteMapping("/{idx}")
 	public ResponseEntity<String> deleteArticle(@PathVariable("idx") int idx) throws Exception {

@@ -51,8 +51,8 @@ export default {
   name: "TourListOptinBar",
   data() {
     return {
-      selectSidoCode: "",
-      selectGugunCode: "",
+      selectSidoCode: null,
+      selectGugunCode: null,
       tabInit: 0,
     };
   },
@@ -163,5 +163,9 @@ h5 {
   height: 50px;
   width: 100%;
   border-style: none;
+}
+select,
+option {
+  text-align: center;
 }
 </style>

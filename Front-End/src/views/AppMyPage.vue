@@ -41,7 +41,7 @@
           <b-row>
             <b-button
               id="myarticlelist"
-              @click="$router.push({ name: 'articlelist' })"
+              @click="$router.push({ name: 'myarticlelist' })"
               class="mb-4"
               >내가 쓴 글</b-button
             >
