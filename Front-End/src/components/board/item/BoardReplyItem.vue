@@ -14,12 +14,13 @@
               ></b-form-input>
             </b-form-group>
           </b-col>
-          <b-col>
+          <b-col md="2">
             <b-button type="button" class="btn" @click="registReply">등록하기</b-button>
           </b-col>
         </b-row>
       </b-form>
     </b-container>
+    <hr />
     <b-container flex>
       <b-row class="replydiv" v-for="(reply, idx) in replys" :key="idx">
         <b-col id="profile"><b-img :src="require('@/assets/img/DefaultProfile.png')"></b-img></b-col>
@@ -31,7 +32,7 @@
           <b-row id="replytime">{{ reply.regist_time }}</b-row>
         </b-col>
         <!-- <div :class="{ showbtn: isMatch }"> -->
-        <b-col md="2">
+        <b-col md="1">
           <!-- <div v-show="this.userInfo.id == reply.user_id"> -->
           <b-button type="button" class="btn" @click="deleteReply(reply.idx)">삭제</b-button>
           <!-- </div> -->

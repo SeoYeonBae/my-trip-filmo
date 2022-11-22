@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
       <b-col class="text-left">
-        <b-button @click="moveList">목록</b-button>
+        <b-button size="sm" @click="moveList">목록</b-button>
       </b-col>
       <b-col class="text-right">
         <div v-show="this.article.userId == this.userInfo.id">
@@ -96,8 +96,9 @@ button {
   background-color: #dfe4ff;
   border: 0;
   color: black;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-right: 30px;
   width: 100px;
 }
 button:hover {
