@@ -3,6 +3,7 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import axios from "axios";
+// import { bezierEasing } from "bezier-easing";
 
 import "@/api/lib/fontAwesomeIcon.js"; // fontAwesomeIcon.js 불러옴
 import "@/api/lib/vueBootstrap.js";

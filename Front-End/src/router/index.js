@@ -31,6 +31,11 @@ const routes = [
     component: () => import("@/views/AppSunRiseSunSet"),
   },
   {
+    path: "/about",
+    name: "about",
+    component: () => import("@/views/AppAbout"),
+  },
+  {
     path: "/tour",
     name: "tour",
     component: () => import("@/views/AppTourList"),

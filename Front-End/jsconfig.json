@@ -7,7 +7,8 @@
     "paths": {
       "@/*": [
         "src/*"
-      ]
+      ],
+      "#/*":["C:/mytripfilmo/board/fileUpload/*"]
     },
     "lib": [
       "esnext",
