@@ -10,6 +10,17 @@
       </b-col>
       <h5>로 떠나고 싶어요</h5>
     </b-row>
+    <!-- <b-row class="mt-3 ms-3 me-5" v-model="tabInit" fill>
+      <b-button title="전체" @click="setContentTypeId(0)">전체</b-button>
+      <b-button title="관광지" @click="setContentTypeId(12)">관광지</b-button>
+      <b-button title="문화시설" @click="setContentTypeId(14)">문화시설</b-button>
+      <b-button title="축제" @click="setContentTypeId(15)">축제</b-button>
+      <b-button title="여행코스" @click="setContentTypeId(25)">여행코스</b-button>
+      <b-button title="레포츠" @click="setContentTypeId(28)">레포츠</b-button>
+      <b-button title="숙박" @click="setContentTypeId(32)">숙박</b-button>
+      <b-button title="쇼핑" @click="setContentTypeId(38)">쇼핑</b-button>
+      <b-button title="음식점" @click="setContentTypeId(39)">음식점</b-button>
+    </b-row> -->
     <b-tabs content-class="mt-3" v-model="tabInit" fill>
       <b-tab title="전체" @click="setContentTypeId(0)"></b-tab>
       <b-tab title="관광지" @click="setContentTypeId(12)"></b-tab>

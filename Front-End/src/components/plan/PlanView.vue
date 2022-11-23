@@ -1,39 +1,45 @@
 <template>
   <div id="main">
-    <b-row id="mainrow">
+    <b-row id="mainrow" class="justify-content-center">
       <b-col md="2" class="shadow p-3 bg-body rounded text-center">
         <div class="choice">
-          <h3 id="region">{{ place }}</h3>
-          <h3 id="period">3 DAY</h3>
-          <b-row class="calrow"
-            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-2" />
-            <p class="my-auto">시작일&nbsp;</p>
-            <datetime type="date" v-model="start_date" use12-hour class="cal"></datetime>
-          </b-row>
-          <b-row class="calrow"
-            ><font-awesome-icon icon="fa-regular fa-calendar" class="my-auto mx-2" />
-            <p class="my-auto">종료일&nbsp;</p>
-            <datetime type="date" v-model="end_date" use12-hour class="cal"></datetime>
-          </b-row>
+          <h3 :v-bind="place" class="pt-4">{{ place }}</h3>
+          <div class="p-3">
+            <b-row class="pb-1 my-auto"
+              ><p class="my-auto">시작일 :&nbsp;</p>
+              <b-form-datepicker
+                size="sm"
+                v-model="start_date"
+                :min="nowtime"
+                class="mb-1"
+                style="max-width: 200px"
+              ></b-form-datepicker
+            ></b-row>
+            <b-row class="my-auto"
+              ><p class="my-auto">종료일 :&nbsp;</p>
+              <b-form-datepicker
+                size="sm"
+                v-model="end_date"
+                :min="start_date"
+                class="mb-1"
+                style="max-width: 200px"
+              ></b-form-datepicker
+            ></b-row>
+          </div>
         </div>
         <hr />
-        <div id="choicediv">
+        <div class="scrolldiv">
           <draggable v-model="mychoices">
             <transition-group>
-              <div
-                v-for="(choice, idx) in mychoices"
-                :key="idx + 0"
-                class="choiced text-align-center"
-              >
+              <div v-for="(choice, idx) in mychoices" :key="idx + 0" class="text-align-center">
                 <b-card
-                  img-src="https://cdn.travie.com/news/photo/first/201710/img_19975_1.jpg"
-                  img-alt="Image"
+                  :img-src="`${choice.imgsrc}`"
                   img-top
-                  tag="article"
-                  style="max-width: 10rem"
-                  class="mb-2 cards"
+                  img-height="130px"
+                  class="mb-2 me-3"
+                  style="max-width: 13rem; min-width: 15rem"
                 >
-                  <button class="xbutton" @click="deleteChoice(choice.name)">
+                  <button class="planbtn" @click="deleteChoice(choice.name)">
                     <font-awesome-icon icon="fa-solid fa-circle-minus" style="color: red" />
                   </button>
                   <b-card-text>
@@ -47,67 +53,65 @@
         </div>
       </b-col>
       <b-col md="8">
-        <!-- <b-row class="optionbar"><plan-option-bar></plan-option-bar></b-row> -->
         <b-row>
-          <b-container>
+          <b-container style="padding-top: 30px">
             <plan-option-bar @makeMarker="makeMapMarkers"></plan-option-bar>
             <div class="tab-content mt-2" id="mapcontent">
-              <div
-                class="tab-pane fade show active"
-                id="tabpane"
-                role="tabpanel"
-                aria-labelledby="tabpane"
-              >
+              <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
                 <div class="map_wrap">
                   <div id="map" style="width: 100%; height: 700px"></div>
                   <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
                   <div class="custom_zoomcontrol radius_border">
                     <span @click="zoomIn"
-                      ><img
-                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-                        alt="확대"
+                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
                     /></span>
                     <span @click="zoomOut"
-                      ><img
-                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-                        alt="축소"
+                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
                     /></span>
                   </div>
                 </div>
               </div>
             </div>
+            <b-row style="display: flex; justify-content: center"
+              ><b-button
+                size="lg"
+                @click="completePlan(mychoices)"
+                style="background-color: #dfe4ff; color: black; border: none"
+                >계획 완성하기</b-button
+              ></b-row
+            >
           </b-container>
         </b-row>
       </b-col>
-      <b-col md="2" id="list" class="shadow bg-body rounded row justify-content-center scrollcol">
-        <b-container class="scrolldiv">
-          <b-card
-            no-body
-            class="overflow-hidden cards"
-            style="max-width: 300px"
-            v-for="(tour, idx) in this.tourList"
-            :key="idx"
-          >
-            <b-row no-gutters>
-              <b-col md="3">
-                <b-card-img :img-src="`${tour.image}`" img-alt="Image" img-top></b-card-img>
-              </b-col>
-              <b-col md="8">
-                <b-card-body id="cardfont">
-                  <b-card-title>{{ tour.title }}</b-card-title>
-                  {{ tour.content_type_id }}
-                </b-card-body>
-              </b-col>
-              <b-col>
-                <button class="xbutton" @click="addChoice(tour)">
-                  <font-awesome-icon
-                    icon="fa-solid fa-circle-plus"
-                    style="color: #dfe4ff"
-                  /></button
-              ></b-col>
-            </b-row>
-          </b-card>
-        </b-container>
+      <b-col md="2" class="shadow bg-body rounded justify-content-center" style="padding-top: 10px; max-height: 950px">
+        <h3 style="font-weight: bold; padding: 30px 80px 30px 80px">추천 장소</h3>
+        <hr />
+        <div class="scrolldiv">
+          <b-container>
+            <b-card
+              no-body
+              class="overflow-hidden places"
+              style="max-width: 300px"
+              v-for="(tour, idx) in this.tourList"
+              :key="idx"
+            >
+              <b-row no-gutters class="justify-content-center">
+                <b-col md="3">
+                  <b-card-img :src="`${tour.image}`" img-alt="Image" img-height="80" img-width="80"></b-card-img>
+                </b-col>
+                <b-col md="8">
+                  <b-card-text>
+                    {{ tour.title }}
+                  </b-card-text>
+                </b-col>
+                <b-col>
+                  <button class="planbtn" @click="addChoice(tour)">
+                    <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" /></button
+                ></b-col>
+              </b-row>
+            </b-card>
+          </b-container>
+        </div>
       </b-col>
     </b-row>
   </div>
@@ -115,15 +119,10 @@
 
 <script>
 import { mapState } from "vuex";
-import Vue from "vue";
 import draggable from "vuedraggable";
 import PlanOptionBar from "@/components/plan/PlanOptionBar";
-import Datetime from "vue-datetime";
-import "vue-datetime/dist/vue-datetime.css";
-// https://www.npmjs.com/package/vue-datetime
 
 const tourListStore = "tourListStore";
-Vue.use(Datetime);
 
 export default {
   name: "PlanView",
@@ -169,13 +168,11 @@ export default {
         38: "전라남도",
         39: "제주도",
       },
-      place: "어디로?",
-      start_date: "2022-11-25",
-      end_date: "2022-11-25",
-      mychoices: [
-        { name: "멋진숙소1", type: "숙박" },
-        { name: "아름다운숙소2", type: "숙박" },
-      ],
+      place: "나의 여행 계획",
+      nowtime: "2022-11-25",
+      start_date: "",
+      end_date: "",
+      mychoices: [],
       places: [],
       map: null,
       markers: [],
@@ -192,8 +189,10 @@ export default {
       let newInfo = {
         name: tour_info.title,
         type: "기본값",
+        imgsrc: tour_info.image,
         lat: tour_info.mapy,
         lng: tour_info.mapx,
+        addr: tour_info.addr1,
       };
       this.mychoices.push(newInfo);
     },
@@ -202,6 +201,13 @@ export default {
       let filtered = this.mychoices.filter((o) => o.name !== delete_name);
       // console.log(filtered);
       this.mychoices = filtered;
+    },
+    completePlan(choiceList) {
+      if (choiceList.length == 0) alert("추천 장소를 선택해주세요.");
+      else {
+        console.log(choiceList[0]);
+        // 데이타 axios
+      }
     },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
@@ -213,8 +219,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
@@ -250,8 +255,8 @@ export default {
           <div class="title" style=" border-radius: 5px; background-color: #ffdbdb; padding-left:5px; padding-right:5px;">${title}
          </div>
           <div class="body">
-            <div class="img">
-              <img src="${image}" width="73" height="70">
+            <div>
+              <b-img :img-src="${image}" width="73" height="70">
             </div>
             <div class="desc">
               <div class="ellipsis">${addr}</div>
@@ -303,32 +308,21 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
 
-#main {
-  margin: 30px;
-}
 #mainrow {
-  max-height: 950px;
-  min-height: 950px;
+  margin: 5px;
+  max-height: 800px;
+  min-height: 800px;
 }
-#cardfont > * {
-  font-size: 15px;
-}
-#choicediv {
+
+.scrolldiv {
   display: flex;
   justify-content: center;
   overflow-y: scroll;
   min-height: 700px;
   max-height: 700px;
 }
-.scrollcol {
-  max-height: 950px;
-}
-.scrolldiv {
-  max-height: 950px;
-  overflow-y: scroll;
-}
-.cards {
-  min-width: 180px;
+.places {
+  min-width: 120px;
   margin: 20px 20px 10px 0;
 }
 .choice > * {
@@ -336,10 +330,10 @@ export default {
   font-weight: bold;
   color: #13151f;
   text-align: center;
-  padding: 10px 0;
+  padding: 5px;
 }
 
-.xbutton {
+.planbtn {
   float: right;
   background-color: transparent;
   border-style: none;
@@ -349,7 +343,7 @@ export default {
 }
 
 .card {
-  border: 1px solid lightgray;
+  border: 1px solid rgb(241, 241, 241);
 }
 .wrap {
   margin-top: 5%;
