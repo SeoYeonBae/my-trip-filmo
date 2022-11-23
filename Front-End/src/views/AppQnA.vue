@@ -1,39 +1,31 @@
 <template>
-  <b-container style="margin-top: 120px">
-    <b-alert show variant="warning"><h3>자주 묻는 Q&A</h3></b-alert>
-    <h4>회원 정보 관련 QnA</h4>
+  <b-container style="margin-top: 140px">
+    <h3>자주 묻는 Q&A</h3>
+    <h5>회원 정보</h5>
     <hr />
     <div class="mb-3">
-      <a v-b-toggle href="#collapse1-1" @click.prevent
-        >▶ 회원 정보 수정은 어떻게 하나요?</a
-      >
+      <a v-b-toggle href="#collapse1-1" @click.prevent>▶ 회원 정보 수정은 어떻게 하나요?</a>
     </div>
     <b-collapse id="collapse1-1">
       <b-card title="안녕하세요.">불가능!</b-card>
     </b-collapse>
     <div class="mb-3">
-      <a v-b-toggle href="#collapse1-2" @click.prevent
-        >▶ 회원 탈퇴는 어떻게 하나요?</a
-      >
+      <a v-b-toggle href="#collapse1-2" @click.prevent>▶ 회원 탈퇴는 어떻게 하나요?</a>
     </div>
     <b-collapse id="collapse1-2">
       <b-card title="안녕하세요.">불가능!</b-card>
     </b-collapse>
 
-    <h4>여행 계획 관련 QnA</h4>
+    <h5>여행 계획</h5>
     <hr />
     <div class="mb-3">
-      <a v-b-toggle href="#collapse2-1" @click.prevent
-        >▶ 회원 정보 수정은 어떻게 하나요?</a
-      >
+      <a v-b-toggle href="#collapse2-1" @click.prevent>▶ 회원 정보 수정은 어떻게 하나요?</a>
     </div>
     <b-collapse id="collapse2-1">
       <b-card title="안녕하세요.">불가능!</b-card>
     </b-collapse>
     <div class="mb-3">
-      <a v-b-toggle href="#collapse2-2" @click.prevent
-        >▶ 회원 탈퇴는 어떻게 하나요?</a
-      >
+      <a v-b-toggle href="#collapse2-2" @click.prevent>▶ 회원 탈퇴는 어떻게 하나요?</a>
     </div>
     <b-collapse id="collapse2-2">
       <b-card title="안녕하세요.">불가능!</b-card>
@@ -46,6 +38,20 @@ export default {};
 </script>
 
 <style scoped>
+a {
+  color: black;
+}
+h3 {
+  font-family: "Noto Sans KR", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+h5 {
+  margin-top: 5%;
+  font-weight: bold;
+}
 .collapsed {
   color: black;
 }
@@ -57,6 +63,7 @@ export default {};
 }
 .card {
   margin-bottom: 3%;
+  border: none;
 }
 .card-title {
   margin-top: 0px;

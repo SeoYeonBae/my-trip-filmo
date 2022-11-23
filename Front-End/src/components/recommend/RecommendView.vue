@@ -1,37 +1,45 @@
 <template>
   <div class="container" style="margin-top: 120px">
     <!-- title -->
-    <div class="container mt-3 p-4 title"></div>
-
+    <div class="container mt-3 p-4 title">
+      <h1 id="title" class="fx-4">{{ placeInfo.title }}</h1>
+      <h4 id="addr" class="fx-3">{{ placeInfo.addr1 }}</h4>
+      <h5 id="tel" class="fx-3">{{ placeInfo.tel }}</h5>
+    </div>
     <b-row class="px-5">
-      <h1 id="title" class="fx-4">{{ placeInfo.title }}</h1></b-row
-    >
-    <b-row class="px-5">
-      <b-col md="6" class="today-content mt-3">
-        <h4 id="addr" class="fx-3">{{ placeInfo.addr1 }}</h4>
-        <h5 id="tel" class="fx-3">{{ placeInfo.tel }}</h5>
-        <div v-if="placeInfo.image != ''">
-          <b-img id="image" class="mt-4" :src="placeInfo.image" alt="이미지" width="100%" />
-        </div>
-        <div v-else>
-          <b-img id="image" class="mt-4" :src="require('@/assets/img/defaultImage.jpg')" alt="이미지" width="100%" />
-        </div>
-      </b-col>
       <b-col md="6" class="map_wrap">
         <b-row id="map" class="radius_border"></b-row>
         <div class="custom_zoomcontrol radius_border">
           <span @click="zoomIn"
-            ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
+            ><img
+              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+              alt="확대"
           /></span>
           <span @click="zoomOut"
-            ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
+            ><img
+              src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
+              alt="축소"
           /></span>
         </div>
-        <b-row class="m-4">
-          <b-col class="recommend-col">
-            <b-button id="btn recommend" class="fs-6" @click="newRecommend">새로운 추천받기</b-button>
-          </b-col>
-        </b-row>
+      </b-col>
+      <b-col md="6" class="today-content">
+        <div v-if="placeInfo.image != ''">
+          <b-img id="image" class="mt-4" :src="placeInfo.image" alt="이미지" width="100%" />
+        </div>
+        <div v-else>
+          <b-img
+            id="image"
+            class="mt-4"
+            :src="require('@/assets/img/defaultImage.jpg')"
+            alt="이미지"
+            width="100%"
+          />
+        </div>
+      </b-col>
+    </b-row>
+    <b-row class="mt-5">
+      <b-col class="recommend-col">
+        <b-button id="btn recommend" class="fs-6" @click="newRecommend">새로운 추천받기</b-button>
       </b-col>
     </b-row>
   </div>
@@ -88,7 +96,8 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
@@ -126,6 +135,10 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
+.title {
+  text-align: center;
+  margin-bottom: 10px;
+}
 #title {
   font-family: "Do Hyeon", sans-serif;
   color: #171d3a;
@@ -184,15 +197,22 @@ export default {
   border-bottom: 1px solid #bfbfbf;
 }
 button {
-  background-color: #fffbea;
+  background-color: #dfe4ff;
   border: 0;
   color: black;
   font-weight: bold;
   padding: 16px;
+  width: 60%;
 }
 button:hover {
-  background-color: #dfe4ff;
-  color: white;
+  background-color: rgb(203, 209, 255);
+  color: black;
+  border: none;
+}
+.btn:active,
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
 }
 .recommend-col {
   justify-content: center;

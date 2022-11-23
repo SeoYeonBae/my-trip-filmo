@@ -8,7 +8,7 @@
               <p class="toptitle">이용안내 |</p>
             </b-col>
             <b-col>
-              <p>회사소개</p>
+              <p class="clicktext" @click="openAbout">회사소개</p>
             </b-col>
           </b-row>
           <b-row>
@@ -16,10 +16,10 @@
               <p class="toptitle">고객지원 |</p>
             </b-col>
             <b-col md="3">
-              <p>공지사항</p>
+              <p class="clicktext" @click="$router.push({ name: 'notice' })">공지사항</p>
             </b-col>
             <b-col>
-              <p>자주 묻는 질문</p>
+              <p class="clicktext" @click="$router.push({ name: 'appQnA' })">자주 묻는 질문</p>
             </b-col>
           </b-row>
         </b-col>
@@ -27,9 +27,7 @@
         <b-col>
           <p class="toptitle mb-2">고객 상담</p>
           <p class="textlight mb-0">페이지 하단 챗봇을 이용해주세요.</p>
-          <p class="textlight mb-0">
-            운영시간 평일 09:00-18:00 (토∙일, 공휴일 휴무)
-          </p>
+          <p class="textlight mb-0">운영시간 평일 09:00-18:00 (토∙일, 공휴일 휴무)</p>
           <p class="textlight mb-0">점심시간 평일 13:00 - 14:00</p>
         </b-col>
       </b-row>
@@ -39,9 +37,7 @@
         <div>
           <p class="textlight mb-0">(주)여행의 주연</p>
           <p class="textlight mb-0">대표: 강윤주 배서연</p>
-          <p class="textlight mb-0">
-            주소: 서울특별시 강남구 역삼동 테헤란로 212
-          </p>
+          <p class="textlight mb-0">주소: 서울특별시 강남구 역삼동 테헤란로 212</p>
           <p class="textlight mb-0">mail: tjdus2033@naver.com</p>
           <p class="textlight mb-0">tel: 010-1234-5678</p>
         </div>
@@ -67,6 +63,14 @@
 <script>
 export default {
   name: "TheFooter",
+  methods: {
+    openAbout() {
+      let routeUrl = this.$router.resolve({
+        path: "/about",
+      });
+      window.open(routeUrl.href, "_blank");
+    },
+  },
 };
 </script>
 
@@ -94,5 +98,8 @@ footer {
 }
 .footerbottom {
   text-align: right;
+}
+.clicktext:hover {
+  cursor: pointer;
 }
 </style>

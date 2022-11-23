@@ -1,12 +1,12 @@
 <template>
   <b-container style="margin-top: 120px">
-    <b-alert show variant="warning"><h3>그 날의 일출 일몰</h3></b-alert>
-    <h4 class="mt-4 mb-4">{{ subtitle }}</h4>
-    <b-row class="justify-content-md-center">
+    <h3 class="font-weight-bold">그 날의 일출 일몰</h3>
+    <h5 class="mt-4 mb-4">{{ subtitle }}</h5>
+    <b-row class="justify-content-md-center mb-4">
       <b-col col md="4">
         <b-form-datepicker
           id="datepicker"
-          placeholder="여행 날짜를 선택해주세요"
+          placeholder="날짜를 선택해주세요"
           v-model="locdate"
           menu-class="w-100"
           calendar-width="100%"
@@ -155,7 +155,8 @@ export default {
 
 <style scoped>
 h3,
-h4 {
+h4,
+h5 {
   text-align: center;
 }
 #suninfo {

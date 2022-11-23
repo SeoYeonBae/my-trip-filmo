@@ -2,7 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row>
       <b-col>
-        <b-alert show variant="warning"><h3>공지사항</h3></b-alert>
+        <h3>공지사항</h3>
       </b-col>
     </b-row>
     <b-row class="mb-1">
@@ -70,8 +70,16 @@ export default {
 </script>
 
 <style scoped>
+a {
+  text-decoration: none;
+  color: black;
+}
 h3 {
+  font-family: "Noto Sans KR", sans-serif;
   text-align: center;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .tdClass {
   width: 50px;
@@ -82,16 +90,17 @@ h3 {
   text-align: left;
 }
 button {
-  background-color: #f8c5b4;
+  background-color: #dfe4ff;
   border: 0;
   color: black;
   padding-left: 16px;
   padding-right: 16px;
-  width: 100px;
+  width: 200px;
   margin-bottom: 10px;
 }
 button:hover {
-  background-color: #f8c5b4;
-  color: white;
+  background-color: rgb(203, 209, 255);
+  color: black;
+  border: none;
 }
 </style>

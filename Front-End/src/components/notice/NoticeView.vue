@@ -1,12 +1,47 @@
 <template>
   <b-container class="bv-example-row mt-3">
-    <b-row>
-      <b-col>
-        <b-alert show variant="warning"><h3>글보기</h3></b-alert>
-      </b-col>
-    </b-row>
     <b-row class="mb-1">
-      <b-col class="text-left">
+      <b-jumbotron>
+        <h3 class="text-center">{{ article.articleNo }}.{{ article.subject }}</h3>
+        <p class="m-1">{{ article.userId }}</p>
+        <b-row>
+          <b-col>
+            <p>{{ article.registerTime }}</p>
+          </b-col>
+          <b-col>
+            <p class="text-right">읽음 | {{ article.hit }}</p>
+          </b-col>
+        </b-row>
+        <hr class="my-1 mb-5" />
+        <div class="mb-5">
+          <p>
+            {{ article.content }}
+          </p>
+          <b-card-group columns class="wrap">
+            <!-- <b-card
+              v-for="(file, index) in fileInfos"
+              :key="index"
+              :img-src="
+                require('C:/mytripfilmo/board/fileUpload/' + file.saveFolder + '/' + file.saveFile)
+              "
+              img-alt="Image"
+              overlay
+            ></b-card> -->
+          </b-card-group>
+        </div>
+        <b-row class="mt-1">
+          <b-col class="text-left">
+            <b-button class="m-0" @click="moveList">목록</b-button>
+          </b-col>
+          <b-col class="text-right">
+            <div v-show="this.userInfo.isManager == 1">
+              <b-button class="m-0 mr-3" @click="moveModifyArticle">글수정</b-button>
+              <b-button class="m-0" @click="deleteArticle">글삭제</b-button>
+            </div>
+          </b-col>
+        </b-row>
+      </b-jumbotron>
+      <!-- <b-col class="text-left">
         <b-button @click="moveList">목록</b-button>
       </b-col>
       <b-col class="text-right">
@@ -29,7 +64,7 @@
             <div v-html="message"></div>
           </b-card-body>
         </b-card>
-      </b-col>
+      </b-col> -->
     </b-row>
   </b-container>
 </template>
@@ -85,20 +120,31 @@ export default {
 </script>
 
 <style scoped>
+.jumbotron {
+  border: 1px solid lightgray;
+  background-color: transparent;
+  width: 100%;
+  padding: 7%;
+  padding-bottom: 4%;
+}
 h3 {
   text-align: center;
+  font-weight: bold;
+  margin-bottom: 40px;
 }
 button {
-  margin-left: 30px;
-  background-color: #f8c5b4;
+  background-color: #dfe4ff;
   border: 0;
   color: black;
+  font-weight: bold;
   padding-left: 16px;
   padding-right: 16px;
-  width: 100px;
+  width: 200px;
+  margin-bottom: 10px;
 }
 button:hover {
-  background-color: #f8c5b4;
-  color: white;
+  background-color: rgb(203, 209, 255);
+  color: black;
+  border: none;
 }
 </style>

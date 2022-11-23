@@ -72,6 +72,9 @@ a {
 h3 {
   font-family: "Noto Sans KR", sans-serif;
   text-align: center;
+  font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 5%;
 }
 .tdClass {
   width: 50px;
@@ -87,11 +90,12 @@ button {
   color: black;
   padding-left: 16px;
   padding-right: 16px;
-  width: 100px;
+  width: 200px;
   margin-bottom: 10px;
 }
 button:hover {
   background-color: rgb(203, 209, 255);
-  color: white;
+  color: black;
+  border: none;
 }
 </style>
