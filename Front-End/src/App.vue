@@ -32,8 +32,4 @@ export default {
 * {
   font-family: "Noto Sans KR", sans-serif;
 }
-#maincontentview {
-  height: auto;
-  min-height: 650px;
-}
 </style>

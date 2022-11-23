@@ -12,27 +12,33 @@
     </div>
     <div class="mt-5">
       <b-row>
-        <b-col>
+        <b-col
+          @click="$router.push({ name: 'recommend', params: { typeid: 12 } })"
+        >
           <b-img :src="require('@/assets/img/todayTour.png')"></b-img>
           <p>오늘의 관광지</p>
         </b-col>
-        <b-col>
+        <b-col
+          @click="$router.push({ name: 'recommend', params: { typeid: 39 } })"
+        >
           <b-img :src="require('@/assets/img/todayRestaurant.png')"></b-img>
           <p>오늘의 맛집</p>
         </b-col>
-        <b-col>
+        <b-col
+          @click="$router.push({ name: 'recommend', params: { typeid: 15 } })"
+        >
           <b-img :src="require('@/assets/img/todayFestival.png')"></b-img>
           <p>오늘의 축제</p>
         </b-col>
-        <b-col>
+        <b-col @click="$router.push({ name: 'tour' })">
           <b-img :src="require('@/assets/img/tourList.png')"></b-img>
           <p>전국 관광지</p>
         </b-col>
-        <b-col>
+        <b-col @click="$router.push({ name: 'plan' })">
           <b-img :src="require('@/assets/img/makePlan.png')"></b-img>
           <p>여행 계획하기</p>
         </b-col>
-        <b-col>
+        <b-col @click="$router.push({ name: 'sun' })">
           <b-img :src="require('@/assets/img/sunset.png')"></b-img>
           <p>일출일몰</p>
         </b-col>
@@ -93,5 +99,8 @@ button:hover {
 }
 .col > p {
   margin-top: 8px;
+}
+.col:hover {
+  cursor: pointer;
 }
 </style>
