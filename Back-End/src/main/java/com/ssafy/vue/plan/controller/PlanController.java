@@ -48,7 +48,7 @@ public class PlanController {
 		PlanIdxDto idxDto = new PlanIdxDto();
 		try {
 			int lastIdx = planService.getLastIdx(user_id) + 1;
-			logger.info("마지막인덱스: " + lastIdx);
+			logger.info("새로추가될 계획 인덱스: " + lastIdx);
 			for (int i = 1; i < list.size(); i++) {
 				logger.info("여행지들 목록 : " + list.get(i));
 				
@@ -57,6 +57,9 @@ public class PlanController {
 				
 				planService.addPlanDetail(idxDto);
 			}
+			
+			
+			
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
 		catch(Exception e){
