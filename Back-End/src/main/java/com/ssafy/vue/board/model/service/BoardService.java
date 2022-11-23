@@ -9,13 +9,13 @@ import com.ssafy.vue.util.PageNavigation;
 public interface BoardService {
 
 	int countArticle() throws Exception;
-	int writeArticle(BoardDto boardDto) throws Exception;
+	void writeArticle(BoardDto boardDto) throws Exception;
 	List<BoardDto> listArticle(Map<String, String> map) throws Exception;
 	List<BoardDto> myListArticle(Map<String, String> map) throws Exception;
 	List<BoardDto> preview(int num) throws Exception;
 	BoardDto getArticle(int articleNo) throws Exception;
 	void updateHit(int articleNo) throws Exception;
 	void modifyArticle(BoardDto boardDto) throws Exception;
-	void deleteArticle(int articleNo) throws Exception;
+	void deleteArticle(int articleNo, String path) throws Exception;
 	PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 }
