@@ -6,9 +6,7 @@
       </b-col>
       <b-col class="text-right">
         <div v-show="this.article.userId == this.userInfo.id">
-          <b-button size="sm" @click="moveModifyArticle" class="mr-2"
-            >글수정</b-button
-          >
+          <b-button size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
           <b-button size="sm" @click="deleteArticle">글삭제</b-button>
         </div>
       </b-col>
@@ -25,7 +23,7 @@
           <b-card-body class="text-left">
             <div v-html="message"></div>
             <div v-for="file in fileInfos" v-bind:key="file.originalFile">
-              <img
+              <!-- <img
                 :src="
                   require('C:/mytripfilmo/board/fileUpload/' +
                     file.saveFolder +
@@ -33,7 +31,7 @@
                     file.saveFile)
                 "
                 width="200px"
-              />
+              /> -->
             </div>
           </b-card-body>
         </b-card>
@@ -75,8 +73,7 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
     message() {
-      if (this.article.content)
-        return this.article.content.split("\n").join("<br>");
+      if (this.article.content) return this.article.content.split("\n").join("<br>");
       return "";
     },
   },
