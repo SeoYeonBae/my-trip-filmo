@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,13 +27,14 @@ public class PlanController {
 		this.planService = planService;
 	}
 	
-	@PutMapping("/add/detail")
-	public ResponseEntity<String> addPlanDetail(@RequestBody List<PlanDto> list) throws Exception {
+	@PostMapping("/add/detail")
+	public ResponseEntity<String> addPlanDetail(@RequestBody int[] arr) throws Exception {
 		logger.info("add detail - 호출");
 		try {
-			for (int i = 0; i < list.size(); i++) {
-				logger.info("여행지들 목록 : " + list.get(i));
-				planService.addPlanDetail(list.get(i));
+//			if(list!=null)
+			for (int i = 0; i < arr.length; i++) {
+				logger.info("여행지들 목록 : " + arr[i]);
+				planService.addPlanDetail(arr[i]);
 			}
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
@@ -43,7 +43,7 @@ public class PlanController {
 		}
 	}
 	
-	@PutMapping("/regist")
+	@PostMapping("/regist")
 	public ResponseEntity<String> writeArticle(@RequestBody PlanDto planDto) throws Exception {
 		logger.info("regist plan - 호출");
 		try {

@@ -9,8 +9,9 @@
               ><p class="my-auto">시작일 :&nbsp;</p>
               <b-form-datepicker
                 size="sm"
-                v-model="start_date"
+                v-model="sdate"
                 :min="nowtime"
+                :max="edate"
                 class="mb-1"
                 style="max-width: 200px"
               ></b-form-datepicker
@@ -19,8 +20,8 @@
               ><p class="my-auto">종료일 :&nbsp;</p>
               <b-form-datepicker
                 size="sm"
-                v-model="end_date"
-                :min="start_date"
+                v-model="edate"
+                :min="sdate"
                 class="mb-1"
                 style="max-width: 200px"
               ></b-form-datepicker
@@ -29,9 +30,9 @@
         </div>
         <hr />
         <div class="scrolldiv">
-          <draggable v-model="mychoices">
+          <draggable v-model="myChoices">
             <transition-group>
-              <div v-for="(choice, idx) in mychoices" :key="idx + 0" class="text-align-center">
+              <div v-for="(choice, idx) in myChoices" :key="idx + 0" class="text-align-center">
                 <b-card
                   :img-src="`${choice.imgsrc}`"
                   img-top
@@ -73,10 +74,7 @@
               </div>
             </div>
             <b-row style="display: flex; justify-content: center"
-              ><b-button
-                size="lg"
-                @click="completePlan(mychoices)"
-                style="background-color: #dfe4ff; color: black; border: none"
+              ><b-button size="lg" @click="completePlan()" style="background-color: #dfe4ff; color: black; border: none"
                 >계획 완성하기</b-button
               ></b-row
             >
@@ -124,6 +122,7 @@ import draggable from "vuedraggable";
 import PlanOptionBar from "@/components/plan/PlanOptionBar";
 
 const api = apiInstance();
+const memberStore = "memberStore";
 const tourListStore = "tourListStore";
 
 export default {
@@ -134,19 +133,23 @@ export default {
   },
   computed: {
     ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
+    ...mapState(memberStore, ["userInfo"]),
   },
   watch: {
-    mychoices: function () {
-      console.log(this.mychoices[0].name);
+    myChoices: function () {
+      console.log(this.myChoices[0].idx + "idx 여행지");
       // ++ 리스트의 마커 선 긋는 함수 추가하기
     },
     sidoCode: function () {
       this.place = this.donames[this.sidoCode];
-      // let code = this.sidoCode;
-      // console.log(this.donames[1]);
     },
-    start_date: function () {
-      console.log(this.start_date);
+    sdate: function () {
+      this.planInfo.start_date = this.sdate;
+      console.log("날자선택했음" + this.planInfo.start_date);
+    },
+    edate: function () {
+      this.planInfo.end_date = this.edate;
+      console.log("날자선택했음" + this.planInfo.end_date);
     },
   },
   data() {
@@ -172,10 +175,17 @@ export default {
       },
       place: "나의 여행 계획",
       nowtime: "2022-11-25",
-      start_date: "",
-      end_date: "",
-      planInfo: {},
-      mychoices: [],
+      sdate: "",
+      edate: "",
+      planInfo: {
+        title: "나의 여행계획 기본정보입니다",
+        start_date: "",
+        end_date: "",
+        user_id: "",
+        invited_user: "",
+      },
+      myChoices: [],
+      idxInfo: [],
       places: [],
       map: null,
       markers: [],
@@ -189,34 +199,57 @@ export default {
   },
   methods: {
     addChoice(tour_info) {
+      console.log(tour_info);
       let newInfo = {
+        idx: tour_info.idx,
         name: tour_info.title,
-        type: "기본값",
+        type: tour_info.contentTypeId,
         imgsrc: tour_info.image,
         lat: tour_info.mapy,
         lng: tour_info.mapx,
         addr: tour_info.addr1,
       };
-      this.mychoices.push(newInfo);
+      this.idxInfo.push(tour_info.idx);
+      console.log(this.idxInfo);
+      this.myChoices.push(newInfo);
     },
     deleteChoice(delete_name) {
       console.log(delete_name + "삭제할게");
-      let filtered = this.mychoices.filter((o) => o.name !== delete_name);
+      let filtered = this.myChoices.filter((o) => o.name !== delete_name);
       // console.log(filtered);
-      this.mychoices = filtered;
+      this.myChoices = filtered;
     },
-    completePlan(choiceList) {
-      if (choiceList.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
+    completePlan() {
+      this.planInfo.user_id = this.userInfo.id;
+      if (this.idxInfo.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
+      if (this.sdate == "" || this.edate == "") alert("날짜를 선택해주세요");
       else {
-        api.put("/plan/add/detail", this.mychoices).then(({ data }) => {
-          let msg = "계획에 여행지 삽입 중 문제 발생 !!!";
-          if (data == "success") {
-            msg = "여행지 목록 삽입 완료";
-          }
+        console.log(this.planInfo);
+
+        // 나의 여행 계획 정보를 추가
+        api.post(`/plan/regist`, this.planInfo).then(({ data }) => {
+          console.log(data);
+          let msg = "나의 여행 계획 등록 중 문제가 발생하였습니다.";
+          if (data == "success") msg = "나의 여행 계획이 등록되었습니다.";
           alert(msg);
         });
-        // console.log(choiceList[0]);
+
+        // 일단 여행지 목록들을       plan_idx에 DB 추가추가
+        // console.log(this.idxInfo);
+        const bodyFormData = JSON.stringify({ arr: this.idxInfo });
+        api
+          .post(`/plan/add/detail`, bodyFormData, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then(({ data }) => {
+            let msg = "여행지 목록 삽입 중 문제 발생 !!!";
+            if (data == "success") {
+              msg = "여행지 목록 삽입 성공";
+            }
+            alert(msg);
+          });
         // 데이타 axios
+        this.$router.push({ name: "planlist" });
       }
     },
     zoomIn() {
@@ -316,8 +349,6 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap");
-
 #mainrow {
   margin: 5px;
   max-height: 800px;

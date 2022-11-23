@@ -25,8 +25,8 @@ public class PlanServiceImpl implements PlanServcie  {
 	}
 
 	@Override
-	public void addPlanDetail(PlanDto planDto) throws Exception {
-		planMapper.addPlanDetail(planDto);
+	public void addPlanDetail(int idx) throws Exception {
+		planMapper.addPlanDetail(idx);
 	}
 
 }
