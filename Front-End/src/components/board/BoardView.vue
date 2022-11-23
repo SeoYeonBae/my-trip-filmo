@@ -23,7 +23,7 @@
           <b-card-body class="text-left">
             <div v-html="message"></div>
             <div v-for="file in fileInfos" v-bind:key="file.originalFile">
-              <img
+              <!-- <img
                 :src="
                   require('C:/mytripfilmo/board/fileUpload/' +
                     file.saveFolder +
@@ -31,7 +31,7 @@
                     file.saveFile)
                 "
                 width="200px"
-              />
+              /> -->
             </div>
           </b-card-body>
         </b-card>
