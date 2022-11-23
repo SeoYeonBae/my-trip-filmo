@@ -9,7 +9,7 @@
         	select plan_idx from plan_list where user_id = #{user_id}
     	</selectKey>
 		insert into plan_detail
-		(#{plan_idx} + 1 , #{idx})
+		(#{plan_idx}, #{idx})
 	</insert>
 	
 	<insert id="regist" parameterType="planDto">

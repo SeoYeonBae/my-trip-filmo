@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
       <b-col class="text-left">
@@ -6,9 +6,7 @@
       </b-col>
       <b-col class="text-right">
         <div v-show="this.article.userId == this.userInfo.id">
-          <b-button size="sm" @click="moveModifyArticle" class="mr-2"
-            >글수정</b-button
-          >
+          <b-button size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
           <b-button size="sm" @click="deleteArticle">글삭제</b-button>
         </div>
       </b-col>
@@ -75,8 +73,7 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
     message() {
-      if (this.article.content)
-        return this.article.content.split("\n").join("<br>");
+      if (this.article.content) return this.article.content.split("\n").join("<br>");
       return "";
     },
   },
@@ -123,4 +120,4 @@ button:hover {
   background-color: #dfe4ff;
   color: white;
 }
-</style>
+</style> -->
