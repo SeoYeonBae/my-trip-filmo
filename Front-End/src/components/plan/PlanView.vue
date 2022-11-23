@@ -206,7 +206,7 @@ export default {
         start_date: "",
         end_date: "",
         user_id: "",
-        invited_user: "",
+        invited_user: "joody",
       },
       myChoices: [],
       idxInfo: [],
@@ -244,7 +244,8 @@ export default {
       this.myChoices = filtered;
     },
     completePlan() {
-      this.planInfo.user_id = this.userInfo.id;
+      let myId = this.userInfo.id;
+      this.planInfo.user_id = myId;
       if (this.idxInfo.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
       if (this.sdate == "" || this.edate == "") alert("날짜를 선택해주세요");
       else {
@@ -261,17 +262,26 @@ export default {
         // 일단 여행지 목록들을       plan_idx에 DB 추가추가
         // console.log);
         // const bodyFormData = JSON.stringify({ arr: this.idxInfo });
-        // api.post(`/plan/add/detail`, this.idxInfo).then(({ data }) => {
-        //   let msg = "여행지 목록 삽입 중 문제 발생 !!!";
-        //   if (data == "success") {
-        //     msg = "여행지 목록 삽입 성공";
-        //   }
-        //   alert(msg);
-        // });
-        // // 데이타 axios
-        // this.$router.push({ name: "planlist" });
+        let msg;
+        api.post(`/plan/add/detail/${myId}`, this.idxInfo).then(({ data }) => {
+          msg = "여행지 목록 삽입 중 문제 발생 !!!";
+          if (data == "success") {
+            msg = "여행지 목록 삽입 성공";
+          }
+        });
+        if (window.confirm(msg))
+          // 데이타 axios
+          this.$router.push({ name: "planlist" });
       }
     },
+    // deletePlan(plan_idx) {
+    //   api.delete(`/plan/delete/${plan_idx}`).then(({ data }) => {
+    //     console.log(plan_idx + "번 idx 꼐획을 삭제");
+    //     let msg = "나의 여행 계획 삭제 중 문제가 발생하였습니다.";
+    //     if (data == "success") msg = "나의 여행 계획을 삭제하였습니다.";
+    //     alert(msg);
+    //   });
+    // },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },
