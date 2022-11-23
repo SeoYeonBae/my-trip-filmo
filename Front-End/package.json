@@ -17,6 +17,7 @@
     "jwt-decode": "^3.1.2",
     "luxon": "^1.28.0",
     "moment": "^2.29.4",
+    "multer": "^1.4.5-lts.1",
     "vue": "^2.7.14",
     "vue-datetime": "^1.0.0-beta.14",
     "vue-el-datepicker": "^1.1.0",

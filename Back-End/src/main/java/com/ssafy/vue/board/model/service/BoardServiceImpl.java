@@ -1,5 +1,6 @@
 package com.ssafy.vue.board.model.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.vue.board.model.BoardDto;
+import com.ssafy.vue.board.model.FileInfoDto;
 import com.ssafy.vue.board.model.mapper.BoardMapper;
+import com.ssafy.vue.reply.service.ReplyService;
 import com.ssafy.vue.util.PageNavigation;
 import com.ssafy.vue.util.SizeConstant;
 
@@ -20,6 +23,9 @@ public class BoardServiceImpl implements BoardService {
 	private final Logger logger = LoggerFactory.getLogger(BoardServiceImpl.class);
 	
 	private BoardMapper boardMapper;
+	
+	@Autowired
+	private ReplyService replyService;
 	
 	@Autowired
 	private BoardServiceImpl(BoardMapper boardMapper) {
@@ -104,8 +110,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int writeArticle(BoardDto boardDto) throws Exception {
-		return boardMapper.writeArticle(boardDto);
+	public void writeArticle(BoardDto boardDto) throws Exception {
+		boardMapper.writeArticle(boardDto);
+		List<FileInfoDto> fileInfos = boardDto.getFileInfos();
+		System.out.println("fileInfos : " + fileInfos);
+		if (fileInfos != null && !fileInfos.isEmpty()) {
+			boardMapper.registerFile(boardDto);
+		}
 	}
 	
 	@Override
@@ -120,9 +131,16 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteArticle(int articleNo) throws Exception {
+	public void deleteArticle(int articleNo, String path) throws Exception {
+		List<FileInfoDto> fileList = boardMapper.fileInfoList(articleNo);
+		logger.info("files : {}", fileList);
+		boardMapper.deleteFile(articleNo);
+		replyService.deleteAll(articleNo);
 		boardMapper.deleteArticle(articleNo);
-		
+		for(FileInfoDto fileInfoDto : fileList) {
+			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
+			file.delete();
+		}
 	}
 
 	@Override
