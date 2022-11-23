@@ -28,13 +28,13 @@ public class PlanController {
 	}
 	
 	@PostMapping("/add/detail")
-	public ResponseEntity<String> addPlanDetail(@RequestBody int[] arr) throws Exception {
+	public ResponseEntity<String> addPlanDetail(@RequestBody List<Integer> arr) throws Exception {
 		logger.info("add detail - 호출");
 		try {
 //			if(list!=null)
-			for (int i = 0; i < arr.length; i++) {
-				logger.info("여행지들 목록 : " + arr[i]);
-				planService.addPlanDetail(arr[i]);
+			for (int i = 0; i < arr.size(); i++) {
+				logger.info("여행지들 목록 : " + arr.get(i));
+				planService.addPlanDetail(arr.get(i));
 			}
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}

@@ -235,19 +235,15 @@ export default {
         });
 
         // 일단 여행지 목록들을       plan_idx에 DB 추가추가
-        // console.log(this.idxInfo);
-        const bodyFormData = JSON.stringify({ arr: this.idxInfo });
-        api
-          .post(`/plan/add/detail`, bodyFormData, {
-            headers: { "Content-Type": "multipart/form-data" },
-          })
-          .then(({ data }) => {
-            let msg = "여행지 목록 삽입 중 문제 발생 !!!";
-            if (data == "success") {
-              msg = "여행지 목록 삽입 성공";
-            }
-            alert(msg);
-          });
+        // console.log);
+        // const bodyFormData = JSON.stringify({ arr: this.idxInfo });
+        api.post(`/plan/add/detail`, this.idxInfo).then(({ data }) => {
+          let msg = "여행지 목록 삽입 중 문제 발생 !!!";
+          if (data == "success") {
+            msg = "여행지 목록 삽입 성공";
+          }
+          alert(msg);
+        });
         // 데이타 axios
         this.$router.push({ name: "planlist" });
       }
