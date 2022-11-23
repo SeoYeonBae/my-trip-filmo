@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.mail.Authenticator;
+import javax.mail.Message;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 import com.ssafy.vue.board.model.service.BoardService;
 import com.ssafy.vue.board.model.service.BoardServiceImpl;
@@ -50,9 +57,6 @@ public class UserController extends HttpServlet {
 
 	@Autowired
 	private JwtServiceImpl jwtService;
-	
-	@Autowired
-	public JavaMailSender javaMailSender;
 	
 	private UserService userService;
 	
@@ -200,15 +204,45 @@ public class UserController extends HttpServlet {
 			logger.info("find pass info : {}" + map);
 			Map<String, String> mailInfo = userService.findPass(map);
 			if (mailInfo != null) {
-				logger.info("mail : " + mailInfo);
-				String email = mailInfo.get("user_email");
+				Properties props = new Properties();
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.starttls.enable", "true");
+				props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+				
+				Session session = Session.getInstance(props, new Authenticator() {
+					@Override
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication("megd78988@gmail.com", "tgfiqxbudlzcmhsx");
+					}
+				});
+				
+				String receiver = mailInfo.get("user_email"); // 메일 받을 주소
 				String pass = mailInfo.get("user_password");
-				SimpleMailMessage simpleMessage = new SimpleMailMessage();
-				simpleMessage.setFrom("tjdus2033@naver.com"); // NAVER, DAUM, NATE일 경우 넣어줘야 함
-				simpleMessage.setTo(email);
-				simpleMessage.setSubject("여행의 주연 비밀번호 안내");
-				simpleMessage.setText("안녕하세요 여행의 주연입니다. \n 요청하신 회원님의 비밀번호는 " + pass + "입니다. \n 감사합니다.");
-				javaMailSender.send(simpleMessage);				
+
+				String title = "여행의 주연 비밀번호 안내";
+				String content ="<h2 class='font-weight-bold text-primary heading mt-5 mb-5'> 요청하신 회원님의 비밀번호는 " + pass +" 입니다." + "</h2>";
+				Message message = new MimeMessage(session);
+				try {
+					message.setFrom(new InternetAddress("megd78988@gmail.com", "관리자", "utf-8"));
+					message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
+					message.setSubject(title);
+					message.setContent(content, "text/html; charset=utf-8");
+
+					Transport.send(message);
+				}catch (Exception e) {
+					return exceptionHandling(e);
+				}
+//				logger.info("mail : " + mailInfo);
+//				String email = mailInfo.get("user_email");
+//				String pass = mailInfo.get("user_password");
+//				SimpleMailMessage simpleMessage = new SimpleMailMessage();
+//				simpleMessage.setFrom("tjdus2033@naver.com"); // NAVER, DAUM, NATE일 경우 넣어줘야 함
+//				simpleMessage.setTo(email);
+//				simpleMessage.setSubject("여행의 주연 비밀번호 안내");
+//				simpleMessage.setText("안녕하세요 여행의 주연입니다. \n 요청하신 회원님의 비밀번호는 " + pass + "입니다. \n 감사합니다.");
+//				javaMailSender.send(simpleMessage);				
 				return new ResponseEntity<Map<String, String>>(mailInfo, HttpStatus.OK);
 			}
 			else
