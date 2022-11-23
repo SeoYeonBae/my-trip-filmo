@@ -19,6 +19,7 @@
     "moment": "^2.29.4",
     "vue": "^2.7.14",
     "vue-datetime": "^1.0.0-beta.14",
+    "vue-el-datepicker": "^1.1.0",
     "vue-open-weather-widget": "^1.0.3",
     "vue-router": "^3.5.1",
     "vue2-datepicker": "^3.11.0",
