@@ -3,8 +3,29 @@
     <b-row id="mainrow" class="justify-content-center">
       <b-col md="2" class="shadow p-3 bg-body rounded text-center">
         <div class="choice">
-          <h3 :v-bind="place" class="pt-4 pb-4">{{ place }}</h3>
-          <b-row> </b-row>
+          <h3 :v-bind="place" class="pt-4">{{ place }}</h3>
+          <div class="p-3">
+            <b-row class="pb-1 my-auto"
+              ><p class="my-auto">시작일 :&nbsp;</p>
+              <b-form-datepicker
+                size="sm"
+                v-model="start_date"
+                :min="nowtime"
+                class="mb-1"
+                style="max-width: 200px"
+              ></b-form-datepicker
+            ></b-row>
+            <b-row class="my-auto"
+              ><p class="my-auto">종료일 :&nbsp;</p>
+              <b-form-datepicker
+                size="sm"
+                v-model="end_date"
+                :min="start_date"
+                class="mb-1"
+                style="max-width: 200px"
+              ></b-form-datepicker
+            ></b-row>
+          </div>
         </div>
         <hr />
         <div class="scrolldiv">
@@ -51,16 +72,16 @@
                 </div>
               </div>
             </div>
+            <b-row style="display: flex; justify-content: center"
+              ><b-button
+                size="lg"
+                @click="completePlan(mychoices)"
+                style="background-color: #dfe4ff; color: black; border: none"
+                >계획 완성하기</b-button
+              ></b-row
+            >
           </b-container>
         </b-row>
-        <b-row style="display: flex; justify-content: center"
-          ><b-button
-            size="lg"
-            @click="completePlan(mychoices)"
-            style="background-color: #dfe4ff; color: black; border: none"
-            >계획 완성하기</b-button
-          ></b-row
-        >
       </b-col>
       <b-col md="2" class="shadow bg-body rounded justify-content-center" style="padding-top: 10px; max-height: 950px">
         <h3 style="font-weight: bold; padding: 30px 80px 30px 80px">추천 장소</h3>
@@ -94,25 +115,6 @@
       </b-col>
     </b-row>
   </div>
-  <!--           <b-card
-            v-for="(tour, idx) in this.tourList"
-            :key="idx"
-            :img-src="`${tour.image}`"
-            img-alt="Image"
-            img-top
-            tag="article"
-            style="max-width: 300px"
-            class="overflow-hidden cards"
-          >
-            <button class="planbtn" @click="addChoice(tour)">
-              <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" />
-            </button>
-            <b-card-text>
-              <font-awesome-icon icon="fa-solid fa-bed" />
-              {{ tour.title }}
-            </b-card-text>
-          </b-card> 
-          -->
 </template>
 
 <script>
@@ -167,8 +169,9 @@ export default {
         39: "제주도",
       },
       place: "나의 여행 계획",
-      start_date: "2022-11-25",
-      end_date: "2022-11-25",
+      nowtime: "2022-11-25",
+      start_date: "",
+      end_date: "",
       mychoices: [],
       places: [],
       map: null,
@@ -198,6 +201,10 @@ export default {
       let filtered = this.mychoices.filter((o) => o.name !== delete_name);
       // console.log(filtered);
       this.mychoices = filtered;
+    },
+    completePlan(choiceList) {
+      if (choiceList.length == 0) alert("추천 장소를 선택해주세요.");
+      console.log(choiceList[0]);
     },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
