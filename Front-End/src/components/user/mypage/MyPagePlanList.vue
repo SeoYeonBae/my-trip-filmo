@@ -41,4 +41,10 @@ export default {
   padding: 0px;
   justify-content: center;
 }
+.jumbotron {
+  border: none;
+  background-color: transparent;
+  width: 80%;
+  padding-top: 0%;
+}
 </style>

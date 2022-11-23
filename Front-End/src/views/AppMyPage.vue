@@ -4,11 +4,7 @@
       <b-col md="3" class="text-center">
         <div>
           <b-row id="logo">
-            <font-awesome-icon
-              icon="fa-regular fa-address-card"
-              class="fa-2x"
-            />
-            <h4>&nbsp;my page</h4>
+            <h5>&nbsp;my page</h5>
           </b-row>
         </div>
         <div id="usericon">
@@ -77,9 +73,6 @@ export default {
 
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap");
-h3 {
-  font-family: "Do Hyeon", sans-serif;
-}
 h4 {
   font-weight: bold;
 }
@@ -95,7 +88,6 @@ a:hover {
 }
 .col-md-3 {
   margin-left: 16px;
-  padding-bottom: 20%;
 }
 #usericon {
   padding-top: 15%;

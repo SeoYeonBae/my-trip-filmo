@@ -30,10 +30,15 @@
             />
           </div>
           <b-row>
-            <b-button type="button" class="m-1" @click="$router.push({ name: 'login' })"
+            <b-button type="button" class="m-1 mb-3" @click="checkValue"
+              >비밀번호 찾기</b-button
+            >
+            <b-button
+              type="button"
+              class="m-1"
+              @click="$router.push({ name: 'login' })"
               >로그인</b-button
             >
-            <b-button type="button" class="m-1 mb-3" @click="checkValue">비밀번호 찾기</b-button>
           </b-row>
         </b-form>
       </b-col>
@@ -70,7 +75,12 @@ export default {
         if (!data) {
           alert("존재하지 않는 회원 정보입니다.");
         } else {
-          if (data) alert("가입하신 메일 " + data.user_email + "로 비밀번호를 전송하였습니다.");
+          if (data)
+            alert(
+              "가입하신 메일 " +
+                data.user_email +
+                "로 비밀번호를 전송하였습니다."
+            );
           this.$router.push({ name: "login" });
         }
       });
@@ -96,7 +106,7 @@ button {
   height: 50px;
 }
 button:hover {
-  background-color: #d4fcee;
+  background-color: aliceblue;
   color: black;
 }
 input.input-item {

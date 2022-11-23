@@ -54,4 +54,10 @@ button:hover {
   background-color: #d4fcee;
   color: black;
 }
+.jumbotron {
+  border: none;
+  background-color: transparent;
+  width: 80%;
+  padding-top: 0%;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <b-col md="8">
-    <b-jumbotron class="mt-0">
+    <b-jumbotron>
       <b-row id="title">
         <b-col md="2" id="titleitem">
           <h5 class="mb-0">기본 정보</h5>
@@ -278,6 +278,8 @@ export default {
 .jumbotron {
   border: none;
   background-color: transparent;
+  width: 80%;
+  padding-top: 0%;
 }
 .form-control {
   width: 400px;

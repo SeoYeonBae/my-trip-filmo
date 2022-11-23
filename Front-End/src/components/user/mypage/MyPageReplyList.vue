@@ -1,20 +1,27 @@
 <template>
   <b-col md="8">
-    <div class="text-center my-5">
-      <h5 class="mb-0">내가 쓴 댓글</h5>
-    </div>
-    <b-table hover :items="replies" :fields="fields" @row-clicked="viewArticle">
-      <template #cell(content)="data">
-        <router-link
-          :to="{
-            name: 'boardview',
-            params: { articleno: data.item.article_no },
-          }"
-        >
-          {{ data.item.content }}
-        </router-link>
-      </template>
-    </b-table>
+    <b-jumbotron>
+      <div class="text-center my-5">
+        <h5 class="mb-0">내가 쓴 댓글</h5>
+      </div>
+      <b-table
+        hover
+        :items="replies"
+        :fields="fields"
+        @row-clicked="viewArticle"
+      >
+        <template #cell(content)="data">
+          <router-link
+            :to="{
+              name: 'boardview',
+              params: { articleno: data.item.article_no },
+            }"
+          >
+            {{ data.item.content }}
+          </router-link>
+        </template>
+      </b-table>
+    </b-jumbotron>
   </b-col>
 </template>
 
@@ -67,5 +74,11 @@ export default {
 }
 .col-md-8 {
   padding-top: 3%;
+}
+.jumbotron {
+  border: none;
+  background-color: transparent;
+  width: 80%;
+  padding-top: 0%;
 }
 </style>
