@@ -29,7 +29,7 @@
               :src="file.url"
               v-bind:key="file.originalFile"
             >
-              <img
+              <!-- <img
                 :src="
                   require('C:/mytripfilmo/board/fileUpload/' +
                     file.saveFolder +
@@ -37,7 +37,7 @@
                     file.saveFile)
                 "
                 width="200px"
-              />
+              /> -->
             </div>
           </b-card-body>
         </b-card>

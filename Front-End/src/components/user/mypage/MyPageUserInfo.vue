@@ -1,107 +1,111 @@
 <template>
   <b-col md="8">
-    <b-row id="title">
-      <b-col md="2" id="titleitem">
-        <h5 class="mb-0">기본 정보</h5>
-      </b-col>
-      <b-col md="1">
-        <b-button id="infohelp"
-          ><font-awesome-icon icon="fa-regular fa-circle-question"
-        /></b-button>
-        <b-tooltip id="infotooltip" target="infohelp" placement="bottom">
-          <p>
-            <strong>사용자 이름</strong><br />
-            서비스를 이용하려면 사용자의 이름 확인이 필요합니다. 이름 외에
-            연락처, 이메일 등의 정보가 변경되었다면 수정도 할 수 있습니다.
-          </p>
-          <p>
-            <strong>연락처 이메일</strong><br />
-            문의 사항 안내에 필요한 경우 사용합니다.
-          </p>
-          <p>
-            <strong>본인확인 이메일</strong><br />
-            비밀번호 찾기, 로그인이 안되는 경우 등 본인확인이 필요한 경우
-            사용합니다.
-          </p>
-        </b-tooltip>
-      </b-col>
-    </b-row>
-    <b-row>
-      <b-col md="1" class="p-0">
-        <font-awesome-icon
-          icon="fa-solid fa-circle-user"
-          color="grey"
-          class="fa-4x"
-        />
-      </b-col>
-      <b-col>
-        <h4 class="font-weight-bold">{{ userInfo.name }}</h4>
-        {{ userInfo.id }}
-      </b-col>
-    </b-row>
-    <div fluid>
-      <hr class="my-4" />
-      <h5 class="mb-4">상세 정보</h5>
-      <div class="input-box">
-        <h5 class="input-title">이름</h5>
-        <input v-model="user.name" class="input-item" type="text" />
-      </div>
-      <div class="input-box mt-4">
-        <h5 class="input-title">아이디</h5>
-        <input v-model="user.id" class="input-item" type="text" />
-      </div>
-      <div class="input-box mt-4">
-        <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">
-          비밀번호
-        </h5>
-        <input
-          v-model="user.password"
-          class="input-item"
-          type="password"
-          placeholder="영문, 숫자, 특수문자 조합 8-16자"
-          :class="{ 'input-danger': passwordHasError }"
-        />
-        <p v-show="valid.password" class="input-error">
-          영문, 숫자, 특수문자를 조합하여 입력해주세요 (8-16자)
-        </p>
-      </div>
-      <div class="input-box mt-4">
-        <h5 class="input-title" :class="{ 'title-danger': telHasError }">
-          핸드폰
-        </h5>
-        <input
-          v-model="user.tel"
-          class="input-item"
-          type="text"
-          placeholder="예) 010-1234-5678"
-          :class="{ 'input-danger': telHasError }"
-        />
-        <p v-show="valid.tel" class="input-error">
-          핸드폰 번호를 정확히 입력해주세요.
-        </p>
-      </div>
-      <div class="input-box mt-4 mb-5">
-        <h5 class="input-title" :class="{ 'title-danger': emailHasError }">
-          이메일 주소
-        </h5>
-        <input
-          v-model="user.email"
-          class="input-item"
-          type="text"
-          placeholder="예) juyeon@juyeon.co.kr"
-          :class="{ 'input-danger': emailHasError }"
-        />
-        <p v-show="valid.email" class="input-error">
-          이메일 주소를 정확히 입력해주세요.
-        </p>
-      </div>
-      <b-row>
-        <b-button class="btn mr-3 float-left" @click="checkValue"
-          >정보수정</b-button
-        >
-        <b-button class="btn float-left" @click="userDelete">회원탈퇴</b-button>
+    <b-jumbotron class="mt-0">
+      <b-row id="title">
+        <b-col md="2" id="titleitem">
+          <h5 class="mb-0">기본 정보</h5>
+        </b-col>
+        <b-col md="1">
+          <b-button id="infohelp"
+            ><font-awesome-icon icon="fa-regular fa-circle-question"
+          /></b-button>
+          <b-tooltip id="infotooltip" target="infohelp" placement="bottom">
+            <p>
+              <strong>사용자 이름</strong><br />
+              서비스를 이용하려면 사용자의 이름 확인이 필요합니다. 이름 외에
+              연락처, 이메일 등의 정보가 변경되었다면 수정도 할 수 있습니다.
+            </p>
+            <p>
+              <strong>연락처 이메일</strong><br />
+              문의 사항 안내에 필요한 경우 사용합니다.
+            </p>
+            <p>
+              <strong>본인확인 이메일</strong><br />
+              비밀번호 찾기, 로그인이 안되는 경우 등 본인확인이 필요한 경우
+              사용합니다.
+            </p>
+          </b-tooltip>
+        </b-col>
       </b-row>
-    </div>
+      <b-row>
+        <b-col md="1" class="p-0">
+          <font-awesome-icon
+            icon="fa-solid fa-circle-user"
+            color="grey"
+            class="fa-4x"
+          />
+        </b-col>
+        <b-col class="px-5">
+          <h5 class="font-weight-bold">{{ userInfo.name }}</h5>
+          {{ userInfo.id }}
+        </b-col>
+      </b-row>
+      <div fluid>
+        <hr class="my-4" />
+        <h5 class="mb-4">상세 정보</h5>
+        <div class="input-box">
+          <h5 class="input-title">이름</h5>
+          <input v-model="user.name" class="input-item" type="text" />
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title">아이디</h5>
+          <input v-model="user.id" class="input-item" type="text" />
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title" :class="{ 'title-danger': passwordHasError }">
+            비밀번호
+          </h5>
+          <input
+            v-model="user.password"
+            class="input-item"
+            type="password"
+            placeholder="영문, 숫자, 특수문자 조합 8-16자"
+            :class="{ 'input-danger': passwordHasError }"
+          />
+          <p v-show="valid.password" class="input-error">
+            영문, 숫자, 특수문자를 조합하여 입력해주세요 (8-16자)
+          </p>
+        </div>
+        <div class="input-box mt-4">
+          <h5 class="input-title" :class="{ 'title-danger': telHasError }">
+            핸드폰
+          </h5>
+          <input
+            v-model="user.tel"
+            class="input-item"
+            type="text"
+            placeholder="예) 010-1234-5678"
+            :class="{ 'input-danger': telHasError }"
+          />
+          <p v-show="valid.tel" class="input-error">
+            핸드폰 번호를 정확히 입력해주세요.
+          </p>
+        </div>
+        <div class="input-box mt-4 mb-5">
+          <h5 class="input-title" :class="{ 'title-danger': emailHasError }">
+            이메일 주소
+          </h5>
+          <input
+            v-model="user.email"
+            class="input-item"
+            type="text"
+            placeholder="예) juyeon@juyeon.co.kr"
+            :class="{ 'input-danger': emailHasError }"
+          />
+          <p v-show="valid.email" class="input-error">
+            이메일 주소를 정확히 입력해주세요.
+          </p>
+        </div>
+        <b-row>
+          <b-button class="btn mr-3 float-left" @click="checkValue"
+            >정보수정</b-button
+          >
+          <b-button class="btn float-left" @click="userDelete"
+            >회원탈퇴</b-button
+          >
+        </b-row>
+      </div>
+    </b-jumbotron>
   </b-col>
 </template>
 
@@ -272,8 +276,7 @@ export default {
   padding-top: 3%;
 }
 .jumbotron {
-  border: 2px solid #ffd5e5;
-  border-radius: 15px;
+  border: none;
   background-color: transparent;
 }
 .form-control {
@@ -320,7 +323,7 @@ button:hover {
 }
 .input-error {
   line-height: 16px;
-  font-size: 11px;
+  font-size: 13px;
   color: red;
 }
 .title-danger {
@@ -339,8 +342,8 @@ input.input-item {
 input:focus {
   outline: none;
 }
-.input-title,
-p {
+.input-title {
   font-weight: bold;
+  font-size: 15px;
 }
 </style>

@@ -17,8 +17,8 @@
             color="grey"
             class="fa-8x"
           />
-          <h4 class="mt-4 mb-3">{{ userInfo.name }}</h4>
-          <h5 class="mb-4">id: {{ userInfo.id }}</h5>
+          <h5 class="mt-4 mb-3">{{ userInfo.name }}</h5>
+          <p class="mb-4">id: {{ userInfo.id }}</p>
         </div>
         <hr />
         <div>
@@ -100,11 +100,8 @@ a:hover {
 #usericon {
   padding-top: 15%;
 }
-hr {
-  width: 100%;
-}
 h5 {
-  color: gray;
+  font-weight: bold;
 }
 .row {
   justify-content: center;
@@ -119,11 +116,20 @@ h5 {
   border-style: none;
   border: none;
   box-shadow: none;
-  font-weight: bold;
-  font-size: 18px;
+  font-size: 15px;
 }
 #logo {
   justify-content: left;
   margin-top: 10%;
+}
+div.row {
+  margin: 0;
+}
+#btnprofile:hover,
+#btnplanlist:hover,
+#myarticlelist:hover,
+#myreplylist:hover {
+  font-weight: bold;
+  font-size: 100%;
 }
 </style>
