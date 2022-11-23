@@ -204,7 +204,10 @@ export default {
     },
     completePlan(choiceList) {
       if (choiceList.length == 0) alert("추천 장소를 선택해주세요.");
-      console.log(choiceList[0]);
+      else {
+        console.log(choiceList[0]);
+        // 데이타 axios
+      }
     },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
