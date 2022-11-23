@@ -261,15 +261,15 @@ values     ('ssafy', '김싸피', '1234', 'ssafy@ssafy.com', '010-1234-5678', 0)
 select * from users;
 
 -- insert boarddo
-insert into mytrip_filmo.board (user_id, subject, content, hit, register_time)
+insert into mytrip_filmo.board (article_no, user_id, subject, content, hit, register_time)
 values
-('ssafy', '강아지 동반 펜션 로하랑 추천합니다.', '강원도에 있어요 너무 좋았습니다!', 0, now()),
-('ssafy', '강릉 서핑 같이 가실 분 계신가요?', '2023년 8월에 같이 가실 분', 0, now());
+(1,'ssafy', '강아지 동반 펜션 로하랑 추천합니다.', '강원도에 있어요 너무 좋았습니다!', 0, now()),
+(2,'ssafy', '강릉 서핑 같이 가실 분 계신가요?', '2023년 8월에 같이 가실 분', 0, now());
 select *
 from board;
 
 -- insert notice
-insert into mytrip_filmo.notice (user_id, subject, content, hit, register_time)
+insert into mytrip_filmo.notice (article_no,user_id, subject, content, hit, register_time)
 values
-('admin', '[공지사항] 개인정보 처리 방침 변경 안내', '참고하세요!', 0, now()),
-('admin', '7월 이달의 리뷰 이벤트 당첨자', '장예주 강윤주 축하합니다!', 0, now());
+(1,'admin', '[공지사항] 개인정보 처리 방침 변경 안내', '참고하세요!', 0, now()),
+(2,'admin', '7월 이달의 리뷰 이벤트 당첨자', '장예주 강윤주 축하합니다!', 0, now());

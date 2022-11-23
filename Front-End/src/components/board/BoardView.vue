@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
       <b-col class="text-left">
@@ -120,4 +120,4 @@ button:hover {
   background-color: #dfe4ff;
   color: white;
 }
-</style>
+</style> -->

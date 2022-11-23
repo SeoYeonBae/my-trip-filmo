@@ -4,17 +4,30 @@
 
 <mapper namespace="com.ssafy.vue.plan.model.mapper.PlanMapper">
 
-	<insert id="addPlanDetail" parameterType="int">
-		<selectKey resultType="int" keyProperty="plan_idx" order="BEFORE">
-        	select plan_idx from plan_list where user_id = #{user_id}
-    	</selectKey>
-		insert into plan_detail
-		(#{plan_idx} + 1 , #{idx})
-	</insert>
-	
+
+	<resultMap type="boardDto" id="idxDto">
+		<result column="subject" property="subject"/>
+		<result column="user_id" property="userId"/>
+		<result column="hit" property="hit"/>
+	</resultMap>
+
 	<insert id="regist" parameterType="planDto">
 		insert into plan_list (title, start_date, end_date, user_id, invited_user)
 		values (#{title}, #{start_date}, #{end_date}, #{user_id}, #{invited_user})
 	</insert>
+
+	<select	id="getLastIdx"  parameterType="String" resultType="int">
+		select max(plan_idx) from plan_list where user_id = #{user_id}
+	</select>
+
+	<insert id="addPlanDetail" parameterType="planIdxDto">
+		insert into plan_detail
+		values (#{plan_idx}, #{idx})
+	</insert>
+	
+	<delete  id="deletePlan" parameterType="int">
+		delete from plan_list
+		where plan_idx = #{plan_idx}
+	</delete>
 	
 </mapper>

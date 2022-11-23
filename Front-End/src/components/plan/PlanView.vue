@@ -58,30 +58,46 @@
           <b-container style="padding-top: 30px">
             <plan-option-bar @makeMarker="makeMapMarkers"></plan-option-bar>
             <div class="tab-content mt-2" id="mapcontent">
-              <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
+              <div
+                class="tab-pane fade show active"
+                id="tabpane"
+                role="tabpanel"
+                aria-labelledby="tabpane"
+              >
                 <div class="map_wrap">
                   <div id="map" style="width: 100%; height: 700px"></div>
                   <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
                   <div class="custom_zoomcontrol radius_border">
                     <span @click="zoomIn"
-                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
+                      ><img
+                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
+                        alt="확대"
                     /></span>
                     <span @click="zoomOut"
-                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
+                      ><img
+                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
+                        alt="축소"
                     /></span>
                   </div>
                 </div>
               </div>
             </div>
             <b-row style="display: flex; justify-content: center"
-              ><b-button size="lg" @click="completePlan()" style="background-color: #dfe4ff; color: black; border: none"
+              ><b-button
+                size="lg"
+                @click="completePlan()"
+                style="background-color: #dfe4ff; color: black; border: none"
                 >계획 완성하기</b-button
               ></b-row
             >
           </b-container>
         </b-row>
       </b-col>
-      <b-col md="2" class="shadow bg-body rounded justify-content-center" style="padding-top: 10px; max-height: 950px">
+      <b-col
+        md="2"
+        class="shadow bg-body rounded justify-content-center"
+        style="padding-top: 10px; max-height: 950px"
+      >
         <h3 style="font-weight: bold; padding: 30px 80px 30px 80px">추천 장소</h3>
         <hr />
         <div class="scrolldiv">
@@ -95,7 +111,12 @@
             >
               <b-row no-gutters class="justify-content-center">
                 <b-col md="3">
-                  <b-card-img :src="`${tour.image}`" img-alt="Image" img-height="80" img-width="80"></b-card-img>
+                  <b-card-img
+                    :src="`${tour.image}`"
+                    img-alt="Image"
+                    img-height="80"
+                    img-width="80"
+                  ></b-card-img>
                 </b-col>
                 <b-col md="8">
                   <b-card-text>
@@ -104,7 +125,10 @@
                 </b-col>
                 <b-col>
                   <button class="planbtn" @click="addChoice(tour)">
-                    <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" /></button
+                    <font-awesome-icon
+                      icon="fa-solid fa-circle-plus"
+                      style="color: #dfe4ff"
+                    /></button
                 ></b-col>
               </b-row>
             </b-card>
@@ -182,7 +206,7 @@ export default {
         start_date: "",
         end_date: "",
         user_id: "",
-        invited_user: "",
+        invited_user: "joody",
       },
       myChoices: [],
       idxInfo: [],
@@ -220,7 +244,8 @@ export default {
       this.myChoices = filtered;
     },
     completePlan() {
-      this.planInfo.user_id = this.userInfo.id;
+      let myId = this.userInfo.id;
+      this.planInfo.user_id = myId;
       if (this.idxInfo.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
       if (this.sdate == "" || this.edate == "") alert("날짜를 선택해주세요");
       else {
@@ -237,17 +262,26 @@ export default {
         // 일단 여행지 목록들을       plan_idx에 DB 추가추가
         // console.log);
         // const bodyFormData = JSON.stringify({ arr: this.idxInfo });
-        api.post(`/plan/add/detail`, this.idxInfo).then(({ data }) => {
-          let msg = "여행지 목록 삽입 중 문제 발생 !!!";
+        let msg;
+        api.post(`/plan/add/detail/${myId}`, this.idxInfo).then(({ data }) => {
+          msg = "여행지 목록 삽입 중 문제 발생 !!!";
           if (data == "success") {
             msg = "여행지 목록 삽입 성공";
           }
-          alert(msg);
         });
-        // 데이타 axios
-        this.$router.push({ name: "planlist" });
+        if (window.confirm(msg))
+          // 데이타 axios
+          this.$router.push({ name: "planlist" });
       }
     },
+    // deletePlan(plan_idx) {
+    //   api.delete(`/plan/delete/${plan_idx}`).then(({ data }) => {
+    //     console.log(plan_idx + "번 idx 꼐획을 삭제");
+    //     let msg = "나의 여행 계획 삭제 중 문제가 발생하였습니다.";
+    //     if (data == "success") msg = "나의 여행 계획을 삭제하였습니다.";
+    //     alert(msg);
+    //   });
+    // },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },
@@ -258,7 +292,8 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src =
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {
