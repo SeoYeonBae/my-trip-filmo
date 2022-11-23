@@ -10,4 +10,6 @@ import com.ssafy.vue.plan.model.PlanDto;
 @Mapper
 public interface PlanMapper {
 	boolean regist(PlanDto planDto) throws SQLException;
+	void addPlanDetail(PlanDto planDto) throws SQLException;
+	
 }

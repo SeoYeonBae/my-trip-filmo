@@ -4,5 +4,5 @@ import com.ssafy.vue.plan.model.PlanDto;
 
 public interface PlanServcie {
 	void regist(PlanDto planDto) throws Exception;
-	int getLastIdx(String userid) trhows Exception;
+	void addPlanDetail(PlanDto planDto) throws Exception;
 }

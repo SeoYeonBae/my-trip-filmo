@@ -119,9 +119,11 @@
 
 <script>
 import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
 import draggable from "vuedraggable";
 import PlanOptionBar from "@/components/plan/PlanOptionBar";
 
+const api = apiInstance();
 const tourListStore = "tourListStore";
 
 export default {
@@ -172,6 +174,7 @@ export default {
       nowtime: "2022-11-25",
       start_date: "",
       end_date: "",
+      planInfo: {},
       mychoices: [],
       places: [],
       map: null,
@@ -203,9 +206,16 @@ export default {
       this.mychoices = filtered;
     },
     completePlan(choiceList) {
-      if (choiceList.length == 0) alert("추천 장소를 선택해주세요.");
+      if (choiceList.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
       else {
-        console.log(choiceList[0]);
+        api.put("/plan/add/detail", this.mychoices).then(({ data }) => {
+          let msg = "계획에 여행지 삽입 중 문제 발생 !!!";
+          if (data == "success") {
+            msg = "여행지 목록 삽입 완료";
+          }
+          alert(msg);
+        });
+        // console.log(choiceList[0]);
         // 데이타 axios
       }
     },

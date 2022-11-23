@@ -24,4 +24,9 @@ public class PlanServiceImpl implements PlanServcie  {
 		planMapper.regist(planDto);
 	}
 
+	@Override
+	public void addPlanDetail(PlanDto planDto) throws Exception {
+		planMapper.addPlanDetail(planDto);
+	}
+
 }

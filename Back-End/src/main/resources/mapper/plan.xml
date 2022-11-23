@@ -3,7 +3,14 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.vue.plan.model.mapper.PlanMapper">
-	
+
+	<insert id="addPlanDetail" parameterType="planDto">
+		<selectKey resultType="int" keyProperty="plan_idx" order="BEFORE">
+        	select plan_idx from plan_list where user_id = #{user_id}
+    	</selectKey>
+		insert into plan_detail
+		(#{plan_idx} , #{idx})
+	</insert>
 	
 	<insert id="regist" parameterType="planDto">
 		insert into plan_list (title, start_date, end_date, user_id, invited_user)
