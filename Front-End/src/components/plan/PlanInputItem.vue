@@ -1,44 +1,56 @@
 <template>
-  <b-container fill id="main" class="justify-content-center">
+  <b-container id="main">
     <!-- <div>/ {{ this.$route.params.planidx }}번 계획을 생성했음</div> -->
-    <b-row class="mb-5">
-      <b-col md="6">
-        <div>
-          <p>
-            제목
-            <b-form-input type="text" v-model="planTitle" placeholder="여행 이름을 입력해주세요..." />
-          </p>
-          <div>
-            <p>
-              초대자
-              <b-form-select v-model="invitedUser" :options="allUsers"></b-form-select>
-            </p>
-          </div>
-        </div>
-      </b-col>
-      <b-col md="6">
-        <b-col>
-          <div>
-            투두리스트
-            <button class="todobtn" @click="addForm()">
-              <font-awesome-icon icon="fa-solid fa-circle-plus fa-lg" style="color: #dfe4ff" />
-            </button>
-          </div>
-          <div>
-            <b-form-group id="userid-group" label-for="userid">
-              <b-form-input
-                id="userid"
-                v-model="checkList"
-                type="text"
-                required
-                placeholder="체크리스트 입력..."
-              ></b-form-input>
-            </b-form-group>
-          </div>
-        </b-col>
+    <b-row>
+      <b-col md="3" class="my-auto"><h5>TITLE</h5> </b-col>
+      <b-col>
+        <b-form-input type="text" v-model="planTitle" placeholder="여행 제목을 입력해주세요..." />
       </b-col>
     </b-row>
-    <!-- <div>this.tourIdx</div> -->
+    <b-row>
+      <b-col md="3" class="my-auto">
+        <h5>INVITED</h5>
+      </b-col>
+      <b-col>
+        <b-form-input
+          v-model="invitedUser"
+          :options="allUsers"
+          placeholder="동행자의 아이디를 입력해주세요..."
+          :class="{ 'not-exist': isNotExist }"
+        ></b-form-input>
+      </b-col>
+    </b-row>
+    <b-row>
+      <b-col md="3">
+        <h5>CHECK LIST</h5>
+      </b-col>
+      <b-col md="8">
+        <b-form-group id="check-form" label-for="userid">
+          <b-form-input
+            v-model="checkInput"
+            type="text"
+            required
+            placeholder="체크리스트 입력..."
+          ></b-form-input>
+        </b-form-group>
+      </b-col>
+      <b-col md="1" class="mt-1 flex text-align-center justify-content-center">
+        <button class="todobtn" @click="addList(checkInput)">
+          <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" />
+        </button>
+      </b-col>
+    </b-row>
+    <div style="padding-left: 220px">
+      <b-form-group v-slot="{ ariaDescribedby }">
+        <b-form-checkbox-group
+          v-model="selected"
+          :options="checklist"
+          :aria-describedby="ariaDescribedby"
+          name="flavour-2a"
+          stacked
+        ></b-form-checkbox-group>
+      </b-form-group>
+    </div>
     <hr />
     <div>
       <div v-for="(item, idx) in myPlaces" :key="idx" class="text-align-center">
@@ -70,13 +82,7 @@
       </div>
     </div>
     <b-row class="mt-5" style="display: flex; justify-content: center"
-      ><b-button
-        size="lg"
-        id="btnregist"
-        @click="registPlanInfo()"
-        style="background-color: #dfe4ff; color: black; border: none"
-        >완성하기</b-button
-      ></b-row
+      ><b-button size="lg" id="btnregist" @click="registPlanInfo()">완성하기</b-button></b-row
     >
   </b-container>
 </template>
@@ -94,6 +100,7 @@ export default {
   },
   data() {
     return {
+      isNotExist: true,
       myPlaces: [],
       tourIdx: {},
       planTitle: "",
@@ -104,11 +111,16 @@ export default {
         invited_user: "",
       },
       invitedUser: "",
-      checkList: "",
-      allUsers: {},
+      checkInput: "",
+      checklist: [],
+      selected: [],
     };
   },
   watch: {
+    invitedUser: function () {
+      this.isNotExist = false;
+      this.checkUserId();
+    },
     // planTitle: function () {
     //   console.log(this.planTitle);
     //   this.planInfo.plan_idx = this.planidx;
@@ -120,7 +132,6 @@ export default {
   created() {
     console.log(this.$route.params.planidx + "번 계획 상세정보 등록 시작");
     this.getMyPlan();
-    this.getAllUsers();
   },
   methods: {
     getMyPlan() {
@@ -128,38 +139,35 @@ export default {
       api.get(`/plan/myplan/${this.$route.params.planidx}`).then(({ data }) => {
         this.myPlaces = data;
         console.log(data);
-        // this.tourIdx = data;
-        // console.log(" => 잘 담았음 : " + this.tourIdx);
-
-        // if (this.tourIdx != null) {
-        //   console.log("방문지들의 info를 받아옵니다.");
-        //   // idx 배열을 넘겨줌
-        //   api.post(`/plan/myplan/details`, this.tourIdx).then(({ data }) => {
-        //     this.myPlaces = data;
-        //     console.log(data);
-        //     console.log(this.myPlaces);
-        //   });
-        // }
       });
     },
     registPlanInfo() {
-      api
-        .post(`/plan/regist/info`, {
-          title: this.planTitle,
-          plan_idx: this.$route.params.planidx,
-          invited_user: this.invitedUser,
-        })
-        .then(({ data }) => {
-          console.log(data);
-        });
-      this.$router.push({ name: "planlist" });
+      if (this.isNotExist) alert("동행인의 아이디를 다시 확인해주세요");
+      if (this.planTitle == "") alert("여행 제목을 입력해주세요");
+      else {
+        api
+          .post(`/plan/regist/info`, {
+            title: this.planTitle,
+            plan_idx: this.$route.params.planidx,
+            invited_user: this.invitedUser,
+          })
+          .then(({ data }) => {
+            console.log(data);
+          });
+        this.$router.push({ name: "planlist" });
+      }
     },
-    getAllUsers() {
+    checkUserId() {
       // 존재하는 유저인지 확인
-      // api.get(`/user/getall`).then(({ data }) => {
-      //   console.log(data);
-      //   // this.allUsers = data;
-      // });
+      api.get(`/user/${this.invitedUser}`).then(({ data }) => {
+        // api.post(`/plan/getuser`, user_id).then(({ data }) => {
+        if (data == 0) this.isNotExist = true;
+        else this.isNotExist = false;
+      });
+    },
+    addList(input) {
+      if (input == "") alert("체크리스트를 입력해주세요");
+      else this.checklist.push(input);
     },
   },
 };
@@ -167,12 +175,15 @@ export default {
 
 <style scoped>
 #main {
-  padding: 100px 20px 100px 200px;
+  padding: 100px 200px 100px 200px;
+}
+.row {
+  margin-bottom: 20px;
 }
 .row > * {
-  display: flex;
-  justify-content: center;
   text-align: center;
+  width: 100%;
+  margin: auto 0;
 }
 .todobtn {
   float: right;
@@ -182,9 +193,20 @@ export default {
   box-shadow: none;
   height: auto;
 }
+#btnregist {
+  background-color: #dfe4ff;
+  color: black;
+  border: none;
+}
 #btnregist:hover {
   background-color: rgb(203, 209, 255);
   color: white;
   border: none;
+}
+.not-exist {
+  color: red;
+}
+h5 {
+  font-weight: bold;
 }
 </style>

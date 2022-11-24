@@ -49,4 +49,6 @@
 		select * from plan_list
 		where plan_idx = #{plan_idx}
 	</select>
+
+	
 </mapper>

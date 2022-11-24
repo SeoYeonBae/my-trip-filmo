@@ -3,18 +3,26 @@
     <b-jumbotron class="mt-5">
       <div>
         <font-awesome-icon icon="fa-plane-departure" class="fa-2x mb-3" />
-        <b-button @click="$router.push({ name: 'planlist' })">이전으로</b-button>
-        <h4 class="mb-3">{{ planDetails.title }}</h4>
-        <h5>날짜: {{ planDetails.start_date }} - {{ planDetails.end_date }}</h5>
+        <!-- <b-button @click="$router.push({ name: 'planlist' })">이전으로</b-button> -->
+        <h3 class="mb-3" style="font-weight: bold">" {{ planDetails.title }} "</h3>
+        <h5>{{ planDetails.start_date }} - {{ planDetails.end_date }}</h5>
+        <h5 v-if="planDetails.invited_user == 'null'">일행 :</h5>
         <h5>일행: {{ planDetails.invited_user }} 님</h5>
         <h5>여행 관련 체크 리스트 들어갈 공간</h5>
         <hr class="my-4" />
-        <b-card no-body class="overflow-hidden" style="max-width: 540px">
+        <div
+          class="overflow-hidden shadow bg-body rounded justify-content-center"
+          style="min-height: 400px"
+        >
+          <!-- <b-col md="6">
+            <b-card-img
+              :src="require('@/assets/img/cover.gif')"
+              alt="Image"
+              class="rounded-0"
+            ></b-card-img>
+          </b-col> -->
           <b-row no-gutters>
-            <b-col md="6">
-              <b-card-img :src="require('@/assets/img/cover.gif')" alt="Image" class="rounded-0"></b-card-img>
-            </b-col>
-            <b-col md="6">
+            <b-col>
               <div v-for="(item, idx) in myPlaces" :key="idx" class="text-align-center">
                 <b-row>
                   <b-col>
@@ -25,27 +33,27 @@
                       class="mt-4 mb-4 me-2"
                       style="max-width: 13rem; min-width: 15rem"
                     >
-                      <b-card-text> 주소 : {{ item.addr1 }}</b-card-text>
-                      <b-card-text> 전화번호 : {{ item.tel }}</b-card-text>
+                      <b-card-text>{{ item.addr1 }}</b-card-text>
+                      <b-card-text>{{ item.tel }}</b-card-text>
                     </b-card>
                   </b-col>
-                  <b-col
+                  <!-- <b-col
                     ><b-img
-                      :src="require('@/assets/img/MarkerIcon.png')"
-                      style="width: 40px; height: 40px"
-                      class="my-auto"
+                    :src="require('@/assets/img/MarkerIcon.png')"
+                    style="width: 40px; height: 40px"
+                    class="my-auto"
                     ></b-img>
-                  </b-col>
-                  <b-col
-                    ><h5 class="my-auto" style="font-weight: bold">
-                      {{ item.title }}
-                    </h5>
-                  </b-col>
+                  </b-col> -->
                 </b-row>
+                <div class="my-auto" style="font-weight: bold">
+                  <h5 style="font-weight: bold">
+                    {{ item.title }}
+                  </h5>
+                </div>
               </div>
             </b-col>
           </b-row>
-        </b-card>
+        </div>
       </div>
     </b-jumbotron>
   </b-col>
@@ -72,6 +80,11 @@ export default {
         invited_user: "",
       },
       myPlaces: [],
+      fields: [
+        { key: "period", label: "기간", tdClass: "tdClass" },
+        { key: "invited_user", label: "일행", tdClass: "tdSubject" },
+        { key: "checklist", label: "체크리스트", tdClass: "tdClass" },
+      ],
     };
   },
   created() {
@@ -103,6 +116,11 @@ export default {
   margin: 0px;
   padding: 0px;
   justify-content: center;
+}
+.row > * {
+  display: flex;
+  justify-content: center;
+  text-align: center;
 }
 button {
   background-color: #dfe4ff;
