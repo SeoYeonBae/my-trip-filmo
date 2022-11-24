@@ -195,18 +195,37 @@ export default {
 }
 #btnregist {
   background-color: #dfe4ff;
+  border: 0;
   color: black;
+  font-weight: bold;
+  border-style: none;
   border: none;
+  box-shadow: none;
+  width: 80%;
+  height: 50px;
 }
 #btnregist:hover {
-  background-color: rgb(203, 209, 255);
-  color: white;
-  border: none;
+  background-color: #d4fcee;
+  color: black;
 }
 .not-exist {
   color: red;
 }
 h5 {
   font-weight: bold;
+}
+input {
+  border-left-width: 0;
+  border-right-width: 0;
+  border-top-width: 0;
+  border-bottom-width: 1;
+  width: 100%;
+  border-radius: 0;
+  border-bottom-color: lightgray;
+}
+input:focus {
+  outline: none;
+  border-bottom-width: 2px;
+  border-bottom-color: black;
 }
 </style>

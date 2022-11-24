@@ -3,7 +3,7 @@
     <b-jumbotron class="mt-5">
       <font-awesome-icon icon="fa-plane-departure" class="fa-2x mb-3" />
       <h4 class="mb-3">내가 만든 여행 계획</h4>
-      <h5>카드를 눌러 여행 계획의 상세 정보를 확인해 보세요</h5>
+      <h6 class="font-italic">카드를 눌러 여행 계획의 상세 정보를 확인해 보세요</h6>
 
       <hr class="my-4" />
 
@@ -14,17 +14,28 @@
         class="overflow-hidden mb-5"
         style="max-width: 540px"
       >
-        <b-row no-gutters @click="$router.push({ name: 'plandetail', params: { planidx: item.plan_idx } })">
-          <div>{{ item.plan_idx }}</div>
+        <b-row
+          no-gutters
+          @click="$router.push({ name: 'plandetail', params: { planidx: item.plan_idx } })"
+        >
           <b-col md="6">
-            <b-card-img :src="require('@/assets/img/cover.gif')" alt="Image" class="rounded-0"></b-card-img>
+            <b-card-img
+              :src="require('@/assets/img/cover.gif')"
+              alt="Image"
+              class="rounded-0"
+            ></b-card-img>
           </b-col>
           <b-col md="6">
-            <div>
+            <div class="cards">
               <b-card-body>
-                <b-card-title>{{ item.title }}</b-card-title>
-                <b-card-text> {{ item.start_date }} - {{ item.end_date }} </b-card-text>
-                <b-card-text> 일행 : " {{ item.invited_user }} " 님</b-card-text>
+                <b-card-title class="font-weight-bold">" {{ item.title }} "</b-card-title>
+                <b-card-text class="pb-3 font-italic">
+                  {{ item.start_date }} - {{ item.end_date }}
+                </b-card-text>
+                <b-card-text v-show="item.invited_user != ''" style="color: grey">
+                  <font-awesome-icon icon="fa-regular fa-address-card" />
+                  {{ item.invited_user }} 님과 함께합니다</b-card-text
+                >
               </b-card-body>
             </div>
           </b-col>
@@ -70,6 +81,12 @@ export default {
 .row {
   margin: 0px;
   padding: 0px;
+  justify-content: center;
+}
+
+.cards {
+  display: flex;
+  text-align: center;
   justify-content: center;
 }
 .jumbotron {
