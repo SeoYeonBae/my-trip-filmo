@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="wave" ref="wave"></div>
-          <div class="slide slide-left sl6" ref="sl6">
+          <div class="slide slide-left sl7" ref="sl7">
             <div class="slide-big-text">
               <p>여행의 주연</p>
               <p>지금 만나 보세요</p>
@@ -101,8 +101,18 @@ const easeIn = bezierEasing(0.38, 0.01, 0.78, 0.13);
 const midSlow = bezierEasing(0, 0.7, 1, 0.3);
 
 const def = {
-  height: 7100,
+  height: 10300,
   elements: {
+    scdown: {
+      top: 0,
+      bottom: 1000,
+      topStyle: {
+        opacity: 1,
+      },
+      bottomStyle: {
+        opacity: 0,
+      },
+    },
     sl1: {
       top: 500,
       bottom: 1900,
@@ -115,19 +125,9 @@ const def = {
         translateY: 60,
       },
     },
-    scdown: {
-      top: 0,
-      bottom: 1000,
-      topStyle: {
-        opacity: 1,
-      },
-      bottomStyle: {
-        opacity: 0,
-      },
-    },
     sl2: {
       top: 1900,
-      bottom: 3200,
+      bottom: 3300,
       topStyle: {
         opacity: 0,
         translateY: -60,
@@ -139,29 +139,17 @@ const def = {
     },
     sl3: {
       top: 3300,
-      bottom: 4600,
+      bottom: 4700,
       topStyle: {
         opacity: 0,
       },
       bottomStyle: {
         opacity: 0,
-      },
-    },
-    wave: {
-      top: 4500,
-      bottom: 5900,
-      topStyle: {
-        opacity: 0,
-        translateY: 300,
-      },
-      bottomStyle: {
-        opacity: 0,
-        translateY: 0,
       },
     },
     sl4: {
       top: 4700,
-      bottom: 6000,
+      bottom: 6100,
       topStyle: {
         opacity: 0,
       },
@@ -171,7 +159,27 @@ const def = {
     },
     sl5: {
       top: 6100,
-      bottom: 9000,
+      bottom: 7500,
+      topStyle: {
+        opacity: 0,
+      },
+      bottomStyle: {
+        opacity: 0,
+      },
+    },
+    sl6: {
+      top: 7500,
+      bottom: 8900,
+      topStyle: {
+        opacity: 0,
+      },
+      bottomStyle: {
+        opacity: 0,
+      },
+    },
+    sl7: {
+      top: 8900,
+      bottom: 10300,
       topStyle: {
         opacity: 0,
       },
@@ -181,6 +189,19 @@ const def = {
     },
   },
   animations: {
+    scdown: [
+      {
+        top: 600,
+        bottom: 1000,
+        easing: easeIn,
+        styles: {
+          opacity: {
+            topValue: 1,
+            bottomValue: 0,
+          },
+        },
+      },
+    ],
     sl1: [
       {
         top: 500,
@@ -195,7 +216,7 @@ const def = {
       },
       {
         top: 500,
-        bottom: 800,
+        bottom: 1200,
         easing: ease,
         styles: {
           opacity: {
@@ -205,21 +226,8 @@ const def = {
         },
       },
       {
-        top: 1400,
+        top: 1200,
         bottom: 1900,
-        easing: easeIn,
-        styles: {
-          opacity: {
-            topValue: 1,
-            bottomValue: 0,
-          },
-        },
-      },
-    ],
-    scdown: [
-      {
-        top: 600,
-        bottom: 1000,
         easing: easeIn,
         styles: {
           opacity: {
@@ -232,7 +240,7 @@ const def = {
     sl2: [
       {
         top: 1900,
-        bottom: 3200,
+        bottom: 3300,
         easing: midSlow,
         styles: {
           translateY: {
@@ -243,7 +251,7 @@ const def = {
       },
       {
         top: 1900,
-        bottom: 2500,
+        bottom: 2600,
         easing: ease,
         styles: {
           opacity: {
@@ -254,7 +262,7 @@ const def = {
       },
       {
         top: 2600,
-        bottom: 3200,
+        bottom: 3300,
         easing: easeIn,
         styles: {
           opacity: {
@@ -267,7 +275,7 @@ const def = {
     sl3: [
       {
         top: 3300,
-        bottom: 4600,
+        bottom: 4700,
         easing: midSlow,
         styles: {
           translateY: {
@@ -278,7 +286,7 @@ const def = {
       },
       {
         top: 3300,
-        bottom: 3900,
+        bottom: 4000,
         easing: ease,
         styles: {
           opacity: {
@@ -289,35 +297,7 @@ const def = {
       },
       {
         top: 4000,
-        bottom: 4600,
-        easing: easeIn,
-        styles: {
-          opacity: {
-            topValue: 1,
-            bottomValue: 0,
-          },
-        },
-      },
-    ],
-    wave: [
-      {
-        top: 4500,
-        bottom: 5300,
-        easing: ease,
-        styles: {
-          translateY: {
-            topValue: 200,
-            bottomValue: 0,
-          },
-          opacity: {
-            topValue: 0,
-            bottomValue: 1,
-          },
-        },
-      },
-      {
-        top: 5300,
-        bottom: 5900,
+        bottom: 4700,
         easing: easeIn,
         styles: {
           opacity: {
@@ -330,7 +310,7 @@ const def = {
     sl4: [
       {
         top: 4700,
-        bottom: 6000,
+        bottom: 6100,
         easing: midSlow,
         styles: {
           translateY: {
@@ -341,7 +321,7 @@ const def = {
       },
       {
         top: 4700,
-        bottom: 5300,
+        bottom: 5400,
         easing: ease,
         styles: {
           opacity: {
@@ -352,7 +332,7 @@ const def = {
       },
       {
         top: 5400,
-        bottom: 6000,
+        bottom: 6100,
         easing: easeIn,
         styles: {
           opacity: {
@@ -365,7 +345,7 @@ const def = {
     sl5: [
       {
         top: 6100,
-        bottom: 7100,
+        bottom: 7500,
         easing: midSlow,
         styles: {
           translateY: {
@@ -376,7 +356,77 @@ const def = {
       },
       {
         top: 6100,
-        bottom: 6700,
+        bottom: 6800,
+        easing: ease,
+        styles: {
+          opacity: {
+            topValue: 0,
+            bottomValue: 1,
+          },
+        },
+      },
+      {
+        top: 6800,
+        bottom: 7500,
+        easing: easeIn,
+        styles: {
+          opacity: {
+            topValue: 1,
+            bottomValue: 0,
+          },
+        },
+      },
+    ],
+    sl6: [
+      {
+        top: 7500,
+        bottom: 8900,
+        easing: midSlow,
+        styles: {
+          translateY: {
+            topValue: 60,
+            bottomValue: -60,
+          },
+        },
+      },
+      {
+        top: 7500,
+        bottom: 8200,
+        easing: ease,
+        styles: {
+          opacity: {
+            topValue: 0,
+            bottomValue: 1,
+          },
+        },
+      },
+      {
+        top: 8200,
+        bottom: 8900,
+        easing: easeIn,
+        styles: {
+          opacity: {
+            topValue: 1,
+            bottomValue: 0,
+          },
+        },
+      },
+    ],
+    sl7: [
+      {
+        top: 8900,
+        bottom: 10300,
+        easing: midSlow,
+        styles: {
+          translateY: {
+            topValue: 60,
+            bottomValue: -60,
+          },
+        },
+      },
+      {
+        top: 8900,
+        bottom: 9600,
         easing: ease,
         styles: {
           opacity: {
@@ -633,5 +683,11 @@ body {
 .mainimg {
   padding: 0;
   width: 100%;
+}
+button {
+  margin-top: 30px;
+}
+.sl7 {
+  text-align: center;
 }
 </style>
