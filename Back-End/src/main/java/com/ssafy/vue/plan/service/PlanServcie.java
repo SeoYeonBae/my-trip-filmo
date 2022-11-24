@@ -14,4 +14,6 @@ public interface PlanServcie {
 	List<Integer> getMyPlan(int plan_idx) throws Exception;
 	TourListDto getTourInfo(Integer idx) throws Exception;
 	void registInfo(PlanDto planDto) throws Exception;
+	List<PlanDto> getMyPlanList(String user_id) throws Exception;
+	PlanDto getMyPlanInfo(int plan_idx) throws Exception;
 }

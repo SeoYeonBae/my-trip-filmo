@@ -19,4 +19,6 @@ public interface PlanMapper {
 	List<Integer> getMyPlan(int plan_idx) throws SQLException;
 	TourListDto getTourInfo(Integer idx) throws SQLException;
 	void registInfo(PlanDto planDto) throws SQLException;
+	List<PlanDto> getMyPlanList(String user_id) throws SQLException;
+	PlanDto getMyPlanInfo(int plan_idx) throws SQLException;
 }

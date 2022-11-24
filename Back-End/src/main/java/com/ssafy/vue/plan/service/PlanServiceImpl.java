@@ -58,4 +58,14 @@ public class PlanServiceImpl implements PlanServcie  {
 		planMapper.registInfo(planDto);		
 	}
 
+	@Override
+	public List<PlanDto> getMyPlanList(String user_id) throws Exception {
+		return planMapper.getMyPlanList(user_id);
+	}
+
+	@Override
+	public PlanDto getMyPlanInfo(int plan_idx) throws Exception {
+		return planMapper.getMyPlanInfo(plan_idx);
+	}
+
 }

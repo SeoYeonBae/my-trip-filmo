@@ -70,7 +70,11 @@
       </div>
     </div>
     <b-row class="mt-5" style="display: flex; justify-content: center"
-      ><b-button size="lg" @click="registPlanInfo()" style="background-color: #dfe4ff; color: black; border: none"
+      ><b-button
+        size="lg"
+        id="btnregist"
+        @click="registPlanInfo()"
+        style="background-color: #dfe4ff; color: black; border: none"
         >완성하기</b-button
       ></b-row
     >
@@ -122,18 +126,20 @@ export default {
     getMyPlan() {
       console.log("방문할 여행지의 idx들을 받아옵니다");
       api.get(`/plan/myplan/${this.$route.params.planidx}`).then(({ data }) => {
-        this.tourIdx = data;
-        console.log(" => 잘 담았음 : " + this.tourIdx);
+        this.myPlaces = data;
+        console.log(data);
+        // this.tourIdx = data;
+        // console.log(" => 잘 담았음 : " + this.tourIdx);
 
-        if (this.tourIdx != null) {
-          console.log("방문지들의 info를 받아옵니다.");
-          // idx 배열을 넘겨줌
-          api.post(`/plan/myplan/details`, this.tourIdx).then(({ data }) => {
-            this.myPlaces = data;
-            console.log(data);
-            console.log(this.myPlaces);
-          });
-        }
+        // if (this.tourIdx != null) {
+        //   console.log("방문지들의 info를 받아옵니다.");
+        //   // idx 배열을 넘겨줌
+        //   api.post(`/plan/myplan/details`, this.tourIdx).then(({ data }) => {
+        //     this.myPlaces = data;
+        //     console.log(data);
+        //     console.log(this.myPlaces);
+        //   });
+        // }
       });
     },
     registPlanInfo() {
@@ -176,7 +182,7 @@ export default {
   box-shadow: none;
   height: auto;
 }
-button:hover {
+#btnregist:hover {
   background-color: rgb(203, 209, 255);
   color: white;
   border: none;

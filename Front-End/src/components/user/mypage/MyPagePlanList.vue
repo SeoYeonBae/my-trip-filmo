@@ -7,20 +7,26 @@
 
       <hr class="my-4" />
 
-      <b-card no-body class="overflow-hidden" style="max-width: 540px">
-        <b-row no-gutters @click="$router.push({ name: 'plandetail' })">
+      <b-card
+        v-for="(item, idx) in this.myplans"
+        :key="idx"
+        no-body
+        class="overflow-hidden mb-5"
+        style="max-width: 540px"
+      >
+        <b-row no-gutters @click="$router.push({ name: 'plandetail', params: { planidx: item.plan_idx } })">
+          <div>{{ item.plan_idx }}</div>
           <b-col md="6">
-            <b-card-img
-              :src="require('@/assets/img/cover.gif')"
-              alt="Image"
-              class="rounded-0"
-            ></b-card-img>
+            <b-card-img :src="require('@/assets/img/cover.gif')" alt="Image" class="rounded-0"></b-card-img>
           </b-col>
           <b-col md="6">
-            <b-card-body title="제주도 3박 4일">
-              <b-card-text> 2022-11-17 - 2022-11-19 </b-card-text>
-              <b-card-text> 인원: 총 4 명 </b-card-text>
-            </b-card-body>
+            <div>
+              <b-card-body>
+                <b-card-title>{{ item.title }}</b-card-title>
+                <b-card-text> {{ item.start_date }} - {{ item.end_date }} </b-card-text>
+                <b-card-text> 일행 : " {{ item.invited_user }} " 님</b-card-text>
+              </b-card-body>
+            </div>
           </b-col>
         </b-row>
       </b-card>
@@ -29,9 +35,34 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const api = apiInstance();
+const memberStore = "memberStore";
+
 export default {
   name: "MyPagePlanList",
   components: {},
+  computed: {
+    ...mapState(memberStore, ["userInfo"]),
+  },
+  data() {
+    return {
+      myplans: [],
+    };
+  },
+  created() {
+    this.getMyPlans();
+  },
+  methods: {
+    getMyPlans() {
+      console.log("나의 계획들을 가져옵니다");
+      api.get(`/plan/total/planlist/${this.userInfo.id}`).then(({ data }) => {
+        console.log(data);
+        this.myplans = data;
+      });
+    },
+  },
 };
 </script>
 

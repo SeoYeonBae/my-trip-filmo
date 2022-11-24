@@ -39,4 +39,14 @@
 		where plan_idx = #{plan_idx};
 	</update>
 	
+	<select id="getMyPlanList" parameterType="planDto" resultType="planDto">
+		select * 
+		from plan_list
+		where user_id = #{user_id}
+	</select>
+	
+	<select id="getMyPlanInfo" parameterType="int" resultType="planDto">
+		select * from plan_list
+		where plan_idx = #{plan_idx}
+	</select>
 </mapper>

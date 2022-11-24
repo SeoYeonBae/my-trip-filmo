@@ -92,31 +92,33 @@ public class PlanController {
 	}
 	
 	
+//	@GetMapping("/myplan/{idx}")
+//	public ResponseEntity<?> getMyPlanDetail(@PathVariable("idx") int plan_idx) throws Exception {
+//		logger.info("-------------get My Plan 호출");
+//		try {
+//			List<Integer> myplanList = new ArrayList<Integer>();
+//			myplanList = planService.getMyPlan(plan_idx);
+//			return new ResponseEntity<List<Integer>>(myplanList , HttpStatus.OK);
+//		}
+//		catch(Exception e){
+//			return exceptionHandling(e);
+//		}
+//	}
+	
 	@GetMapping("/myplan/{idx}")
 	public ResponseEntity<?> getMyPlanDetail(@PathVariable("idx") int plan_idx) throws Exception {
 		logger.info("-------------get My Plan 호출");
 		try {
 			List<Integer> myplanList = new ArrayList<Integer>();
-			myplanList = planService.getMyPlan(plan_idx);
-			return new ResponseEntity<List<Integer>>(myplanList , HttpStatus.OK);
-		}
-		catch(Exception e){
-			return exceptionHandling(e);
-		}
-	}
-	
-	
-	@PostMapping("/myplan/details")
-	public ResponseEntity<?> getTourInfo(@RequestBody List<Integer> list) throws Exception {
+			List<TourListDto> tourInfoList = new ArrayList<TourListDto>();
 
-		logger.info("-------------방문지들의 정보받아오기 호출");
-		List<TourListDto> tourInfoList = new ArrayList<TourListDto>();
-		try {
-			for (int i = 0; i < list.size(); i++) {
-				logger.info("방문지들 idx: " + list.get(i) + "번 여행지");
-				tourInfoList.add(planService.getTourInfo(list.get(i)));
+			myplanList = planService.getMyPlan(plan_idx);
+			
+			logger.info("-------------My Plan => 방문지들의 정보받아오기 호출");
+			for (int i = 0; i < myplanList.size(); i++) {
+				logger.info("방문지들 idx: " + myplanList.get(i) + "번 여행지");
+				tourInfoList.add(planService.getTourInfo(myplanList.get(i)));
 			}	
-			// 추가된 계획의 번호를 반환한다
 			return new ResponseEntity<List<TourListDto>>(tourInfoList, HttpStatus.OK);
 		}
 		catch(Exception e){
@@ -124,7 +126,54 @@ public class PlanController {
 		}
 	}
 	
+	
+//	@PostMapping("/myplan/details")
+//	public ResponseEntity<?> getTourInfo(@RequestBody List<Integer> list) throws Exception {
+//
+//		logger.info("-------------방문지들의 정보받아오기 호출");
+//		List<TourListDto> tourInfoList = new ArrayList<TourListDto>();
+//		try {
+//			for (int i = 0; i < list.size(); i++) {
+//				logger.info("방문지들 idx: " + list.get(i) + "번 여행지");
+//				tourInfoList.add(planService.getTourInfo(list.get(i)));
+//			}	
+//			// 추가된 계획의 번호를 반환한다
+//			return new ResponseEntity<List<TourListDto>>(tourInfoList, HttpStatus.OK);
+//		}
+//		catch(Exception e){
+//			return exceptionHandling(e);
+//		}
+//	}
+	
+	
+	@GetMapping("/total/planlist/{id}")
+	public ResponseEntity<?> getMyPlanList(@PathVariable("id") String user_id) throws Exception {
 
+		logger.info("-------------마이페이지 모든 나의 계획 호출");
+		try {
+			List<PlanDto> list = planService.getMyPlanList(user_id);
+			logger.info(list.size()+"개");
+			for (int i = 0; i < list.size(); i++) {
+				logger.info(list.get(i).toString());
+			}
+			return new ResponseEntity<List<PlanDto>>(list, HttpStatus.OK);
+		}
+		catch(Exception e){
+			return exceptionHandling(e);
+		}
+	}
+
+	@GetMapping("/myplan/info/{plan_idx}")
+	public ResponseEntity<?> getMyPlanInfo(@PathVariable("plan_idx") int plan_idx) throws Exception {
+		logger.info("-------------현재 조회하려는 여행계획 info");
+		try {
+			PlanDto planDto = planService.getMyPlanInfo(plan_idx);
+			return new ResponseEntity<PlanDto>(planDto, HttpStatus.OK);
+		}
+		catch(Exception e){
+			return exceptionHandling(e);
+		}
+	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
