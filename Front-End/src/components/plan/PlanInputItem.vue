@@ -20,7 +20,7 @@
         ></b-form-input>
       </b-col>
     </b-row>
-    <b-row>
+    <!-- <b-row>
       <b-col md="3">
         <h5>CHECK LIST</h5>
       </b-col>
@@ -39,7 +39,7 @@
           <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" />
         </button>
       </b-col>
-    </b-row>
+    </b-row> -->
     <div style="padding-left: 220px">
       <b-form-group v-slot="{ ariaDescribedby }">
         <b-form-checkbox-group
