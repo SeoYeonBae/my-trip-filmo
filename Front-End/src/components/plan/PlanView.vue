@@ -58,46 +58,30 @@
           <b-container style="padding-top: 30px">
             <plan-option-bar @makeMarker="makeMapMarkers"></plan-option-bar>
             <div class="tab-content mt-2" id="mapcontent">
-              <div
-                class="tab-pane fade show active"
-                id="tabpane"
-                role="tabpanel"
-                aria-labelledby="tabpane"
-              >
+              <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
                 <div class="map_wrap">
                   <div id="map" style="width: 100%; height: 700px"></div>
                   <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
                   <div class="custom_zoomcontrol radius_border">
                     <span @click="zoomIn"
-                      ><img
-                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png"
-                        alt="확대"
+                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_plus.png" alt="확대"
                     /></span>
                     <span @click="zoomOut"
-                      ><img
-                        src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png"
-                        alt="축소"
+                      ><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/ico_minus.png" alt="축소"
                     /></span>
                   </div>
                 </div>
               </div>
             </div>
             <b-row style="display: flex; justify-content: center"
-              ><b-button
-                size="lg"
-                @click="completePlan()"
-                style="background-color: #dfe4ff; color: black; border: none"
+              ><b-button size="lg" @click="completePlan()" style="background-color: #dfe4ff; color: black; border: none"
                 >계획 완성하기</b-button
               ></b-row
             >
           </b-container>
         </b-row>
       </b-col>
-      <b-col
-        md="2"
-        class="shadow bg-body rounded justify-content-center"
-        style="padding-top: 10px; max-height: 950px"
-      >
+      <b-col md="2" class="shadow bg-body rounded justify-content-center" style="padding-top: 10px; max-height: 950px">
         <h3 style="font-weight: bold; padding: 30px 80px 30px 80px">추천 장소</h3>
         <hr />
         <div class="scrolldiv">
@@ -111,12 +95,7 @@
             >
               <b-row no-gutters class="justify-content-center">
                 <b-col md="3">
-                  <b-card-img
-                    :src="`${tour.image}`"
-                    img-alt="Image"
-                    img-height="80"
-                    img-width="80"
-                  ></b-card-img>
+                  <b-card-img :src="`${tour.image}`" img-alt="Image" img-height="80" img-width="80"></b-card-img>
                 </b-col>
                 <b-col md="8">
                   <b-card-text>
@@ -125,10 +104,7 @@
                 </b-col>
                 <b-col>
                   <button class="planbtn" @click="addChoice(tour)">
-                    <font-awesome-icon
-                      icon="fa-solid fa-circle-plus"
-                      style="color: #dfe4ff"
-                    /></button
+                    <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" /></button
                 ></b-col>
               </b-row>
             </b-card>
@@ -143,14 +119,14 @@
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 import draggable from "vuedraggable";
-import PlanOptionBar from "@/components/plan/PlanOptionBar";
+import PlanOptionBar from "@/components/plan/PlanOptionBar.vue";
 
 const api = apiInstance();
 const memberStore = "memberStore";
 const tourListStore = "tourListStore";
 
 export default {
-  name: "PlanView",
+  name: "planview",
   components: {
     draggable,
     PlanOptionBar,
@@ -161,7 +137,6 @@ export default {
   },
   watch: {
     myChoices: function () {
-      console.log(this.myChoices[0].idx + "idx 여행지");
       // ++ 리스트의 마커 선 긋는 함수 추가하기
     },
     sidoCode: function () {
@@ -202,20 +177,20 @@ export default {
       sdate: "",
       edate: "",
       planInfo: {
-        title: "나의 여행계획 기본정보입니다",
+        title: "나의 여행계획 1",
         start_date: "",
         end_date: "",
         user_id: "",
         invited_user: "joody",
       },
       myChoices: [],
-      idxInfo: [],
       places: [],
       map: null,
       markers: [],
       latitude: 0,
       longitude: 0,
       overlay: null,
+      msg: "여행 계획 등록 중 문제가 발생하였습니다.",
     };
   },
   mounted() {
@@ -233,8 +208,6 @@ export default {
         lng: tour_info.mapx,
         addr: tour_info.addr1,
       };
-      this.idxInfo.push(tour_info.idx);
-      console.log(this.idxInfo);
       this.myChoices.push(newInfo);
     },
     deleteChoice(delete_name) {
@@ -246,33 +219,40 @@ export default {
     completePlan() {
       let myId = this.userInfo.id;
       this.planInfo.user_id = myId;
-      if (this.idxInfo.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
+
+      if (this.myChoices.length == 0) alert("추천 장소에서 여행지를 선택해주세요.");
       if (this.sdate == "" || this.edate == "") alert("날짜를 선택해주세요");
       else {
-        console.log(this.planInfo);
-
+        let idxInfo = [];
+        this.myChoices.forEach((item) => {
+          idxInfo.push(item.idx); // 선택한 여행지들의 idx만 담는다.
+        });
+        console.log("idxInfo배열: " + idxInfo);
         // 나의 여행 계획 정보를 추가
         api.post(`/plan/regist`, this.planInfo).then(({ data }) => {
-          console.log(data);
-          let msg = "나의 여행 계획 등록 중 문제가 발생하였습니다.";
-          if (data == "success") msg = "나의 여행 계획이 등록되었습니다.";
-          alert(msg);
+          if (data == "fail") {
+            alert(this.msg);
+            this.$router.push({ name: "planlist" });
+          } else this.addDetails(idxInfo, myId);
         });
-
-        // 일단 여행지 목록들을       plan_idx에 DB 추가추가
-        // console.log);
-        // const bodyFormData = JSON.stringify({ arr: this.idxInfo });
-        let msg;
-        api.post(`/plan/add/detail/${myId}`, this.idxInfo).then(({ data }) => {
-          msg = "여행지 목록 삽입 중 문제 발생 !!!";
-          if (data == "success") {
-            msg = "여행지 목록 삽입 성공";
-          }
-        });
-        if (window.confirm(msg))
-          // 데이타 axios
-          this.$router.push({ name: "planlist" });
       }
+    },
+    addDetails(idxInfo, myId) {
+      let lastIdx; // 유저가 새로 생성한 계획의 idx를 저장하는 변수
+      // 선택한 여행지 목록들을 post
+      api.post(`/plan/detail/${myId}`, idxInfo).then(({ data }) => {
+        console.log(data + " => 나의 여행 계획 plan_idx");
+        if (data == "fail") {
+          alert(this.msg);
+          this.$router.push({ name: "planlist" });
+        } else {
+          // 유저가 새로 생성한 계획의 idx가 잘 반환되었으므로 다음 페이지로 전환
+          lastIdx = data;
+          console.log(data + "번 계획을 추가했습니다.");
+          this.$router.push({ name: "planinfo", params: { id: myId, planidx: lastIdx } });
+        }
+        console.log(lastIdx);
+      });
     },
     // deletePlan(plan_idx) {
     //   api.delete(`/plan/delete/${plan_idx}`).then(({ data }) => {
@@ -292,8 +272,7 @@ export default {
       const script = document.createElement("script");
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
-      script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+      script.src = "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
       document.head.appendChild(script);
     },
     initMap() {

@@ -28,7 +28,7 @@
           <b-img :src="require('@/assets/img/tourList.png')"></b-img>
           <p>전국 관광지</p>
         </b-col>
-        <b-col @click="$router.push({ name: 'plan' })">
+        <b-col @click="$router.push({ name: 'planview' })">
           <b-img :src="require('@/assets/img/makePlan.png')"></b-img>
           <p>여행 계획하기</p>
         </b-col>

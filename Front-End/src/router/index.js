@@ -19,11 +19,18 @@ const routes = [
     path: "/plan",
     name: "plan",
     component: () => import("@/views/AppPlan"),
-  },
-  {
-    path: "/qna",
-    name: "appQnA",
-    component: () => import("@/views/AppQnA"),
+    children: [
+      {
+        path: "view",
+        name: "planview",
+        component: () => import("@/components/plan/PlanView.vue"),
+      },
+      {
+        path: "info",
+        name: "planinfo",
+        component: () => import("@/components/plan/PlanInputItem.vue"),
+      },
+    ],
   },
   {
     path: "/sun",

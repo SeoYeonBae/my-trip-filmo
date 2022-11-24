@@ -23,6 +23,7 @@ import com.ssafy.vue.plan.service.PlanServcie;
 public class PlanController {
 	private Logger logger = LoggerFactory.getLogger(PlanController.class);
 	private PlanServcie planService;
+	private Integer lastIdx;
 
 	@Autowired
 	public PlanController(PlanServcie planService) {
@@ -32,9 +33,10 @@ public class PlanController {
 	
 	@PostMapping("/regist")
 	public ResponseEntity<String> registPlan(@RequestBody PlanDto planDto) throws Exception {
-		logger.info("-------------regist plan 호출");
 		try {
 			planService.regist(planDto);
+			lastIdx = planService.getLastIdx(planDto.getUser_id());
+			
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
 		catch(Exception e){
@@ -42,25 +44,20 @@ public class PlanController {
 		}
 	}
 	
-	@PostMapping("/add/detail/{id}")
-	public ResponseEntity<String> addPlanDetail(@RequestBody List<Integer> list, @PathVariable("id") String user_id) throws Exception {
-		logger.info("-------------add detail 호출");
+	@PostMapping("/detail/{id}")
+	public ResponseEntity<?> addPlanDetail(@RequestBody List<Integer> list, @PathVariable("id") String user_id) throws Exception {
 		PlanIdxDto idxDto = new PlanIdxDto();
 		try {
-			int lastIdx = planService.getLastIdx(user_id) + 1;
-			logger.info("새로추가될 계획 인덱스: " + lastIdx);
-			for (int i = 1; i < list.size(); i++) {
+			for (int i = 0; i < list.size(); i++) {
 				logger.info("여행지들 목록 : " + list.get(i));
 				
 				idxDto.setIdx(list.get(i));
 				idxDto.setPlan_idx(lastIdx);
 				
 				planService.addPlanDetail(idxDto);
-			}
-			
-			
-			
-			return new ResponseEntity<String>("success", HttpStatus.OK);
+			}	
+			// 추가된 계획의 번호를 반환한다
+			return new ResponseEntity<Integer>(lastIdx, HttpStatus.OK);
 		}
 		catch(Exception e){
 			return exceptionHandling(e);
