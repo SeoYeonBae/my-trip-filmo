@@ -126,7 +126,7 @@ const memberStore = "memberStore";
 const tourListStore = "tourListStore";
 
 export default {
-  name: "planview",
+  name: "PlanView",
   components: {
     draggable,
     PlanOptionBar,
@@ -238,7 +238,6 @@ export default {
       }
     },
     addDetails(idxInfo, myId) {
-      let lastIdx; // 유저가 새로 생성한 계획의 idx를 저장하는 변수
       // 선택한 여행지 목록들을 post
       api.post(`/plan/detail/${myId}`, idxInfo).then(({ data }) => {
         console.log(data + " => 나의 여행 계획 plan_idx");
@@ -247,11 +246,9 @@ export default {
           this.$router.push({ name: "planlist" });
         } else {
           // 유저가 새로 생성한 계획의 idx가 잘 반환되었으므로 다음 페이지로 전환
-          lastIdx = data;
           console.log(data + "번 계획을 추가했습니다.");
-          this.$router.push({ name: "planinfo", params: { id: myId, planidx: lastIdx } });
+          this.$router.push({ name: "planinfo", params: { id: myId, planidx: data } });
         }
-        console.log(lastIdx);
       });
     },
     // deletePlan(plan_idx) {

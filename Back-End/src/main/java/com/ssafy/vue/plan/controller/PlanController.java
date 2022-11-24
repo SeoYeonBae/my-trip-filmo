@@ -1,5 +1,6 @@
 package com.ssafy.vue.plan.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.vue.plan.model.PlanDto;
 import com.ssafy.vue.plan.model.PlanIdxDto;
 import com.ssafy.vue.plan.service.PlanServcie;
+import com.ssafy.vue.tourlist.model.TourListDto;
 
 @RestController
 @RequestMapping("/plan")
@@ -71,6 +74,40 @@ public class PlanController {
 		try {
 			planService.deletePlan(plan_idx);
 			return new ResponseEntity<String>("success", HttpStatus.OK);
+		}
+		catch(Exception e){
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	@GetMapping("/myplan/{idx}")
+	public ResponseEntity<?> getMyPlanDetail(@PathVariable("idx") int plan_idx) throws Exception {
+		logger.info("-------------get My Plan 호출");
+		try {
+			List<Integer> myplanList = new ArrayList<Integer>();
+			myplanList = planService.getMyPlan(plan_idx);
+			return new ResponseEntity<List<Integer>>(myplanList , HttpStatus.OK);
+		}
+		catch(Exception e){
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	@PostMapping("/myplan/details")
+	public ResponseEntity<?> getTourInfo(@RequestBody List<Integer> list) throws Exception {
+
+		logger.info("-------------방문지들의 정보받아오기 호출");
+		List<TourListDto> tourInfoList = new ArrayList<TourListDto>();
+		try {
+			for (int i = 0; i < list.size(); i++) {
+				logger.info("방문지들 idx: " + list.get(i) + "번 여행지");
+				planService.getTourInfo(list.get(i)).toString();
+				tourInfoList.add(planService.getTourInfo(list.get(i)));
+			}	
+			// 추가된 계획의 번호를 반환한다
+			return new ResponseEntity<List<TourListDto>>(tourInfoList, HttpStatus.OK);
 		}
 		catch(Exception e){
 			return exceptionHandling(e);

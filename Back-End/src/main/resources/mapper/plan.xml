@@ -3,14 +3,7 @@
 	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.ssafy.vue.plan.model.mapper.PlanMapper">
-
-
-	<resultMap type="boardDto" id="idxDto">
-		<result column="subject" property="subject"/>
-		<result column="user_id" property="userId"/>
-		<result column="hit" property="hit"/>
-	</resultMap>
-
+	
 	<insert id="regist" parameterType="planDto">
 		insert into plan_list (title, start_date, end_date, user_id, invited_user)
 		values (#{title}, #{start_date}, #{end_date}, #{user_id}, #{invited_user})
@@ -25,9 +18,19 @@
 		values (#{plan_idx}, #{idx})
 	</insert>
 	
-	<delete  id="deletePlan" parameterType="int">
+	<delete id="deletePlan" parameterType="int">
 		delete from plan_list
 		where plan_idx = #{plan_idx}
 	</delete>
+	
+	<select id="getMyPlan" parameterType="int"  resultType="int">
+		select idx from plan_detail 
+		where plan_idx = #{plan_idx}
+	</select>
+	
+	<select id="getTourInfo" parameterType="int"  resultType="tourListDto">
+		select * from tour_list
+		where idx = #{idx}
+	</select>
 	
 </mapper>

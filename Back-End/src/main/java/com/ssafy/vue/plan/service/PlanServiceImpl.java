@@ -1,5 +1,7 @@
 package com.ssafy.vue.plan.service;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.vue.plan.model.PlanDto;
 import com.ssafy.vue.plan.model.PlanIdxDto;
 import com.ssafy.vue.plan.model.mapper.PlanMapper;
+import com.ssafy.vue.tourlist.model.TourListDto;
 
 @Service
 public class PlanServiceImpl implements PlanServcie  {
@@ -38,6 +41,16 @@ public class PlanServiceImpl implements PlanServcie  {
 	@Override
 	public void deletePlan(int plan_idx) throws Exception {
 		planMapper.deletePlan(plan_idx);
+	}
+
+	@Override
+	public List<Integer> getMyPlan(int plan_idx) throws Exception {
+		return planMapper.getMyPlan(plan_idx);
+	}
+
+	@Override
+	public TourListDto getTourInfo(Integer idx) throws Exception {
+		return planMapper.getTourInfo(idx);
 	}
 
 }
