@@ -2,7 +2,26 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import AppMain from "@/views/AppMain";
 
+import store from "@/store";
+
 Vue.use(VueRouter);
+
+const onlyAuthUser = async (to, from, next) => {
+  const checkUserInfo = store.getters["memberStore/checkUserInfo"];
+  const checkToken = store.getters["memberStore/checkToken"];
+  let token = sessionStorage.getItem("access-token");
+
+  if (checkUserInfo != null && token) {
+    await store.dispatch("memberStore/getUserInfo", token);
+  }
+  if (!checkToken || checkUserInfo === null) {
+    alert("로그인이 필요한 페이지입니다.");
+    // next({ name: "login" });
+    router.push({ name: "login" });
+  } else {
+    next();
+  }
+};
 
 const routes = [
   {
@@ -13,11 +32,13 @@ const routes = [
   {
     path: "/recommend/:typeid",
     name: "recommend",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/components/recommend/RecommendView"),
   },
   {
     path: "/plan",
     name: "plan",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/AppPlan"),
     children: [
       {
@@ -35,6 +56,7 @@ const routes = [
   {
     path: "/sun",
     name: "sun",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/AppSunRiseSunSet"),
   },
   {
@@ -61,11 +83,13 @@ const routes = [
       {
         path: "map",
         name: "tourmap",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/tourlist/TourListShowMap"),
       },
       {
         path: "image",
         name: "tourimage",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/tourlist/TourListShowImage"),
       },
     ],
@@ -95,6 +119,7 @@ const routes = [
   {
     path: "/mypage",
     name: "mypage",
+    beforeEnter: onlyAuthUser,
     component: () => import("@/views/AppMyPage"),
     redirect: "/mypage/profile",
     children: [
@@ -139,21 +164,25 @@ const routes = [
       {
         path: "write",
         name: "boardwrite",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/board/BoardWrite"),
       },
       {
         path: "view/:articleno",
         name: "boardview",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/board/BoardView"),
       },
       {
         path: "modify",
         name: "boardmodify",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/board/BoardModify"),
       },
       {
         path: "delete/:articleno",
         name: "boarddelete",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/board/BoardDelete"),
       },
     ],
@@ -172,21 +201,25 @@ const routes = [
       {
         path: "write",
         name: "noticewrite",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeWrite"),
       },
       {
         path: "view/:articleno",
         name: "noticeview",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeView"),
       },
       {
         path: "modify",
         name: "noticemodify",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeModify"),
       },
       {
         path: "delete/:articleno",
         name: "noticedelete",
+        beforeEnter: onlyAuthUser,
         component: () => import("@/components/notice/NoticeDelete"),
       },
     ],
