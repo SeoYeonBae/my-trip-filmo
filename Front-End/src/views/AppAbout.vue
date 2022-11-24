@@ -3,61 +3,88 @@
     <main class="sticky-container" ref="sticky-container">
       <div class="sticky">
         <div class="slide-container">
-          <div class="slide" ref="sl1">
-            <div class="slide-big-text">
-              <p>바로 그거</p>
-              <p>여행의 주연에 다 있다</p>
-              <p>여행의 행복이 시작되는 곳</p>
-              <p>오늘의 주인공은 나</p>
+          <div class="slide" ref="scdown">
+            <b-row class="mb-5">
+              <b-col md="6">
+                <div class="slide-big-text">
+                  <p>여 행의</p>
+                  <p>행 복이 시작되는 곳</p>
+                  <p>의</p>
+                  <p>주</p>
+                  <p>연</p>
+                </div>
+              </b-col>
+              <b-col>
+                <!-- <b-img
+                  class="mainimg"
+                  :src="require('@/assets/aboutImg/undraw_Traveling_01tc.png')"
+                >
+                </b-img> -->
+              </b-col>
+            </b-row>
+            <div class="scdown blink text-center" ref="scdown">
+              <div class="scdown-text mt-5">go</div>
+              <font-awesome-icon icon="fa-solid fa-arrow-down" />
             </div>
           </div>
-          <div class="slide" ref="scdown">
+          <div class="slide" ref="sl1">
             <div class="slide-big-text">
-              <p>여행의 주연</p>
-              아래로 스크롤하세요.
+              <p>시작은 왜</p>
+              <p>여행의 주연?</p>
+              <!-- <p>바로 그거</p>
+              <p>여행의 주연에 다 있다</p>
+              <p>여행의 행복이 시작되는 곳</p>
+              <p>오늘의 주인공은 나</p> -->
             </div>
           </div>
           <div class="slide" ref="sl2">
             <div class="slide-big-text">
-              <p>왜</p>
-              <p>여행의 주연?</p>
+              <p>01.</p>
+              <p>지금 당장 떠나자!</p>
+              계획이 없다면 언제든 핫플 추천 받기
             </div>
           </div>
           <div class="slide sl3" ref="sl3">
             <div class="slide-big-text">
-              <p>01</p>
-              <p>지금 당장 떠나자!</p>
-              계획이 없다면 언제든 핫플 추천 받기
+              <p>02.</p>
+              <p>검색부터 계획까지 한 번에</p>
+              지역별 여행지를 구경하고 나만의 계획에 추가해보세요
             </div>
           </div>
           <div class="slide slide-left sl4" ref="sl4">
             <div class="sl4-content">
               <div class="slide-big-text" ref="sl4-big">
-                <p ref="sl4-big-1">자세한</p>
-                <p ref="sl4-big-2">설명이</p>
-                <p ref="sl4-big-3">있을 수도 있어요</p>
-              </div>
-              <div class="slide-small-text">
-                <p>그렇습니다.</p>
-                <p>이건</p>
-                <p>글씨가 좀 작습니다.</p>
+                <p>03.</p>
+                <p>해가 뜰 때 소원을</p>
+                <p>해가 질 때 인생샷을</p>
+                여행날짜와 위치만 입력하면 <br />
+                일출 일몰 시간을 확인할 수 있어요.
               </div>
             </div>
           </div>
-          <div class="wave" ref="wave">
-            <b-img :src="require('@/assets/img/todayTour.png')"></b-img>
-          </div>
-
           <div class="slide slide-left sl5" ref="sl5">
             <div class="slide-big-text">
-              <p>엘바노프 스튜디오는</p>
-              <p>당신의 풍요로운</p>
-              <p>나날을 꿈꿉니다.</p>
+              <p>04.</p>
+              <p>다들 어디 가지?</p>
+              서로서로 공유하는 나만의 핫플 <br />
+              우리나라 여행지의 아름다운 곳곳을 보여주세요
             </div>
-            <div class="go-surf-wrapper">
-              <a href="https://elvanov.com/2195" target="_blank"
-                >이 코드의 설명을 보려면 여기를 눌르세요.</a
-              >
+          </div>
+          <div class="slide slide-left sl6" ref="sl6">
+            <div class="slide-big-text">
+              <p>05.</p>
+              <p>친구야 같이 가자!</p>
+              <p>계획도 공유도 여행의 주연에서</p>
+              여행을 계획할 때 함께할 수 있는 친구를 초대할 수 있어요<br />
+              완성된 계획을 카톡으로 공유해 여행내내 간편하게 관리하세요
+            </div>
+          </div>
+          <div class="wave" ref="wave"></div>
+          <div class="slide slide-left sl6" ref="sl6">
+            <div class="slide-big-text">
+              <p>여행의 주연</p>
+              <p>지금 만나 보세요</p>
+              <b-button>사이트 바로 가기</b-button>
             </div>
           </div>
         </div>
@@ -498,7 +525,11 @@ export default {
           // 아래로 나갔다면 끝나는 스타일적용
           else if (currentPos >= bottom) {
             Object.keys(bottomStyle).forEach((styleName) => {
-              applyStyle(this.$refs[refname], styleName, bottomStyle[styleName]);
+              applyStyle(
+                this.$refs[refname],
+                styleName,
+                bottomStyle[styleName]
+              );
               // this.$refs[refname].style[styleName] = bottomStyle[styleName];
             });
           }
@@ -521,6 +552,10 @@ export default {
 </script>
 
 <style scoped>
+nav {
+  background-color: rgba(0, 0, 0, 0);
+}
+
 body {
   padding: 0;
   margin: 0;
@@ -528,7 +563,6 @@ body {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
   margin: 0;
   padding: 0;
 }
@@ -555,6 +589,7 @@ body {
   position: absolute;
   display: none;
   z-index: 0;
+  width: 70%;
 }
 .slide.enabled {
   display: block;
@@ -567,7 +602,6 @@ body {
   line-height: 1.35;
   letter-spacing: -1.5px;
   word-spacing: 1.5px;
-  text-align: center;
 }
 
 .slide-small-text {
@@ -585,7 +619,19 @@ body {
   padding: 30px 0;
   width: 100%;
   height: 50px;
-  text-align: center;
   bottom: 0px;
+}
+@keyframes blink-effect {
+  50% {
+    opacity: 0.3;
+  }
+}
+.blink {
+  animation: blink-effect 1s step-end infinite;
+  color: gray;
+}
+.mainimg {
+  padding: 0;
+  width: 100%;
 }
 </style>
