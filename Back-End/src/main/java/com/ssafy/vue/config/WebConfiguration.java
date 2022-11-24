@@ -1,16 +1,24 @@
 package com.ssafy.vue.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
 
 @Configuration
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
+	
+	private final String uploadFilePath;
 
+	public WebConfiguration(@Value("${file.path.upload-files}") String uploadFilePath) {
+		this.uploadFilePath = uploadFilePath;
+	}
+	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 //		System.out.println("CORS Setting");
@@ -35,6 +43,12 @@ public class WebConfiguration implements WebMvcConfigurer {
 		registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+        
+        registry.addResourceHandler("/upload/file/**")
+        .addResourceLocations("file:///" + uploadFilePath +"/")
+        .setCachePeriod(3600)
+        .resourceChain(true)
+        .addResolver(new PathResourceResolver());
     }
 	
 }

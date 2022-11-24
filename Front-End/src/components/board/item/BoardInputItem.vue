@@ -28,19 +28,31 @@
             id="content"
             v-model="article.content"
             placeholder="내용 입력..."
+            ref="content"
             rows="10"
             max-rows="15"
           ></b-form-textarea>
         </b-form-group>
         <div class="my-4" align="left">
           <label for="upfile"></label>
-          <input @change="fileChange()" type="file" ref="uploadimage" multiple accept="image/*" />
+          <input
+            v-if="this.type === 'register'"
+            @change="fileChange()"
+            type="file"
+            ref="uploadimage"
+            multiple
+            accept="image/*"
+          />
         </div>
-        <b-button type="submit" variant="primary" class="m-1" v-if="this.type === 'register'"
+        <b-button
+          type="submit"
+          variant="primary"
+          class="m-1"
+          v-if="this.type === 'register'"
           >글작성</b-button
         >
-        <b-button type="submit" variant="primary" class="m-1" v-else>글수정</b-button>
-        <b-button type="reset" variant="danger" class="m-1">글목록</b-button>
+        <b-button type="submit" class="m-1" v-else>글수정</b-button>
+        <b-button type="reset" class="m-1">글목록</b-button>
       </b-form>
     </b-col>
   </b-row>
@@ -94,16 +106,23 @@ export default {
       let err = true;
       let msg = "";
       !this.article.userId &&
-        ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userId.focus());
+        ((msg = "작성자 입력해주세요"),
+        (err = false),
+        this.$refs.userId.focus());
       err &&
         !this.article.subject &&
-        ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
+        ((msg = "제목 입력해주세요"),
+        (err = false),
+        this.$refs.subject.focus());
       err &&
         !this.article.content &&
-        ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+        ((msg = "내용 입력해주세요"),
+        (err = false),
+        this.$refs.content.focus());
 
       if (!err) alert(msg);
-      else this.type === "register" ? this.registArticle() : this.modifyArticle();
+      else
+        this.type === "register" ? this.registArticle() : this.modifyArticle();
     },
     onReset(event) {
       event.preventDefault();
@@ -117,26 +136,51 @@ export default {
       console.log(this.file);
     },
     registArticle() {
-      const form = new FormData();
-      form.append(
-        "boardDto",
-        new Blob([JSON.stringify(this.article)], { type: "application/json" })
-      );
-      for (let i = 0; i < this.file.length; i++) {
-        form.append("fileInfos", this.file[i]);
+      // 파일 없이 글 등록
+      if (
+        typeof this.file == "undefined" ||
+        this.file == null ||
+        this.file == ""
+      ) {
+        api
+          .post(`/board/register`, {
+            userId: this.article.userId,
+            subject: this.article.subject,
+            content: this.article.content,
+          })
+          .then(({ data }) => {
+            let msg =
+              "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
+            if (data === "success") {
+              msg = "등록이 완료되었습니다.";
+            }
+            alert(msg);
+            this.moveList();
+          });
+      } else {
+        // 파일 넣고 글 등록
+        const form = new FormData();
+        form.append(
+          "boardDto",
+          new Blob([JSON.stringify(this.article)], { type: "application/json" })
+        );
+        for (let i = 0; i < this.file.length; i++) {
+          form.append("fileInfos", this.file[i]);
+        }
+        api
+          .post(`/board/register/img`, form, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then(({ data }) => {
+            let msg =
+              "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
+            if (data === "success") {
+              msg = "등록이 완료되었습니다.";
+            }
+            alert(msg);
+            this.moveList();
+          });
       }
-      api
-        .post(`/board/register`, form, {
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-        .then(({ data }) => {
-          let msg = "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
-          if (data === "success") {
-            msg = "등록이 완료되었습니다.";
-          }
-          alert(msg);
-          this.moveList();
-        });
     },
     modifyArticle() {
       api

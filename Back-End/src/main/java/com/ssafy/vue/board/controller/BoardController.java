@@ -1,9 +1,11 @@
 package com.ssafy.vue.board.controller;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.*;
 
 import org.slf4j.Logger;
@@ -30,6 +32,11 @@ import com.ssafy.vue.board.model.service.BoardService;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.name.Rename;
+import net.coobird.thumbnailator.geometry.Positions;
+import java.io.File;
 
 @RestController
 @RequestMapping("/board")
@@ -145,6 +152,19 @@ public class BoardController extends HttpServlet {
 	}
 
 	@PostMapping("/register")
+	public ResponseEntity<?> userRegister(@RequestBody BoardDto boardDto) {
+		logger.debug("boardRegister boardDto : {}", boardDto);
+		try {
+			boardService.writeArticle(boardDto);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("pgno", "1");
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	@PostMapping("/register/img")
 	public ResponseEntity<?> boardRegister(@Value("${file.path.upload-files}") String filePath, @RequestPart("boardDto") BoardDto boardDto, @RequestPart("fileInfos") MultipartFile[] files) throws Exception {
 		logger.info("boardRegister boardDto : {}", boardDto);
 		logger.info("MultipartFile : {}", files.length);
@@ -168,7 +188,19 @@ public class BoardController extends HttpServlet {
 					fileInfoDto.setOriginalFile(originalFileName);
 					fileInfoDto.setSaveFile(saveFileName);
 					logger.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
-					mfile.transferTo(new File(folder, saveFileName));
+					File saveFile = new File(folder, saveFileName);
+		            mfile.transferTo(saveFile);
+
+//		            Thrumbnail Image
+		            File thumbnailFile = new File(saveFolder, "s_" + saveFileName);
+
+		        BufferedImage bo_img = ImageIO.read(saveFile);
+		        double ratio = 3;
+		        int width = (int) (bo_img.getWidth() / ratio);
+		        int height = (int) (bo_img.getHeight() / ratio);
+
+		        Thumbnails.of(saveFile).size(width, height).toFile(thumbnailFile);
+		    
 				}
 				fileInfos.add(fileInfoDto);
 			}

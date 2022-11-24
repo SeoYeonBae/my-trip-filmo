@@ -2,7 +2,9 @@
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
       <b-jumbotron>
-        <h3 class="text-center">{{ article.articleNo }}.{{ article.subject }}</h3>
+        <h3 class="text-center">
+          {{ article.articleNo }}.{{ article.subject }}
+        </h3>
         <p class="m-1">{{ article.userId }}</p>
         <b-row>
           <b-col>
@@ -18,15 +20,18 @@
             {{ article.content }}
           </p>
           <b-card-group columns class="wrap">
-            <!-- <b-card
+            <b-card
               v-for="(file, index) in fileInfos"
               :key="index"
               :img-src="
-                require('C:/mytripfilmo/board/fileUpload/' + file.saveFolder + '/' + file.saveFile)
+                'http://localhost:9999/mytripfilmo/upload/file/' +
+                file.saveFolder +
+                '/' +
+                file.saveFile
               "
               img-alt="Image"
               overlay
-            ></b-card> -->
+            ></b-card>
           </b-card-group>
         </div>
         <b-row class="mt-1">
@@ -35,7 +40,9 @@
           </b-col>
           <b-col class="text-right">
             <div v-show="this.article.userId == this.userInfo.id">
-              <b-button class="m-0 mr-3" @click="moveModifyArticle">글수정</b-button>
+              <b-button class="m-0 mr-3" @click="moveModifyArticle"
+                >글수정</b-button
+              >
               <b-button class="m-0" @click="deleteArticle">글삭제</b-button>
             </div>
           </b-col>
@@ -103,7 +110,8 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
     message() {
-      if (this.article.content) return this.article.content.split("\n").join("<br>");
+      if (this.article.content)
+        return this.article.content.split("\n").join("<br>");
       return "";
     },
   },
