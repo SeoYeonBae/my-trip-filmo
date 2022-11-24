@@ -34,7 +34,7 @@
           ></b-form-textarea>
         </b-form-group>
         <div class="my-4" align="left">
-          <label for="upfile"></label>
+          <!-- <label for="upfile"></label> -->
           <input
             v-if="this.type === 'register'"
             @change="fileChange()"

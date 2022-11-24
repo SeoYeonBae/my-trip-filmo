@@ -140,6 +140,8 @@ public class BoardServiceImpl implements BoardService {
 		for(FileInfoDto fileInfoDto : fileList) {
 			File file = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + fileInfoDto.getSaveFile());
 			file.delete();
+			File sfile = new File(path + File.separator + fileInfoDto.getSaveFolder() + File.separator + "s_" + fileInfoDto.getSaveFile());
+			sfile.delete();
 		}
 	}
 

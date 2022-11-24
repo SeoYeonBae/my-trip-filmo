@@ -42,11 +42,10 @@ import java.io.File;
 @RequestMapping("/board")
 public class BoardController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private Logger logger = LoggerFactory.getLogger(BoardController.class);
-	
-	private BoardService boardService;
 
+	private Logger logger = LoggerFactory.getLogger(BoardController.class);
+
+	private BoardService boardService;
 
 	@Autowired
 	public BoardController(BoardService boardService) {
@@ -70,10 +69,10 @@ public class BoardController extends HttpServlet {
 		}
 	}
 
-
 	@ApiOperation(value = "게시판 글수정", notes = "수정할 게시글 정보를 입력한다. 그리고 DB수정 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@PutMapping
-	public ResponseEntity<String> modifyArticle(@RequestBody @ApiParam(value = "수정할 글정보.", required = true) BoardDto boardDto) throws Exception {
+	public ResponseEntity<String> modifyArticle(
+			@RequestBody @ApiParam(value = "수정할 글정보.", required = true) BoardDto boardDto) throws Exception {
 		logger.info("modifyArticle - 호출 {}", boardDto);
 		boardService.modifyArticle(boardDto);
 		if (boardDto != null) {
@@ -81,8 +80,7 @@ public class BoardController extends HttpServlet {
 		}
 		return new ResponseEntity<String>("fail", HttpStatus.OK);
 	}
-	
-	
+
 	@GetMapping("/list")
 	public ResponseEntity<?> totalList() {
 		logger.info("listArticle - 호출");
@@ -91,24 +89,24 @@ public class BoardController extends HttpServlet {
 			map.put("pgno", "1");
 			map.put("key", "");
 			map.put("word", "");
-			
+
 			Map<String, Object> param = new HashMap<String, Object>();
 
-			List<BoardDto> list = boardService.listArticle(map);	// JSON Array
+			List<BoardDto> list = boardService.listArticle(map); // JSON Array
 //			PageNavigation pageNavigation = boardService.makePageNavigation(map);
 //			PageNavigation pageNavigation = new PageNavigation();
-			
+
 			logger.debug("total board : {} ", list);
 //			logger.debug("pageNavigation : " + pageNavigation);
 //			logger.debug("pageNavigation : " + "안됨");
-			
+
 			param.put("list", list);
 //			param.put("pageNavigation", pageNavigation);
 //			logger.debug("pageNavigation : " + "안됨");
-			
-			if(list != null && !list.isEmpty()) {
+
+			if (list != null && !list.isEmpty()) {
 				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);
-			}else {
+			} else {
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
@@ -127,22 +125,22 @@ public class BoardController extends HttpServlet {
 			map.put("word", "");
 			map.put("id", id);
 			Map<String, Object> param = new HashMap<String, Object>();
-			
-			List<BoardDto> list = boardService.myListArticle(map);	// JSON Array
+
+			List<BoardDto> list = boardService.myListArticle(map); // JSON Array
 //			PageNavigation pageNavigation = boardService.makePageNavigation(map);
 //			PageNavigation pageNavigation = new PageNavigation();
-			
+
 			logger.debug("total board : {} ", list);
 //			logger.debug("pageNavigation : " + pageNavigation);
 //			logger.debug("pageNavigation : " + "안됨");
-			
+
 			param.put("list", list);
 //			param.put("pageNavigation", pageNavigation);
 //			logger.debug("pageNavigation : " + "안됨");
-			
-			if(list != null && !list.isEmpty()) {
+
+			if (list != null && !list.isEmpty()) {
 				return new ResponseEntity<Map<String, Object>>(param, HttpStatus.OK);
-			}else {
+			} else {
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 			}
 		} catch (Exception e) {
@@ -165,7 +163,9 @@ public class BoardController extends HttpServlet {
 	}
 
 	@PostMapping("/register/img")
-	public ResponseEntity<?> boardRegister(@Value("${file.path.upload-files}") String filePath, @RequestPart("boardDto") BoardDto boardDto, @RequestPart("fileInfos") MultipartFile[] files) throws Exception {
+	public ResponseEntity<?> boardRegister(@Value("${file.path.upload-board}") String filePath,
+			@RequestPart("boardDto") BoardDto boardDto, @RequestPart("fileInfos") MultipartFile[] files)
+			throws Exception {
 		logger.info("boardRegister boardDto : {}", boardDto);
 		logger.info("MultipartFile : {}", files.length);
 		if (!files[0].isEmpty()) {
@@ -186,21 +186,20 @@ public class BoardController extends HttpServlet {
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
 					fileInfoDto.setSaveFolder(today);
 					fileInfoDto.setOriginalFile(originalFileName);
-					fileInfoDto.setSaveFile(saveFileName);
+					fileInfoDto.setSaveFile("s_" + saveFileName);
 					logger.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					File saveFile = new File(folder, saveFileName);
-		            mfile.transferTo(saveFile);
-
+					mfile.transferTo(saveFile);
 //		            Thrumbnail Image
-		            File thumbnailFile = new File(saveFolder, "s_" + saveFileName);
+					File thumbnailFile = new File(saveFolder, "s_" + saveFileName);
 
-		        BufferedImage bo_img = ImageIO.read(saveFile);
-		        double ratio = 3;
-		        int width = (int) (bo_img.getWidth() / ratio);
-		        int height = (int) (bo_img.getHeight() / ratio);
+					BufferedImage bo_img = ImageIO.read(saveFile);
+					double ratio = 3;
+					int width = (int) (bo_img.getWidth() / ratio);
+					int height = (int) (bo_img.getHeight() / ratio);
 
-		        Thumbnails.of(saveFile).size(width, height).toFile(thumbnailFile);
-		    
+					Thumbnails.of(saveFile).size(width, height).toFile(thumbnailFile);
+
 				}
 				fileInfos.add(fileInfoDto);
 			}
@@ -218,7 +217,7 @@ public class BoardController extends HttpServlet {
 			return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
 		}
 	}
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<?> view(@PathVariable("id") int articleNo) {
 		logger.info("view articleNo : {}", articleNo);
@@ -233,23 +232,25 @@ public class BoardController extends HttpServlet {
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
-	}	
-	
+	}
+
 	@ApiOperation(value = "게시판 글삭제", notes = "글번호에 해당하는 게시글의 정보를 삭제한다. 그리고 DB삭제 성공여부에 따라 'success' 또는 'fail' 문자열을 반환한다.", response = String.class)
 	@DeleteMapping("/{articleno}")
-	public ResponseEntity<String> deleteArticle(@Value("${file.path.upload-files}") String filePath, @PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleNo) throws Exception {
+	public ResponseEntity<String> deleteArticle(@Value("${file.path.upload-board}") String filePath,
+			@PathVariable("articleno") @ApiParam(value = "살제할 글의 글번호.", required = true) int articleNo)
+			throws Exception {
 		logger.info("deleteArticle - 호출");
-		boardService.deleteArticle(articleNo, filePath);		
+		boardService.deleteArticle(articleNo, filePath);
 		if (articleNo != 0) {
 			return new ResponseEntity<String>("success", HttpStatus.OK);
 		}
 		return new ResponseEntity<String>("fail", HttpStatus.NO_CONTENT);
 	}
-	
+
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 //	private void preview(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //	try {
 //		List<BoardDto> list = boardService.preview(3);

@@ -1,7 +1,11 @@
 package com.ssafy.vue.user.controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -13,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -23,8 +28,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
 import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.PasswordAuthentication;
@@ -33,6 +41,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.ssafy.vue.board.model.BoardDto;
 import com.ssafy.vue.board.model.service.BoardService;
 import com.ssafy.vue.board.model.service.BoardServiceImpl;
 import com.ssafy.vue.do17.controller.DoController;
@@ -44,6 +53,7 @@ import com.ssafy.vue.user.model.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import net.coobird.thumbnailator.Thumbnails;
 
 @RestController
 @RequestMapping("/user")
@@ -57,9 +67,9 @@ public class UserController extends HttpServlet {
 
 	@Autowired
 	private JwtServiceImpl jwtService;
-	
+
 	private UserService userService;
-	
+
 	@Autowired
 	public UserController(UserService userService) {
 		super();
@@ -122,7 +132,7 @@ public class UserController extends HttpServlet {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
-	
+
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{userid}")
 	public ResponseEntity<?> removeToken(@PathVariable("userid") String userid) {
@@ -143,8 +153,7 @@ public class UserController extends HttpServlet {
 
 	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.", response = Map.class)
 	@PostMapping("/refresh")
-	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request)
-			throws Exception {
+	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		String token = request.getHeader("refresh-token");
@@ -164,6 +173,7 @@ public class UserController extends HttpServlet {
 		}
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
+
 	@GetMapping("/{userid}")
 	public String idCheck(@PathVariable("userid") String userId) throws Exception {
 		logger.debug("idCheck userid : {}" + userId);
@@ -184,7 +194,7 @@ public class UserController extends HttpServlet {
 			return "error/error";
 		}
 	}
-	
+
 	// 회원 정보 수정
 	@PutMapping("/modify")
 	public ResponseEntity<?> userModify(@RequestBody UserDto userDto) {
@@ -192,6 +202,42 @@ public class UserController extends HttpServlet {
 			logger.info("userModify userDto : {}", userDto);
 			userService.modifyUser(userDto);
 			return new ResponseEntity<UserDto>(userDto, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+
+	// 회원 정보 수정
+	@PutMapping("/modify/img")
+	public ResponseEntity<?> userModify(@Value("${file.path.upload-profile}") String filePath,
+			@RequestPart("userDto") UserDto userDto,
+			@RequestPart(value = "fileInfo", required = false) MultipartFile file) {
+		logger.info("userModify userDto: {}", userDto);
+		logger.info("userModify userDto with img: {}", file);
+		try {
+			if (!file.isEmpty()) {
+				String saveFolder = filePath;
+				File folder = new File(saveFolder);
+				if (!folder.exists())
+					folder.mkdirs();
+				String originalFileName = file.getOriginalFilename();
+				String saveFileName = userDto.getId() + originalFileName.substring(originalFileName.lastIndexOf('.'));
+				logger.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", file.getOriginalFilename(), saveFileName);
+				File saveFile = new File(folder, saveFileName);
+				file.transferTo(saveFile);
+//	            Thrumbnail Image
+				File thumbnailFile = new File(saveFolder, "s_" + saveFileName);
+				userDto.setSaveFile(saveFileName);
+
+				BufferedImage bo_img = ImageIO.read(saveFile);
+				double ratio = 3;
+				int width = (int) (bo_img.getWidth() / ratio);
+				int height = (int) (bo_img.getHeight() / ratio);
+
+				Thumbnails.of(saveFile).size(width, height).toFile(thumbnailFile);
+			}
+			userService.modifyUser(userDto);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -210,19 +256,20 @@ public class UserController extends HttpServlet {
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.starttls.enable", "true");
 				props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-				
+
 				Session session = Session.getInstance(props, new Authenticator() {
 					@Override
 					protected PasswordAuthentication getPasswordAuthentication() {
 						return new PasswordAuthentication("megd78988@gmail.com", "tgfiqxbudlzcmhsx");
 					}
 				});
-				
+
 				String receiver = mailInfo.get("user_email"); // 메일 받을 주소
 				String pass = mailInfo.get("user_password");
 
 				String title = "여행의 주연 비밀번호 안내";
-				String content ="<h2 class='font-weight-bold text-primary heading mt-5 mb-5'> 요청하신 회원님의 비밀번호는 " + pass +" 입니다." + "</h2>";
+				String content = "<h2 class='font-weight-bold text-primary heading mt-5 mb-5'> 요청하신 회원님의 비밀번호는 " + pass
+						+ " 입니다." + "</h2>";
 				Message message = new MimeMessage(session);
 				try {
 					message.setFrom(new InternetAddress("megd78988@gmail.com", "관리자", "utf-8"));
@@ -231,7 +278,7 @@ public class UserController extends HttpServlet {
 					message.setContent(content, "text/html; charset=utf-8");
 
 					Transport.send(message);
-				}catch (Exception e) {
+				} catch (Exception e) {
 					return exceptionHandling(e);
 				}
 //				logger.info("mail : " + mailInfo);
@@ -244,26 +291,22 @@ public class UserController extends HttpServlet {
 //				simpleMessage.setText("안녕하세요 여행의 주연입니다. \n 요청하신 회원님의 비밀번호는 " + pass + "입니다. \n 감사합니다.");
 //				javaMailSender.send(simpleMessage);				
 				return new ResponseEntity<Map<String, String>>(mailInfo, HttpStatus.OK);
-			}
-			else
+			} else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
-	
+
 	// 회원 탈퇴
-	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteUser(@PathVariable("id") String userId) {
-		logger.debug("탈퇴 아이디 : " + userId);
+	@PostMapping("/delete")
+	public ResponseEntity<?> deleteUser(@Value("${file.path.upload-profile}") String filePath, @RequestBody UserDto userDto) {
+		logger.debug("탈퇴 아이디 : " + userDto);
 		try {
 			userService.offFk();
-			String cnt = userService.deleteUser(userId) + "";
+			userService.deleteUser(userDto, filePath);
 			userService.onFk();
-			if("1".equals(cnt))
-				return new ResponseEntity<String>(cnt, HttpStatus.OK);
-			else
-				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

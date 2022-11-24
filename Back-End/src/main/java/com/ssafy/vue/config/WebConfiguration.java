@@ -13,10 +13,12 @@ import org.springframework.web.servlet.resource.PathResourceResolver;
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
 	
-	private final String uploadFilePath;
+	private final String uploadBoardPath;
+	private final String uploadProfilePath;
 
-	public WebConfiguration(@Value("${file.path.upload-files}") String uploadFilePath) {
-		this.uploadFilePath = uploadFilePath;
+	public WebConfiguration(@Value("${file.path.upload-board}") String uploadBoardPath, @Value("${file.path.upload-profile}") String uploadProfilePath) {
+		this.uploadBoardPath = uploadBoardPath;
+		this.uploadProfilePath = uploadProfilePath;
 	}
 	
 	@Override
@@ -44,8 +46,16 @@ public class WebConfiguration implements WebMvcConfigurer {
         registry.addResourceHandler("/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         
-        registry.addResourceHandler("/upload/file/**")
-        .addResourceLocations("file:///" + uploadFilePath +"/")
+        // 게시판
+        registry.addResourceHandler("/upload/board/**")
+        .addResourceLocations("file:///" + uploadBoardPath +"/")
+        .setCachePeriod(3600)
+        .resourceChain(true)
+        .addResolver(new PathResourceResolver());
+
+        // 프로필
+        registry.addResourceHandler("/upload/profile/**")
+        .addResourceLocations("file:///" + uploadProfilePath +"/")
         .setCachePeriod(3600)
         .resourceChain(true)
         .addResolver(new PathResourceResolver());

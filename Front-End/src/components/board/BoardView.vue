@@ -24,7 +24,7 @@
               v-for="(file, index) in fileInfos"
               :key="index"
               :img-src="
-                'http://localhost:9999/mytripfilmo/upload/file/' +
+                'http://localhost:9999/mytripfilmo/upload/board/' +
                 file.saveFolder +
                 '/' +
                 file.saveFile

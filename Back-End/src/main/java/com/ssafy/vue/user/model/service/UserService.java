@@ -18,7 +18,7 @@ public interface UserService {
 	
 	int modifyUser(UserDto userDto) throws Exception;
 
-	int deleteUser(String userId) throws Exception;
+	void deleteUser(UserDto userDto, String path) throws Exception;
 	
 	public void saveRefreshToken(String userid, String refreshToken) throws Exception;
 	
