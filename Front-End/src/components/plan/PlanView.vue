@@ -150,7 +150,7 @@ export default {
   },
   watch: {
     myChoices: function () {
-      // ++ 리스트의 마커 선 긋는 함수 추가하기
+      // 마커 경로
     },
     sidoCode: function () {
       this.place = this.donames[this.sidoCode];
