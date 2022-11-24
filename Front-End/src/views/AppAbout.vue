@@ -1,90 +1,139 @@
 <template>
   <div id="app">
-    <main class="sticky-container" ref="sticky-container">
+    <main class="sticky-container mt-3" ref="sticky-container">
       <div class="sticky">
         <div class="slide-container">
           <div class="slide" ref="scdown">
-            <b-row class="mb-5">
-              <b-col md="6">
-                <div class="slide-big-text">
-                  <p>여 행의</p>
-                  <p>행 복이 시작되는 곳</p>
-                  <p>의</p>
-                  <p>주</p>
-                  <p>연</p>
-                </div>
-              </b-col>
+            <b-row>
               <b-col>
-                <!-- <b-img
-                  class="mainimg"
-                  :src="require('@/assets/aboutImg/undraw_Traveling_01tc.png')"
-                >
-                </b-img> -->
+                <div class="slide-big-text">
+                  <p style="font-size: 50px">여 행의</p>
+                  <p style="font-size: 50px">행 복이 시작되는 곳</p>
+                  <p style="font-size: 50px">의</p>
+                  <p style="font-size: 50px">주 인공이 되어</p>
+                  <p style="font-size: 50px">연 휴를 즐겨보자</p>
+                </div>
+                <p class="mb-0 mt-5">
+                  여행 계획의 훌륭한 <em><b>길라잡이</b></em>
+                </p>
+                <p>오늘도 내일도 내가 주인공</p>
+                <p>매일이 오늘만 같아라</p>
+              </b-col>
+              <b-col class="mt-5 pt-5 fade-in-box">
+                <b-img :src="require('@/assets/aboutImg/main.png')"></b-img>
               </b-col>
             </b-row>
-            <div class="scdown blink text-center" ref="scdown">
-              <div class="scdown-text mt-5">go</div>
-              <font-awesome-icon icon="fa-solid fa-arrow-down" />
-            </div>
+          </div>
+          <div class="scdown blink text-center mb-5">
+            go
+            <font-awesome-icon icon="fa-solid fa-arrow-down" />
           </div>
           <div class="slide" ref="sl1">
-            <div class="slide-big-text">
-              <p>시작은 왜</p>
-              <p>여행의 주연?</p>
-              <!-- <p>바로 그거</p>
-              <p>여행의 주연에 다 있다</p>
-              <p>여행의 행복이 시작되는 곳</p>
-              <p>오늘의 주인공은 나</p> -->
+            <div class="slide-big-text text-center">
+              <p class="mb-5">내가 찾는 바로 그거</p>
+              <p>여행의 주연에 "다" 있다</p>
             </div>
           </div>
           <div class="slide" ref="sl2">
-            <div class="slide-big-text">
-              <p>01.</p>
-              <p>지금 당장 떠나자!</p>
-              계획이 없다면 언제든 핫플 추천 받기
-            </div>
+            <b-row>
+              <b-col>
+                <div class="slide-big-text">
+                  <p>01.</p>
+                  <p class="mb-3">지금 당장 떠나자!</p>
+                  계획은 없지만 바로 떠나고 싶다면 <br />
+                  오늘의 핫플 추천 받기를 이용해보세요<br />
+                  맛집, 축제, 관광지를 추천해드려요<br /><br />
+
+                  <h5><b>고민보단 go!</b></h5>
+                </div>
+              </b-col>
+              <b-col class="mt-5 up-img">
+                <b-img :src="require('@/assets/aboutImg/recommend.png')"></b-img>
+              </b-col>
+            </b-row>
           </div>
           <div class="slide sl3" ref="sl3">
-            <div class="slide-big-text">
-              <p>02.</p>
-              <p>검색부터 계획까지 한 번에</p>
-              지역별 여행지를 구경하고 나만의 계획에 추가해보세요
-            </div>
+            <b-row>
+              <b-col>
+                <div class="slide-big-text">
+                  <p>02.</p>
+                  <p>검색부터 계획까지</p>
+                  <p class="mb-3">한 번에</p>
+                  <h5 class="font-weight-bold">지역별 관광지? OK!</h5>
+                  <h5 class="font-weight-bold">테마별 관광지? OK!</h5>
+                  <br />
+                  여러 지역의 관광지를 한번에 한 눈에<br />
+                  마음에 드는 곳은 나의 여행 계획에 추가해보세요
+                </div>
+              </b-col>
+              <b-col>
+                <b-img :src="require('@/assets/aboutImg/search_plan.png')"></b-img>
+              </b-col>
+            </b-row>
           </div>
           <div class="slide slide-left sl4" ref="sl4">
             <div class="sl4-content">
-              <div class="slide-big-text" ref="sl4-big">
-                <p>03.</p>
-                <p>해가 뜰 때 소원을</p>
-                <p>해가 질 때 인생샷을</p>
-                여행날짜와 위치만 입력하면 <br />
-                일출 일몰 시간을 확인할 수 있어요.
-              </div>
+              <b-row>
+                <b-col>
+                  <div class="slide-big-text" ref="sl4-big">
+                    <p>03.</p>
+                    <p>해가 뜰 때 소원을</p>
+                    <p class="mb-3">해가 질 때 인생샷을</p>
+
+                    <h5 class="font-weight-bold">인생샷 공식의 삼요소</h5>
+                    <h5 class="font-weight-bold">온도, 습도 그리고 조명</h5>
+                    <br />
+
+                    <h5 class="font-weight-bold">자연이 선물하는 최고의 조명 일출 일몰</h5>
+                    <br />
+                    여행날짜와 위치만 입력하면 <br />
+                    일출 일몰 시간을 확인할 수 있어요.
+                  </div>
+                </b-col>
+                <b-col>
+                  <b-img :src="require('@/assets/aboutImg/sun.png')" style="width: 500px"></b-img>
+                </b-col>
+              </b-row>
             </div>
           </div>
           <div class="slide slide-left sl5" ref="sl5">
-            <div class="slide-big-text">
-              <p>04.</p>
-              <p>다들 어디 가지?</p>
-              서로서로 공유하는 나만의 핫플 <br />
-              우리나라 여행지의 아름다운 곳곳을 보여주세요
-            </div>
+            <b-row>
+              <b-col>
+                <div class="slide-big-text">
+                  <p>04.</p>
+                  <p class="mb-3">사람들은 어딜 가지?</p>
+                  서로 공유하는 나만의 핫플 <br />
+                  우리나라 여행지의 아름다운 곳곳을 보여주세요
+                </div>
+              </b-col>
+              <b-col>
+                <b-img :src="require('@/assets/aboutImg/board.png')"></b-img>
+              </b-col>
+            </b-row>
           </div>
           <div class="slide slide-left sl6" ref="sl6">
-            <div class="slide-big-text">
-              <p>05.</p>
-              <p>친구야 같이 가자!</p>
-              <p>계획도 공유도 여행의 주연에서</p>
-              여행을 계획할 때 함께할 수 있는 친구를 초대할 수 있어요<br />
-              완성된 계획을 카톡으로 공유해 여행내내 간편하게 관리하세요
-            </div>
+            <b-row>
+              <b-col>
+                <div class="slide-big-text">
+                  <p>05.</p>
+                  <p>친구야 같이 가자!</p>
+                  <p>계획도 공유도</p>
+                  <p class="mb-3">여행의 주연에서</p>
+
+                  내가 만든 여행 계획에 함께 갈 친구를 초대할 수 있어요<br />
+                  완성된 계획을 카톡으로 공유해 여행내내 간편하게 관리하세요
+                </div>
+              </b-col>
+              <b-col>
+                <b-img :src="require('@/assets/aboutImg/friend.png')"></b-img>
+              </b-col>
+            </b-row>
           </div>
           <div class="wave" ref="wave"></div>
           <div class="slide slide-left sl7" ref="sl7">
             <div class="slide-big-text">
               <p>여행의 주연</p>
               <p>지금 만나 보세요</p>
-              <b-button>사이트 바로 가기</b-button>
             </div>
           </div>
         </div>
@@ -474,6 +523,9 @@ export default {
   },
 
   methods: {
+    closePage() {
+      window.close();
+    },
     init() {
       this.initAnimation();
     },
@@ -575,11 +627,7 @@ export default {
           // 아래로 나갔다면 끝나는 스타일적용
           else if (currentPos >= bottom) {
             Object.keys(bottomStyle).forEach((styleName) => {
-              applyStyle(
-                this.$refs[refname],
-                styleName,
-                bottomStyle[styleName]
-              );
+              applyStyle(this.$refs[refname], styleName, bottomStyle[styleName]);
               // this.$refs[refname].style[styleName] = bottomStyle[styleName];
             });
           }
@@ -689,5 +737,57 @@ button {
 }
 .sl7 {
   text-align: center;
+}
+.fade-in-box {
+  display: inline-block;
+  padding: 10px;
+  animation: fadein 3s;
+  -moz-animation: fadein 3s; /* Firefox */
+  -webkit-animation: fadein 3s; /* Safari and Chrome */
+  -o-animation: fadein 3s; /* Opera */
+}
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+button {
+  height: 50px;
+  width: 300px;
+  color: black;
+  border: none;
+}
+button:hover {
+  background-color: #d4fcee;
 }
 </style>
