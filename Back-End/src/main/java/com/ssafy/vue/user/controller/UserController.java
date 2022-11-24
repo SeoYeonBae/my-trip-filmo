@@ -272,7 +272,7 @@ public class UserController extends HttpServlet {
 						+ " 입니다." + "</h2>";
 				Message message = new MimeMessage(session);
 				try {
-					message.setFrom(new InternetAddress("megd78988@gmail.com", "관리자", "utf-8"));
+					message.setFrom(new InternetAddress("megd78988@gmail.com", "여행의 주연", "utf-8"));
 					message.addRecipient(Message.RecipientType.TO, new InternetAddress(receiver));
 					message.setSubject(title);
 					message.setContent(content, "text/html; charset=utf-8");
