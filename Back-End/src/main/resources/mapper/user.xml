@@ -15,17 +15,18 @@
 		<result column="user_email" property="email" />
 		<result column="user_tel" property="tel" />
 		<result column="manager" property="isManager" />
+		<result column="save_file" property="saveFile"/>
 	</resultMap>
 
 	<select id="loginUser" parameterType="userDto" resultMap="userAll">
-		select user_id, user_name, user_password, user_email, user_tel, manager
+		select user_id, user_name, user_password, user_email, user_tel, manager, save_file
 		from
 		users
 		where user_id = #{id} and user_password = #{password}
 	</select>
 
 	<select id="userInfo" parameterType="string" resultMap="userAll">
-		select user_name, user_id, user_email, user_tel, user_password, manager
+		select user_name, user_id, user_email, user_tel, user_password, manager, save_file
 		from users
 		where user_id = #{userid}
 	</select>
@@ -52,7 +53,7 @@
 		update users
 		set
 		user_password=#{password}, user_name=#{name}, user_email=#{email},
-		user_tel=#{tel}
+		user_tel=#{tel}, save_file=#{saveFile}
 		where user_id = #{id}
 	</update>
 

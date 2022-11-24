@@ -8,11 +8,7 @@
           </b-row>
         </div>
         <div id="usericon">
-          <font-awesome-icon
-            icon="fa-solid fa-circle-user"
-            color="grey"
-            class="fa-8x"
-          />
+          <b-img id="profilelg" rounded="circle" :src="profileimg"></b-img>
           <h5 class="mt-4 mb-3">{{ userInfo.name }}</h5>
           <p class="mb-4">id: {{ userInfo.id }}</p>
         </div>
@@ -64,9 +60,31 @@ const memberStore = "memberStore";
 
 export default {
   name: "AppUser",
+  data() {
+    return {
+      user: {
+        name: "",
+        id: "",
+        email: "",
+        tel: "",
+        password: "",
+        isManager: "",
+        saveFile: "",
+      },
+      profileimg: require("@/assets/img/user.png"),
+    };
+  },
   components: {},
   computed: {
     ...mapState(memberStore, ["userInfo"]),
+  },
+  created() {
+    this.user = JSON.parse(JSON.stringify(this.userInfo));
+    if (this.user.saveFile) {
+      this.profileimg =
+        "http://localhost:9999/mytripfilmo/upload/profile/" +
+        this.user.saveFile;
+    }
   },
 };
 </script>
@@ -123,5 +141,8 @@ div.row {
 #myreplylist:hover {
   font-weight: bold;
   font-size: 100%;
+}
+#profilelg {
+  width: 180px;
 }
 </style>

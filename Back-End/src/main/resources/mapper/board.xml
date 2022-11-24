@@ -70,10 +70,9 @@
 	
 
 	<select id="getArticle" parameterType="int" resultMap="viewArticle">
-		select b.article_no, b.user_id, b.subject, b.content, b.hit, b.register_time, u.user_name 
-		from board b, users u
-		where b.user_id = u.user_id
-		and b.article_no = #{articleNo}
+		select article_no, user_id, subject, content, hit, register_time
+		from board
+		where article_no = #{articleNo}
 	</select>
 	
 	<select id="fileInfoList" resultMap="file">

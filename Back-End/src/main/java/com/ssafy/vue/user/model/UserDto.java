@@ -8,7 +8,8 @@ public class UserDto {
 	private String email;
 	private String tel;
 	private int isManager;
-
+	private String saveFile;
+	
 	public UserDto() {
 	}
 
@@ -19,6 +20,14 @@ public class UserDto {
 		this.email = email;
 		this.tel = tel;
 		this.isManager = isManager;
+	}
+
+	public String getSaveFile() {
+		return saveFile;
+	}
+
+	public void setSaveFile(String saveFile) {
+		this.saveFile = saveFile;
 	}
 
 	public String getId() {

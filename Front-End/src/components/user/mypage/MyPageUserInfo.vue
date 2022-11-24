@@ -6,7 +6,7 @@
           <h5 class="mb-0">기본 정보</h5>
         </b-col>
         <b-col md="1">
-          <b-button id="infohelp"
+          <b-button class="mb-0" id="infohelp"
             ><font-awesome-icon icon="fa-regular fa-circle-question"
           /></b-button>
           <b-tooltip id="infotooltip" target="infohelp" placement="bottom">
@@ -29,16 +29,21 @@
       </b-row>
       <b-row>
         <b-col md="1" class="p-0">
-          <font-awesome-icon
-            icon="fa-solid fa-circle-user"
-            color="grey"
-            class="fa-4x"
-          />
+          <b-img id="profilesm" rounded="circle" :src="profileimg"></b-img>
         </b-col>
         <b-col class="px-5">
           <h5 class="font-weight-bold">{{ userInfo.name }}</h5>
           {{ userInfo.id }}
         </b-col>
+        <b-col>
+          <label for="inputfile">&nbsp;</label>
+          <input
+            id="inputfile"
+            @change="fileChange()"
+            type="file"
+            ref="uploadimage"
+            accept="image/*"
+        /></b-col>
       </b-row>
       <div fluid>
         <hr class="my-4" />
@@ -110,7 +115,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapMutations } from "vuex";
 import { apiInstance } from "@/api/index.js";
 
 const memberStore = "memberStore";
@@ -127,6 +132,7 @@ export default {
         tel: "",
         password: "",
         isManager: "",
+        saveFile: "",
       },
       valid: {
         email: false,
@@ -136,6 +142,7 @@ export default {
       emailHasError: false,
       passwordHasError: false,
       telHasError: false,
+      profileimg: require("@/assets/img/user.png"),
     };
   },
   computed: {
@@ -143,16 +150,24 @@ export default {
   },
   created() {
     this.user = JSON.parse(JSON.stringify(this.userInfo));
+    if (this.user.saveFile) {
+      this.profileimg =
+        "http://localhost:9999/mytripfilmo/upload/profile/" +
+        this.user.saveFile;
+    }
   },
   methods: {
     ...mapActions(memberStore, ["getUserInfo", "userLogout"]),
+    ...mapMutations(memberStore, ["SET_USER_INFO"]),
+    fileChange() {
+      this.file = this.$refs["uploadimage"].files[0];
+    },
     userDelete() {
-      // 참조키 해제
-      api.delete(`/user/${this.userInfo.id}`).then(({ data }) => {
-        let msg = "회원 탈퇴 중 문제 발생!!!";
-        if (data) {
-          msg = "회원 탈퇴 완료";
-          console.log(this.userInfo.id);
+      console.log(this.user);
+      api.post("/user/delete", this.user).then((data) => {
+        let msg = "회원 탈퇴 완료. 감사합니다.";
+        if (data.data === "success") {
+          msg = "회원 탈퇴 완료. 감사합니다.";
           this.userLogout(this.userInfo.userid);
           sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
           sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
@@ -160,7 +175,6 @@ export default {
         alert(msg);
         this.$router.push({ name: "appMain" });
       });
-      // 참조키 재설정
     },
     checkValue() {
       if (
@@ -199,17 +213,48 @@ export default {
       this.modifyuser();
     },
     modifyuser() {
-      api.put("/user/modify", this.user).then(({ data }) => {
-        let msg = "회원 정보 수정 중 문제 발생!!!";
-        if (data) {
-          msg = "회원 정보 수정 완료";
-          this.userInfo = JSON.parse(JSON.stringify(this.user));
-          let token = sessionStorage.getItem("access-token");
-          this.getUserInfo(token);
-          this.$router.go();
-        }
-        alert(msg);
-      });
+      if (
+        typeof this.file == "undefined" ||
+        this.file == null ||
+        this.file == ""
+      ) {
+        api.put("/user/modify", this.user).then((data) => {
+          let msg = "회원 정보 수정 중 문제 발생!!!";
+          if (data) {
+            msg = "회원 정보 수정 완료";
+            this.user = JSON.parse(JSON.stringify(this.user));
+            let token = sessionStorage.getItem("access-token");
+            this.getUserInfo(token);
+          }
+          alert(msg);
+        });
+      } else {
+        // 파일 넣고 글 등록
+        const form = new FormData();
+        form.append(
+          "userDto",
+          new Blob([JSON.stringify(this.user)], { type: "application/json" })
+        );
+        form.append("fileInfo", this.file);
+        api
+          .put("/user/modify/img", form, {
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+          .then(({ data }) => {
+            let msg = "회원 정보 수정 중 문제 발생!!!";
+            if (data) {
+              msg = "회원 정보 수정 완료";
+              // console.log(data.saveFile);
+              this.user = JSON.parse(JSON.stringify(this.user));
+              this.user.saveFile = data.saveFile;
+              this.SET_USER_INFO(this.user);
+              let token = sessionStorage.getItem("access-token");
+              this.getUserInfo(token);
+              this.$router.go();
+            }
+            alert(msg);
+          });
+      }
     },
     checkEmail() {
       // 이메일 형식 검사
@@ -347,5 +392,10 @@ input:focus {
 .input-title {
   font-weight: bold;
   font-size: 15px;
+}
+#profilesm {
+  width: 60px;
+}
+#inputfile {
 }
 </style>

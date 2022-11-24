@@ -1,5 +1,6 @@
 package com.ssafy.vue.user.model.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,8 +76,14 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public int deleteUser(String userId) throws Exception {
-		return userMapper.deleteUser(userId);
+	public void deleteUser(UserDto userDto, String path) throws Exception {
+		userMapper.deleteUser(userDto.getId());
+		if(userDto.getSaveFile() != "" || userDto.getSaveFile() != null) {
+			File file = new File(path + File.separator + userDto.getSaveFile());
+			file.delete();
+			File sfile = new File(path + File.separator + "s_" + userDto.getSaveFile());
+			sfile.delete();
+		}
 	}
 
 	@Override
