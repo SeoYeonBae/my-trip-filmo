@@ -53,4 +53,9 @@ public class PlanServiceImpl implements PlanServcie  {
 		return planMapper.getTourInfo(idx);
 	}
 
+	@Override
+	public void registInfo(PlanDto planDto) throws Exception {
+		planMapper.registInfo(planDto);		
+	}
+
 }

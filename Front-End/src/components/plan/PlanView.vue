@@ -232,7 +232,7 @@ export default {
         api.post(`/plan/regist`, this.planInfo).then(({ data }) => {
           if (data == "fail") {
             alert(this.msg);
-            this.$router.push({ name: "planlist" });
+            this.$router.push({ name: "planview" });
           } else this.addDetails(idxInfo, myId);
         });
       }
@@ -243,11 +243,11 @@ export default {
         console.log(data + " => 나의 여행 계획 plan_idx");
         if (data == "fail") {
           alert(this.msg);
-          this.$router.push({ name: "planlist" });
+          this.$router.push({ name: "planview" });
         } else {
           // 유저가 새로 생성한 계획의 idx가 잘 반환되었으므로 다음 페이지로 전환
           console.log(data + "번 계획을 추가했습니다.");
-          this.$router.push({ name: "planinfo", params: { id: myId, planidx: data } });
+          this.$router.push({ name: "planinfo", params: { planidx: data } });
         }
       });
     },

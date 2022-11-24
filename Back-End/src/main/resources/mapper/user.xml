@@ -89,5 +89,5 @@
 	<select id="onFk">
 		SET foreign_key_checks = 1;
 	</select>
-
+	
 </mapper>

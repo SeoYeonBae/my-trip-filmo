@@ -1,5 +1,6 @@
 package com.ssafy.vue.user.model.service;
 
+import java.util.List;
 import java.util.Map;
 
 import com.ssafy.vue.user.model.UserDto;
@@ -29,4 +30,5 @@ public interface UserService {
 	public void offFk() throws Exception;
 	
 	public void onFk() throws Exception;
+
 }

@@ -46,6 +46,17 @@ public class PlanController {
 			return exceptionHandling(e);
 		}
 	}
+	@PostMapping("/regist/info")
+	public ResponseEntity<String> registInfo(@RequestBody PlanDto planDto) throws Exception {
+		try {
+			logger.info("여행 계획 title : " + planDto.toString());
+			planService.registInfo(planDto);
+			return new ResponseEntity<String>("success", HttpStatus.OK);
+		}
+		catch(Exception e){
+			return exceptionHandling(e);
+		}
+	}
 	
 	@PostMapping("/detail/{id}")
 	public ResponseEntity<?> addPlanDetail(@RequestBody List<Integer> list, @PathVariable("id") String user_id) throws Exception {
@@ -103,7 +114,6 @@ public class PlanController {
 		try {
 			for (int i = 0; i < list.size(); i++) {
 				logger.info("방문지들 idx: " + list.get(i) + "번 여행지");
-				planService.getTourInfo(list.get(i)).toString();
 				tourInfoList.add(planService.getTourInfo(list.get(i)));
 			}	
 			// 추가된 계획의 번호를 반환한다
@@ -114,6 +124,7 @@ public class PlanController {
 		}
 	}
 	
+
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
