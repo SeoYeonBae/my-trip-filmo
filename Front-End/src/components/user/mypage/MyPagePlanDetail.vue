@@ -30,8 +30,16 @@
                   <b-card-text style="color: grey"> {{ item.addr1 }}</b-card-text>
                 </b-card>
               </b-col>
-              <b-col
+              <b-col>
+                <b-img
+                  v-if="item.contentTypeId == 32"
+                  :src="require('@/assets/img/tour32.png')"
+                  style="width: 40px; height: 40px"
+                  class="my-auto"
+                >
+                </b-img
                 ><b-img
+                  v-else
                   :src="require('@/assets/img/MarkerIcon.png')"
                   style="width: 40px; height: 40px"
                   class="my-auto"
@@ -74,11 +82,6 @@ export default {
         invited_user: "",
       },
       myPlaces: [],
-      fields: [
-        { key: "period", label: "기간", tdClass: "tdClass" },
-        { key: "invited_user", label: "일행", tdClass: "tdSubject" },
-        { key: "checklist", label: "체크리스트", tdClass: "tdClass" },
-      ],
     };
   },
   created() {

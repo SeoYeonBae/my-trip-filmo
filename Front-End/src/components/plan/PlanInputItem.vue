@@ -14,9 +14,9 @@
       <b-col>
         <b-form-input
           v-model="invitedUser"
-          :options="allUsers"
           placeholder="동행자의 아이디를 입력해주세요..."
           :class="{ 'not-exist': isNotExist }"
+          required
         ></b-form-input>
       </b-col>
     </b-row>
