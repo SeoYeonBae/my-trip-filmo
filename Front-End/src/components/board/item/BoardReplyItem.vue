@@ -106,8 +106,6 @@ export default {
     },
     deleteReply(idx) {
       api.delete(`/reply/${idx}`).then(({ data }) => {
-        alert(idx + "idx 댓글을 삭제합니다");
-
         let msg = " 문제가 발생하였습니다.";
         if (data === "success") msg = "댓글 삭제가 완료되었습니다.";
         alert(msg);
