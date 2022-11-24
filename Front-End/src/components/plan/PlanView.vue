@@ -1,26 +1,27 @@
 <template>
   <div id="main">
     <b-row id="mainrow" class="justify-content-center">
-      <b-col md="2" class="shadow p-3 bg-body rounded text-center">
+      <b-col md="2" class="shadow p-3 bg-body rounded text-center" style="height: 868px">
         <div class="choice">
           <h3 :v-bind="place" class="pt-4">{{ place }}</h3>
           <div class="p-3">
-            <b-row class="pb-1 my-auto"
-              ><p class="my-auto">시작일 :&nbsp;</p>
+            <b-row class="mb-1 justify-content-center"
+              ><p class="mb-4" v-if="sdate && edate">{{ sdate }} ~ {{ edate }}</p>
               <b-form-datepicker
                 size="sm"
                 v-model="sdate"
+                placeholder="시작일을 선택해주세요"
                 :min="nowtime"
                 :max="edate"
                 class="mb-1"
                 style="max-width: 200px"
               ></b-form-datepicker
             ></b-row>
-            <b-row class="my-auto"
-              ><p class="my-auto">종료일 :&nbsp;</p>
+            <b-row class="justify-content-center">
               <b-form-datepicker
                 size="sm"
                 v-model="edate"
+                placeholder="시작일을 선택해주세요"
                 :min="sdate"
                 class="mb-1"
                 style="max-width: 200px"
@@ -83,53 +84,41 @@
               </div>
             </div>
             <b-row style="display: flex; justify-content: center"
-              ><b-button
-                size="lg"
-                @click="completePlan()"
-                style="background-color: #dfe4ff; color: black; border: none"
+              ><b-button size="lg" @click="completePlan()" id="btncomplete"
                 >계획 완성하기</b-button
               ></b-row
             >
           </b-container>
         </b-row>
       </b-col>
-      <b-col
-        md="2"
-        class="shadow bg-body rounded justify-content-center"
-        style="padding-top: 10px; max-height: 950px"
-      >
-        <h3 style="font-weight: bold; padding: 30px 80px 30px 80px">추천 장소</h3>
+      <b-col md="2" style="padding-top: 10px; max-height: 950px; text-align: center">
+        <h3 style="font-weight: bold; padding: 43px 0px 43px 0px">추천 장소</h3>
         <hr />
         <div class="scrolldiv">
-          <b-container>
+          <b-container class="m-0">
             <b-card
               no-body
               class="overflow-hidden places"
-              style="max-width: 300px"
+              style="max-width: 100%"
               v-for="(tour, idx) in this.tourList"
               :key="idx"
             >
-              <b-row no-gutters class="justify-content-center">
-                <b-col md="3">
+              <b-row>
+                <b-col>
                   <b-card-img
                     :src="`${tour.image}`"
                     img-alt="Image"
-                    img-height="80"
-                    img-width="80"
+                    style="min-height: 100%"
                   ></b-card-img>
                 </b-col>
-                <b-col md="8">
-                  <b-card-text>
+                <b-col>
+                  <b-card-text id="recommendtitle">
                     {{ tour.title }}
                   </b-card-text>
-                </b-col>
-                <b-col>
                   <button class="planbtn" @click="addChoice(tour)">
-                    <font-awesome-icon
-                      icon="fa-solid fa-circle-plus"
-                      style="color: #dfe4ff"
-                    /></button
-                ></b-col>
+                    <font-awesome-icon icon="fa-solid fa-circle-plus" style="color: #dfe4ff" />
+                  </button>
+                </b-col>
               </b-row>
             </b-card>
           </b-container>
@@ -306,7 +295,6 @@ export default {
       this.map = new kakao.maps.Map(container, options);
     },
     makeMapMarkers() {
-      console.log("마커 만들어용!!");
       // ****** 여러개 마커에 이벤트 등록하기1 ******
       this.markers.forEach(function (mark) {
         mark.setMap(null);
@@ -519,5 +507,22 @@ export default {
   word-break: break-all;
   word-wrap: break-word;
   white-space: normal;
+}
+#btncomplete {
+  background-color: #dfe4ff;
+  border: 0;
+  color: black;
+  font-weight: bold;
+  padding: 16px;
+  border-style: none;
+  border: none;
+  box-shadow: none;
+  width: 80%;
+  line-height: 10px;
+  height: 50px;
+}
+#btncomplete:hover {
+  background-color: #d4fcee;
+  color: black;
 }
 </style>
