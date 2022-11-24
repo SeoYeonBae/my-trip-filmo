@@ -186,7 +186,7 @@ public class BoardController extends HttpServlet {
 							+ originalFileName.substring(originalFileName.lastIndexOf('.'));
 					fileInfoDto.setSaveFolder(today);
 					fileInfoDto.setOriginalFile(originalFileName);
-					fileInfoDto.setSaveFile("s_" + saveFileName);
+					fileInfoDto.setSaveFile(saveFileName);
 					logger.info("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", mfile.getOriginalFilename(), saveFileName);
 					File saveFile = new File(folder, saveFileName);
 					mfile.transferTo(saveFile);
