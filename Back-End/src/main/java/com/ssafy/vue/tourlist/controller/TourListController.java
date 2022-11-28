@@ -47,37 +47,8 @@ public class TourListController extends HttpServlet {
 		super();
 		this.tourListService = tourListService;
 	}
-
-
-//	@GetMapping("/today/{typeId}")
-//	public ModelAndView TodaysTour(@PathVariable("typeId") int typeId) {
-//		logger.debug("today's TourList 진입 :  타입은 " +typeId);
-//		
-//		ModelAndView mav = new ModelAndView();
-//		
-//		String todayTitle = "";
-//	
-//		switch(typeId) {
-//		case 12:
-//			mav.addObject("typeId", 12);
-//			todayTitle = "오늘의 관광지";
-//			break;
-//		case 15:
-//			mav.addObject("typeId", 15);
-//			todayTitle = "오늘의 행사/공연/축제";
-//			break;
-//		case 39:
-//			mav.addObject("typeId", 39);
-//			todayTitle = "오늘의 맛집";
-//			break;
-//		}
-//
-//		mav.addObject("keywordRecommend", todayTitle);
-//		mav.setViewName("/recommend/recommend");
-//		return mav;
-//		
-//	}
 	
+	// 오늘의 추천 여행지
 	@GetMapping(value = "/recommend/{typeId}")
 	private ResponseEntity<?> recommend(@PathVariable("typeId") int typeId) {
 		logger.debug("typeId : " + typeId);
@@ -95,7 +66,7 @@ public class TourListController extends HttpServlet {
 		}
 	}
 	
-	
+	// 컨텐트 타입에 맞는 전국 관광지 리스트
 	@GetMapping("/{sidoCode}/{gunguCode}/{contentTypeId}")
 	public ResponseEntity<?> map(@PathVariable("sidoCode") int areaCode, @PathVariable("gunguCode") int sigunguCode, @PathVariable("contentTypeId") int contentTypeId) {
 		try {
