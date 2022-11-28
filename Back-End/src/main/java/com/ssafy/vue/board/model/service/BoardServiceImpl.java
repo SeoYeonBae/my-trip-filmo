@@ -90,10 +90,8 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardDto> myListArticle(Map<String, String> map) throws Exception {
-		int pgno = Integer.parseInt(map.get("pgno"));
-		
 		Map<String, Object> param = new HashMap<String, Object>();
-		int start = pgno * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
+		int start = 1 * SizeConstant.LIST_SIZE - SizeConstant.LIST_SIZE;
 		param.put("start", start);
 		param.put("listsize", SizeConstant.LIST_SIZE);
 		param.put("id", map.get("id"));
