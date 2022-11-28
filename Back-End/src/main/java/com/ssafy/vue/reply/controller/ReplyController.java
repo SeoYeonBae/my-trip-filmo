@@ -27,7 +27,6 @@ public class ReplyController {
 	private Logger logger = LoggerFactory.getLogger(BoardController.class);
 	
 	private ReplyService replyService;
-	
 
 	@Autowired
 	public ReplyController(ReplyService replyService) {
@@ -36,6 +35,7 @@ public class ReplyController {
 	}
 	
 
+	// 댓글 등록
 	@PostMapping("/register")
 	public ResponseEntity<?> userRegister(@RequestBody ReplyDto replyDto) {
 		logger.debug("replyRegister replyDto : {}", replyDto);
@@ -48,6 +48,7 @@ public class ReplyController {
 	}
 	
 
+	// 클릭한 글에 맞는 댓글 불러오기
 	@GetMapping(value = "/{no}")
 	public ResponseEntity<?> replyList(@PathVariable("no") int article_no){
 		logger.debug("view articleNo : {}", article_no);
@@ -62,6 +63,7 @@ public class ReplyController {
 		}
 	}
 
+	// 내가 쓴 댓글 불러오기
 	@GetMapping("/my/{id}")
 	public ResponseEntity<?> replyMyList(@PathVariable("id") String id){
 		logger.debug("view myList : {}", id);
@@ -76,6 +78,7 @@ public class ReplyController {
 		}
 	}
 	
+	// 댓글 삭제
 	@DeleteMapping("/{idx}")
 	public ResponseEntity<String> deleteArticle(@PathVariable("idx") int idx) throws Exception {
 		logger.info("deleteReply - 호출");
