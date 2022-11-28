@@ -65,9 +65,9 @@ const routes = [
     component: () => import("@/views/AppAbout"),
   },
   {
-    path: "/qna",
-    name: "appQnA",
-    component: () => import("@/views/AppQnA"),
+    path: "/faq",
+    name: "appFaq",
+    component: () => import("@/views/AppFaq"),
   },
   {
     path: "/tour",

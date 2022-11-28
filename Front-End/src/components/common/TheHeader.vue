@@ -26,7 +26,7 @@
             <b-nav-item-dropdown text="게시판" right>
               <b-dropdown-item @click="$router.push({ name: 'board' })">핫플 자랑</b-dropdown-item>
               <b-dropdown-item @click="$router.push({ name: 'notice' })">공지사항</b-dropdown-item>
-              <b-dropdown-item @click="$router.push({ name: 'appQnA' })">Q&A</b-dropdown-item>
+              <b-dropdown-item @click="$router.push({ name: 'appFaq' })">FAQ</b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item-dropdown text="User" right>

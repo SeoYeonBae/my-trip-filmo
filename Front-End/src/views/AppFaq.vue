@@ -1,6 +1,6 @@
 <template>
   <b-container style="margin-top: 140px">
-    <h3>자주 묻는 Q&A</h3>
+    <h3>자주 묻는 질문</h3>
     <h5>회원 정보</h5>
     <hr />
     <div class="mb-3">

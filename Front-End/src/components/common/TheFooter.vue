@@ -19,7 +19,7 @@
               <p class="clicktext" @click="$router.push({ name: 'notice' })">공지사항</p>
             </b-col>
             <b-col>
-              <p class="clicktext" @click="$router.push({ name: 'appQnA' })">자주 묻는 질문</p>
+              <p class="clicktext" @click="$router.push({ name: 'appFaq' })">자주 묻는 질문</p>
             </b-col>
           </b-row>
         </b-col>
