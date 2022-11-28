@@ -77,6 +77,7 @@ public class UserController extends HttpServlet {
 		this.userService = userService;
 	}
 
+	// 로그인
 	@PostMapping("/login")
 	public ResponseEntity<?> login(@RequestBody UserDto userDto) {
 		Map<String, Object> resultMap = new HashMap<>();
@@ -87,8 +88,8 @@ public class UserController extends HttpServlet {
 				String accessToken = jwtService.createAccessToken("userid", loginUser.getId());// key, data
 				String refreshToken = jwtService.createRefreshToken("userid", loginUser.getId());// key, data
 				userService.saveRefreshToken(userDto.getId(), refreshToken);
-				logger.debug("로그인 accessToken 정보 : {}", accessToken);
-				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
+//				logger.debug("로그인 accessToken 정보 : {}", accessToken);
+//				logger.debug("로그인 refreshToken 정보 : {}", refreshToken);
 				resultMap.put("access-token", accessToken);
 				resultMap.put("refresh-token", refreshToken);
 				resultMap.put("message", SUCCESS);
@@ -105,6 +106,7 @@ public class UserController extends HttpServlet {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 회원 정보
 	@ApiOperation(value = "회원인증", notes = "회원 정보를 담은 Token을 반환한다.", response = Map.class)
 	@GetMapping("/info/{userid}")
 	public ResponseEntity<Map<String, Object>> getInfo(
@@ -114,7 +116,7 @@ public class UserController extends HttpServlet {
 		Map<String, Object> resultMap = new HashMap<>();
 		HttpStatus status = HttpStatus.UNAUTHORIZED;
 		if (jwtService.checkToken(request.getHeader("access-token"))) {
-			logger.info("사용 가능한 토큰!!!");
+//			logger.info("사용 가능한 토큰!!!");
 			try {
 //				로그인 사용자 정보.
 				UserDto userDto = userService.userInfo(userid);
@@ -134,6 +136,7 @@ public class UserController extends HttpServlet {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 로그아웃
 	@ApiOperation(value = "로그아웃", notes = "회원 정보를 담은 Token을 제거한다.", response = Map.class)
 	@GetMapping("/logout/{userid}")
 	public ResponseEntity<?> removeToken(@PathVariable("userid") String userid) {
@@ -152,6 +155,7 @@ public class UserController extends HttpServlet {
 
 	}
 
+	// 토큰 발급
 	@ApiOperation(value = "Access Token 재발급", notes = "만료된 access token을 재발급받는다.", response = Map.class)
 	@PostMapping("/refresh")
 	public ResponseEntity<?> refreshToken(@RequestBody UserDto userDto, HttpServletRequest request) throws Exception {
@@ -175,6 +179,7 @@ public class UserController extends HttpServlet {
 		return new ResponseEntity<Map<String, Object>>(resultMap, status);
 	}
 
+	// 아이디 중복 검사
 	@GetMapping("/{userid}")
 	public String idCheck(@PathVariable("userid") String userId) throws Exception {
 		logger.debug("idCheck userid : {}" + userId);
@@ -208,7 +213,7 @@ public class UserController extends HttpServlet {
 		}
 	}
 
-	// 회원 정보 수정
+	// 회원 정보 수정 + 이미지
 	@PutMapping("/modify/img")
 	public ResponseEntity<?> userModify(@Value("${file.path.upload-profile}") String filePath,
 			@RequestPart("userDto") UserDto userDto,
@@ -246,7 +251,7 @@ public class UserController extends HttpServlet {
 
 	// 비밀번호 찾기
 	@PostMapping("/findPass")
-	public ResponseEntity<?> findPass(@RequestBody Map<String, Object> map) {
+	public ResponseEntity<?> findPass(@Value("${spring.mail.manager}") String managerMail, @Value("${spring.mail.password}") String managerPass, @RequestBody Map<String, Object> map) {
 		try {
 			logger.info("find pass info : {}" + map);
 			Map<String, String> mailInfo = userService.findPass(map);
@@ -261,7 +266,7 @@ public class UserController extends HttpServlet {
 				Session session = Session.getInstance(props, new Authenticator() {
 					@Override
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication("megd78988@gmail.com", "tgfiqxbudlzcmhsx");
+						return new PasswordAuthentication(managerMail, managerPass);
 					}
 				});
 
@@ -282,15 +287,7 @@ public class UserController extends HttpServlet {
 				} catch (Exception e) {
 					return exceptionHandling(e);
 				}
-//				logger.info("mail : " + mailInfo);
-//				String email = mailInfo.get("user_email");
-//				String pass = mailInfo.get("user_password");
-//				SimpleMailMessage simpleMessage = new SimpleMailMessage();
-//				simpleMessage.setFrom("tjdus2033@naver.com"); // NAVER, DAUM, NATE일 경우 넣어줘야 함
-//				simpleMessage.setTo(email);
-//				simpleMessage.setSubject("여행의 주연 비밀번호 안내");
-//				simpleMessage.setText("안녕하세요 여행의 주연입니다. \n 요청하신 회원님의 비밀번호는 " + pass + "입니다. \n 감사합니다.");
-//				javaMailSender.send(simpleMessage);				
+				
 				return new ResponseEntity<Map<String, String>>(mailInfo, HttpStatus.OK);
 			} else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
