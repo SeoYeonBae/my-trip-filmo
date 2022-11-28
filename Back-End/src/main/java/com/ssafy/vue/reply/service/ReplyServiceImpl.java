@@ -27,40 +27,34 @@ public class ReplyServiceImpl implements ReplyService {
 	
 	@Override
 	public void regist(ReplyDto replyDto) throws Exception {
-		// TODO Auto-generated method stub
 		replyMapper.regist(replyDto);
 
 	}
 
 	@Override
 	public List<ReplyDto> list(int article_no) throws Exception {
-		// TODO Auto-generated method stub
 		return replyMapper.list(article_no);
 	}
 
 	@Override
 	public List<ReplyDto> myList(String user_id) throws Exception {
-		// TODO Auto-generated method stub
 		return replyMapper.myList(user_id);
 	}
 
 	@Override
 	public void modify(ReplyDto replyDto) throws Exception {
-		// TODO Auto-generated method stub
 		replyMapper.modify(replyDto);
 
 	}
 
 	@Override
 	public void delete(int idx) throws Exception {
-		// TODO Auto-generated method stub
 		replyMapper.delete(idx);
 
 	}
 
 	@Override
 	public void deleteAll(int article_no) throws Exception {
-		// TODO Auto-generated method stub
 		replyMapper.deleteAll(article_no);
 	}
 

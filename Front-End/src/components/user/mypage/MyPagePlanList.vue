@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     getMyPlans() {
-      console.log("나의 계획들을 가져옵니다");
+      // 여행 계획 전체 리스트 조회
       api.get(`/plan/total/planlist/${this.userInfo.id}`).then(({ data }) => {
         console.log(data);
         this.myplans = data;

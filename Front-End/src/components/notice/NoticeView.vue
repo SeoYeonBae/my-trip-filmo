@@ -62,12 +62,14 @@ export default {
   },
   methods: {
     moveModifyArticle() {
+      // 공지사항 수정으로 이동
       this.$router.replace({
         name: "noticemodify",
         params: { articleno: this.article.articleNo },
       });
     },
     deleteArticle() {
+      // 공지사항 삭제
       api.delete(`/notice/${this.$route.params.articleno}`).then(({ data }) => {
         let msg = "삭제 처리시 문제가 발생했습니다.";
         if (data === "success") {

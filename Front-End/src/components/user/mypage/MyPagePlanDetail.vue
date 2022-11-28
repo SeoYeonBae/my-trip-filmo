@@ -84,19 +84,19 @@ export default {
     };
   },
   created() {
-    console.log(this.$route.params.planidx + "번 계획의 상세정보입니다");
+    // console.log(this.$route.params.planidx + "번 계획의 상세정보 조회");
     this.getMyPlanInfo();
     this.getMyPlaces();
   },
   methods: {
     getMyPlaces() {
+      // planidx번째 여행 계획 조회
       api.get(`/plan/myplan/${this.$route.params.planidx}`).then(({ data }) => {
-        console.log("=> 상세내용을 불러옵니다.");
-        console.log(data);
         this.myPlaces = data;
       });
     },
     getMyPlanInfo() {
+      // 여행 계획 상세정보 조회
       api.get(`/plan/myplan/info/${this.$route.params.planidx}`).then(({ data }) => {
         this.planDetails = data;
         console.log(data);
@@ -104,6 +104,7 @@ export default {
       });
     },
     deletePlanInfo() {
+      // 여행 계획 삭제
       api.delete(`/plan/delete/${this.$route.params.planidx}`).then(({ data }) => {
         console.log(data);
         this.$router.push({ name: "planlist" });

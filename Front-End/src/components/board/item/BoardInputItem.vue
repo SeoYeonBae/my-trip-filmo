@@ -81,9 +81,11 @@ export default {
     };
   },
   mounted() {
+    // 글 등록인 경우
     if (this.type == "register") this.setUserId();
   },
   created() {
+    // 글 수정인 경우
     if (this.type === "modify") {
       api.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
         this.article = data;
@@ -162,6 +164,7 @@ export default {
       }
     },
     modifyArticle() {
+      // 글 수정
       api
         .put(`/board`, {
           articleNo: this.article.articleNo,
@@ -183,6 +186,7 @@ export default {
       this.$router.push({ name: "boardlist" });
     },
     setUserId() {
+      // 글 작성자 값 대입
       this.article.userId = this.userInfo.id;
     },
   },

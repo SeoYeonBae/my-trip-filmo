@@ -14,7 +14,7 @@
     </b-row>
     <b-row>
       <b-col>
-        <b-table striped hover :items="articles" :fields="fields" @row-clicked="viewArticle">
+        <b-table hover :items="articles" :fields="fields" @row-clicked="viewArticle">
           <template #cell(subject)="data">
             <router-link :to="{ name: 'noticeview', params: { articleno: data.item.articleNo } }">
               {{ data.item.subject }}

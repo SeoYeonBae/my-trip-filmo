@@ -149,19 +149,16 @@ export default {
     ...mapState(memberStore, ["userInfo"]),
   },
   watch: {
-    myChoices: function () {
-      // 마커 경로
-    },
     sidoCode: function () {
       this.place = this.donames[this.sidoCode];
     },
     sdate: function () {
       this.planInfo.start_date = this.sdate;
-      console.log("날자선택했음" + this.planInfo.start_date);
+      // console.log("시작 날짜 선택 : " + this.planInfo.start_date);
     },
     edate: function () {
       this.planInfo.end_date = this.edate;
-      console.log("날자선택했음" + this.planInfo.end_date);
+      // console.log("종료 날짜 선택 : " + this.planInfo.end_date);
     },
   },
   data() {
@@ -190,7 +187,7 @@ export default {
       sdate: "",
       edate: "",
       planInfo: {
-        title: "나의 여행계획 1",
+        title: "나의 여행 계획 1",
         start_date: "",
         end_date: "",
         user_id: "",
@@ -224,12 +221,12 @@ export default {
       this.myChoices.push(newInfo);
     },
     deleteChoice(delete_name) {
-      console.log(delete_name + "삭제할게");
+      // 여행지 선택 취소
       let filtered = this.myChoices.filter((o) => o.name !== delete_name);
-      // console.log(filtered);
       this.myChoices = filtered;
     },
     completePlan() {
+      // 여행 계획 완성하기 버튼 클릭 시
       let myId = this.userInfo.id;
       this.planInfo.user_id = myId;
 
@@ -240,7 +237,6 @@ export default {
         this.myChoices.forEach((item) => {
           idxInfo.push(item.idx); // 선택한 여행지들의 idx만 담는다.
         });
-        console.log("idxInfo배열: " + idxInfo);
         // 나의 여행 계획 정보를 추가
         api.post(`/plan/regist`, this.planInfo).then(({ data }) => {
           if (data == "fail") {
@@ -253,25 +249,16 @@ export default {
     addDetails(idxInfo, myId) {
       // 선택한 여행지 목록들을 post
       api.post(`/plan/detail/${myId}`, idxInfo).then(({ data }) => {
-        console.log(data + " => 나의 여행 계획 plan_idx");
         if (data == "fail") {
           alert(this.msg);
           this.$router.push({ name: "planview" });
         } else {
           // 유저가 새로 생성한 계획의 idx가 잘 반환되었으므로 다음 페이지로 전환
-          console.log(data + "번 계획을 추가했습니다.");
+          // console.log(data + "번 계획 추가 완료");
           this.$router.push({ name: "planinfo", params: { planidx: data } });
         }
       });
     },
-    // deletePlan(plan_idx) {
-    //   api.delete(`/plan/delete/${plan_idx}`).then(({ data }) => {
-    //     console.log(plan_idx + "번 idx 꼐획을 삭제");
-    //     let msg = "나의 여행 계획 삭제 중 문제가 발생하였습니다.";
-    //     if (data == "success") msg = "나의 여행 계획을 삭제하였습니다.";
-    //     alert(msg);
-    //   });
-    // },
     zoomIn() {
       this.map.setLevel(this.map.getLevel() - 1);
     },

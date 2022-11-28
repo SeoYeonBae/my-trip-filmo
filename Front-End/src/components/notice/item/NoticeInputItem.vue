@@ -105,6 +105,7 @@ export default {
       this.moveList();
     },
     registArticle() {
+      // 공지사항 등록
       api
         .post(`/notice/register`, {
           userId: this.article.userId,
@@ -112,15 +113,13 @@ export default {
           content: this.article.content,
         })
         .then(({ data }) => {
-          let msg = "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
-          if (data === "success") {
-            msg = "등록이 완료되었습니다.";
-          }
-          alert(msg);
-          this.moveList();
+          let msg = "공지사항 등록 중 문제 발생";
+          if (data == "success") this.moveList();
+          else alert(msg);
         });
     },
     modifyArticle() {
+      // 공지사항 수정
       api
         .put(`/notice`, {
           articleNo: this.article.articleNo,

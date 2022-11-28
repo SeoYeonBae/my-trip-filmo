@@ -79,11 +79,13 @@ export default {
   },
   methods: {
     getReplys() {
+      // 해당 글의 모든 댓글 조회
       api.get(`/reply/${this.articleno}`).then(({ data }) => {
         this.replys = data;
       });
     },
     registReply() {
+      // 댓글 등록
       api
         .post(`/reply/register`, {
           user_id: this.newReply.user_id,
@@ -101,10 +103,12 @@ export default {
         });
     },
     setReplyInfo() {
+      // 댓글 정보 세팅
       this.newReply.user_id = this.userInfo.id;
       this.newReply.article_no = this.articleno;
     },
     deleteReply(idx) {
+      // 댓글 삭제
       api.delete(`/reply/${idx}`).then(({ data }) => {
         let msg = " 문제가 발생하였습니다.";
         if (data === "success") msg = "댓글 삭제가 완료되었습니다.";
@@ -114,7 +118,6 @@ export default {
     },
     onSubmit(event) {
       event.preventDefault();
-
       if (this.newReply.content == "") {
         alert("댓글 내용을 입력해주세요");
       } else this.registReply();

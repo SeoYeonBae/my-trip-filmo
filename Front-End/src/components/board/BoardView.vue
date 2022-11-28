@@ -69,6 +69,7 @@ export default {
     };
   },
   created() {
+    // 해당 글 조회
     api.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
       console.log(data);
       this.fileInfos = data.fileInfos;
@@ -88,12 +89,14 @@ export default {
   },
   methods: {
     moveModifyArticle() {
+      // 글 수정으로 이동
       this.$router.replace({
         name: "boardmodify",
         params: { articleno: this.article.articleNo },
       });
     },
     deleteArticle() {
+      // 글 삭제
       api.delete(`/board/${this.$route.params.articleno}`).then(({ data }) => {
         let msg = "삭제 처리시 문제가 발생했습니다.";
         if (data === "success") {

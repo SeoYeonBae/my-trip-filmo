@@ -4,12 +4,7 @@
       <div class="text-center my-5">
         <h5 class="mb-0">내가 쓴 댓글</h5>
       </div>
-      <b-table
-        hover
-        :items="replies"
-        :fields="fields"
-        @row-clicked="viewArticle"
-      >
+      <b-table hover :items="replies" :fields="fields" @row-clicked="viewArticle">
         <template #cell(content)="data">
           <router-link
             :to="{
@@ -47,6 +42,7 @@ export default {
     ...mapState(memberStore, ["userInfo"]),
   },
   mounted() {
+    // 내가 작성한 댓글 조회
     api.get(`/reply/my/${this.userInfo.id}`).then(({ data }) => {
       console.log(data);
       this.replies = data;

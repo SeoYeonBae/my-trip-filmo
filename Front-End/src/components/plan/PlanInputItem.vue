@@ -1,6 +1,5 @@
 <template>
   <b-container id="main">
-    <!-- <div>/ {{ this.$route.params.planidx }}번 계획을 생성했음</div> -->
     <b-row>
       <b-col md="3" class="my-auto"><h5>TITLE</h5> </b-col>
       <b-col>
@@ -130,18 +129,19 @@ export default {
     // },
   },
   created() {
-    console.log(this.$route.params.planidx + "번 계획 상세정보 등록 시작");
+    // console.log(this.$route.params.planidx + "번 계획 상세정보 등록 시작");
     this.getMyPlan();
   },
   methods: {
     getMyPlan() {
-      console.log("방문할 여행지의 idx들을 받아옵니다");
+      // 방문할 여행지의 idx들 받아오기
       api.get(`/plan/myplan/${this.$route.params.planidx}`).then(({ data }) => {
         this.myPlaces = data;
         console.log(data);
       });
     },
     registPlanInfo() {
+      // 여행 계획 상세정보 등록
       if (this.isNotExist) alert("동행인의 아이디를 다시 확인해주세요");
       if (this.planTitle == "") alert("여행 제목을 입력해주세요");
       else {
@@ -160,15 +160,15 @@ export default {
     checkUserId() {
       // 존재하는 유저인지 확인
       api.get(`/user/${this.invitedUser}`).then(({ data }) => {
-        // api.post(`/plan/getuser`, user_id).then(({ data }) => {
         if (data == 0) this.isNotExist = true;
         else this.isNotExist = false;
       });
     },
-    addList(input) {
-      if (input == "") alert("체크리스트를 입력해주세요");
-      else this.checklist.push(input);
-    },
+    // addList(input) {
+    // 체크리스트 등록
+    // if (input == "") alert("체크리스트를 입력해주세요");
+    // else this.checklist.push(input);
+    // },
   },
 };
 </script>

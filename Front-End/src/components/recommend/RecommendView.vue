@@ -77,6 +77,7 @@ export default {
   },
   methods: {
     setInfo() {
+      // 추천 명소 정보 받아오기
       api.get(`/tourlist/recommend/${this.typeId}`).then(({ data }) => (this.placeInfo = data));
     },
     setmap() {
