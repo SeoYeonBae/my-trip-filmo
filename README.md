@@ -60,7 +60,11 @@
    - 회원 프로필 사진을 포함한 정보 관리
    - 내가 계획한 여행 목록과 상세 정보 확인 및 삭제
    - 내가 쓴 글과 댓글 관리
-![image](https://user-images.githubusercontent.com/101535851/204283517-76d7aa7a-c2f8-40c2-919c-2f9c3fa2e3a7.png)
+![image](https://user-images.githubusercontent.com/101535851/204297430-eacae700-9128-4b04-9133-62117b57b8e7.png)
+![image](https://user-images.githubusercontent.com/101535851/204298497-aeeba639-cc3b-48df-b4e9-9e1361101157.png)
+![image](https://user-images.githubusercontent.com/101535851/204299975-862c4b02-4e73-431d-a6ba-db0d7cc92cea.png)
+![image](https://user-images.githubusercontent.com/101535851/204299915-d1c3f2db-ea28-4e2e-ad27-b43bc68c10ee.png)
+![image](https://user-images.githubusercontent.com/101535851/204300031-4e31e78b-ba41-4a45-9c6a-910f95ce8bad.png)
 
 - 오늘의 추천 명소
    - 목적지가 없는 고객들을 위한 오늘의 관광지, 행사, 축제, 맛집 소개
@@ -82,7 +86,7 @@
    - 여행 계획에 대한 상세 정보 입력 가능
    - 페이지에 가입한 친구를 초대해 여행 계획 공유
 ![image](https://user-images.githubusercontent.com/101535851/204284754-ccebfaa7-8666-4ebb-a57a-4adf2420eb32.png)
-![image](https://user-images.githubusercontent.com/101535851/204284773-f597f5f9-9759-465e-8a5f-e39fdeb7d146.png)
+![image](https://user-images.githubusercontent.com/101535851/204297265-63963d05-f670-45c4-ae93-74ccacaf0b97.png)
 
 - 핫플 자랑하기
    - 사용자들끼리 자신의 핫플레이스를 공유하는 커뮤니티
