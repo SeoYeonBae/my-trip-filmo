@@ -2,12 +2,7 @@
   <b-container>
     <tour-list-option-bar @makeMarker="makeMapMarkers"></tour-list-option-bar>
     <div class="tab-content mt-2" id="mapcontent">
-      <div
-        class="tab-pane fade show active"
-        id="tabpane"
-        role="tabpanel"
-        aria-labelledby="tabpane"
-      >
+      <div class="tab-pane fade show active" id="tabpane" role="tabpanel" aria-labelledby="tabpane">
         <div class="map_wrap">
           <div id="map" style="width: 100%; height: 700px"></div>
           <!-- 지도 확대, 축소 컨트롤 div 입니다 -->
@@ -41,12 +36,7 @@ export default {
     TourListOptionBar,
   },
   computed: {
-    ...mapState(tourListStore, [
-      "sidoCode",
-      "gugunCode",
-      "contentTypeId",
-      "tourList",
-    ]),
+    ...mapState(tourListStore, ["sidoCode", "gugunCode", "contentTypeId", "tourList"]),
   },
   data() {
     return {
@@ -58,9 +48,7 @@ export default {
     };
   },
   mounted() {
-    window.kakao && window.kakao.maps
-      ? this.initMap()
-      : this.addKakaoMapScript();
+    window.kakao && window.kakao.maps ? this.initMap() : this.addKakaoMapScript();
   },
   methods: {
     zoomIn() {
@@ -74,7 +62,8 @@ export default {
       /* global kakao */
       script.onload = () => kakao.maps.load(this.initMap);
       script.src =
-        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=84438603ef15ec1f521f260675951d5f";
+        "http://dapi.kakao.com/v2/maps/sdk.js?autoload=false&appkey=" +
+        process.env.VUE_APP_KAKAOMAP_KEY;
       document.head.appendChild(script);
     },
     initMap() {
