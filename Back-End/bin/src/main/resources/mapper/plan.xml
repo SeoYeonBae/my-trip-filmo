@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.vue.plan.model.mapper.PlanMapper">
+	
+	<insert id="regist" parameterType="planDto">
+		insert into plan_list (title, start_date, end_date, user_id, invited_user)
+		values (#{title}, #{start_date}, #{end_date}, #{user_id}, #{invited_user})
+	</insert>
+
+	<select	id="getLastIdx"  parameterType="String" resultType="int">
+		select max(plan_idx) from plan_list where user_id = #{user_id}
+	</select>
+
+	<insert id="addPlanDetail" parameterType="planIdxDto">
+		insert into plan_detail
+		values (#{plan_idx}, #{idx})
+	</insert>
+	
+	<delete id="deletePlan" parameterType="int">
+		delete from plan_list
+		where plan_idx = #{plan_idx}
+	</delete>
+	
+	<select id="getMyPlan" parameterType="int"  resultType="int">
+		select idx from plan_detail 
+		where plan_idx = #{plan_idx}
+	</select>
+	
+	<select id="getTourInfo" parameterType="int" resultType="tourListDto">
+		select * from tour_list
+		where idx = #{idx}
+	</select>
+	
+	<update id="registInfo"  parameterType="planDto">
+		update plan_list 
+		set title= #{title}, invited_user=#{invited_user}
+		where plan_idx = #{plan_idx};
+	</update>
+	
+	<select id="getMyPlanList" parameterType="planDto" resultType="planDto">
+		select * 
+		from plan_list
+		where user_id = #{user_id}
+	</select>
+	
+	<select id="getMyPlanInfo" parameterType="int" resultType="planDto">
+		select * from plan_list
+		where plan_idx = #{plan_idx}
+	</select>
+
+	
+</mapper>

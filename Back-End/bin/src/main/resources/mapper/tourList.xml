@@ -5,7 +5,7 @@
 <mapper namespace="com.ssafy.vue.tourlist.model.mapper.TourListMapper">
 		
 	<select id="getData" parameterType="map" resultType="TourListDto">
-		select title, addr1, mapx, mapy, image, tel, zipcode
+		select title, addr1, mapx, mapy, image, tel, zipcode, idx, content_type_id
 		from tour_list
 		where area_code = #{areaCode} and sigungu_code = #{sigunguCode}
 		<include refid="search"></include>
