@@ -3,7 +3,6 @@
     <b-jumbotron class="mt-5">
       <div>
         <font-awesome-icon icon="fa-plane-departure" class="fa-2x mb-3" />
-        <!-- <b-button @click="$router.push({ name: 'planlist' })">이전으로</b-button> -->
         <h3 class="mb-3" style="font-weight: bold">" {{ planDetails.title }} "</h3>
         <h5 class="mb-4 font-italic">{{ planDetails.start_date }} - {{ planDetails.end_date }}</h5>
         <h6 v-if="planDetails.invited_user == ''"></h6>

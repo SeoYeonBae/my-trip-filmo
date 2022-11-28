@@ -17,17 +17,7 @@
           <p>
             {{ article.content }}
           </p>
-          <b-card-group columns class="wrap">
-            <!-- <b-card
-              v-for="(file, index) in fileInfos"
-              :key="index"
-              :img-src="
-                require('C:/mytripfilmo/board/fileUpload/' + file.saveFolder + '/' + file.saveFile)
-              "
-              img-alt="Image"
-              overlay
-            ></b-card> -->
-          </b-card-group>
+          <b-card-group columns class="wrap"> </b-card-group>
         </div>
         <b-row class="mt-1">
           <b-col class="text-left">
@@ -41,30 +31,6 @@
           </b-col>
         </b-row>
       </b-jumbotron>
-      <!-- <b-col class="text-left">
-        <b-button @click="moveList">목록</b-button>
-      </b-col>
-      <b-col class="text-right">
-        <div v-show="this.userInfo.id == 'admin'">
-          <b-button size="sm" @click="moveModifyArticle" class="mr-2">글수정</b-button>
-          <b-button size="sm" @click="deleteArticle">글삭제</b-button>
-        </div>
-      </b-col>
-    </b-row>
-    <b-row class="mb-1">
-      <b-col>
-        <b-card
-          :header-html="`<h3>${article.articleNo}.
-          ${article.subject} [${article.hit}]</h3><div><h6>${article.userId}</div><div>${article.registerTime}</h6></div>`"
-          class="mb-2"
-          border-variant="dark"
-          no-body
-        >
-          <b-card-body class="text-left">
-            <div v-html="message"></div>
-          </b-card-body>
-        </b-card>
-      </b-col> -->
     </b-row>
   </b-container>
 </template>

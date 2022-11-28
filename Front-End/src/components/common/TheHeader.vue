@@ -17,7 +17,9 @@
           <b-navbar-nav class="ml-auto" v-if="userInfo">
             <b-nav-item-dropdown text="여행하기" right>
               <b-dropdown-item @click="$router.push({ name: 'tour' })">관광지 구경</b-dropdown-item>
-              <b-dropdown-item @click="$router.push({ name: 'planview' })">여행 계획</b-dropdown-item>
+              <b-dropdown-item @click="$router.push({ name: 'planview' })"
+                >여행 계획</b-dropdown-item
+              >
               <b-dropdown-item @click="$router.push({ name: 'sun' })">일출 일몰</b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -62,17 +64,9 @@ export default {
   },
   methods: {
     ...mapActions(memberStore, ["userLogout"]),
-    // ...mapMutations(memberStore, ["SET_IS_LOGIN", "SET_USER_INFO"]),
     onClickLogout() {
-      // this.SET_IS_LOGIN(false);
-      // this.SET_USER_INFO(null);
-      // sessionStorage.removeItem("access-token");
-      // if (this.$route.path != "/") this.$router.push({ name: "main" });
       console.log(this.userInfo.id);
       this.callShutDown();
-      //vuex actions에서 userLogout 실행(Backend에 저장 된 리프레시 토큰 없애기
-      //+ satate에 isLogin, userInfo 정보 변경)
-      // this.$store.dispatch("userLogout", this.userInfo.userid);
       this.userLogout(this.userInfo.userid);
       sessionStorage.removeItem("access-token"); //저장된 토큰 없애기
       sessionStorage.removeItem("refresh-token"); //저장된 토큰 없애기
@@ -93,7 +87,6 @@ export default {
 
 <style scoped>
 nav {
-  /* background-color: rgb(255, 219, 219); */
   z-index: 1000;
 }
 .navbar-light .navbar-nav .nav-link .navbar-brand {
