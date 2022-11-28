@@ -2,9 +2,7 @@
   <b-container class="bv-example-row mt-3">
     <b-row class="mb-1">
       <b-jumbotron>
-        <h3 class="text-center">
-          {{ article.articleNo }}.{{ article.subject }}
-        </h3>
+        <h3 class="text-center">{{ article.articleNo }}.{{ article.subject }}</h3>
         <p class="m-1">{{ article.userId }}</p>
         <b-row>
           <b-col>
@@ -40,40 +38,14 @@
           </b-col>
           <b-col class="text-right">
             <div v-show="this.article.userId == this.userInfo.id">
-              <b-button class="m-0 mr-3" @click="moveModifyArticle"
-                >글수정</b-button
-              >
+              <b-button class="m-0 mr-3" @click="moveModifyArticle">글수정</b-button>
               <b-button class="m-0" @click="deleteArticle">글삭제</b-button>
             </div>
           </b-col>
         </b-row>
       </b-jumbotron>
-      <b-col>
-        <!-- <b-card
-          :header-html="`<h3>${article.articleNo}.
-          ${article.subject} [${article.hit}]</h3><div><h6>${article.userId}</div><div>${article.registerTime}</h6></div>`"
-          class="mb-2"
-          border-variant="dark"
-          no-body
-        >
-          <b-card-body class="text-left">
-            <div v-html="message"></div>
-            <div v-for="file in fileInfos" v-bind:key="file.originalFile">
-              <img
-                :src="
-                  require('C:/mytripfilmo/board/fileUpload/' +
-                    file.saveFolder +
-                    '/' +
-                    file.saveFile)
-                "
-                width="200px"
-              /> 
-            </div>
-          </b-card-body>
-        </b-card> -->
-      </b-col>
+      <b-col> </b-col>
     </b-row>
-
     <b-row>
       <board-reply-item :articleno="`${article.articleNo}`"></board-reply-item>
     </b-row>
@@ -110,8 +82,7 @@ export default {
   computed: {
     ...mapState(memberStore, ["userInfo"]),
     message() {
-      if (this.article.content)
-        return this.article.content.split("\n").join("<br>");
+      if (this.article.content) return this.article.content.split("\n").join("<br>");
       return "";
     },
   },
@@ -157,7 +128,6 @@ button {
   background-color: #dfe4ff;
   border: 0;
   color: black;
-  font-weight: bold;
   padding-left: 16px;
   padding-right: 16px;
   width: 200px;

@@ -13,17 +13,16 @@ import com.ssafy.vue.board.model.FileInfoDto;
 public interface BoardMapper {
 	
 	int countArticle() throws SQLException;
+	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
+	List<BoardDto> listArticle(Map<String, Object> map) throws SQLException;
 	int writeArticle(BoardDto boardDto) throws SQLException;
 	void registerFile(BoardDto boardDto) throws Exception;
-	List<BoardDto> listArticle(Map<String, Object> map) throws SQLException;
-	List<BoardDto> myListArticle(Map<String, Object> map) throws SQLException;
-	List<BoardDto> preview(int num) throws SQLException;
 	BoardDto getArticle(int articleNo) throws SQLException;
 	void updateHit(int articleNo) throws SQLException;
 	void modifyArticle(BoardDto boardDto) throws SQLException;
-	void deleteArticle(int articleNo) throws SQLException;
-	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
 	List<FileInfoDto> fileInfoList(int articleNo) throws Exception;
+	void deleteArticle(int articleNo) throws SQLException;
 	void deleteFile(int articleNo) throws Exception;
+	List<BoardDto> myListArticle(Map<String, Object> map) throws SQLException;
 	
 }

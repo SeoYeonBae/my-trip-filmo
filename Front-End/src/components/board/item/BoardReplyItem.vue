@@ -141,11 +141,8 @@ export default {
   width: 100%;
 }
 .btn {
-  /* font-size: 10px; */
-  /* background-color: #dfe4ff; */
   background-color: white;
   color: black;
-  /* border-style: solid; */
 }
 .btn:hover {
   color: white;
@@ -167,7 +164,4 @@ img {
   width: 40px;
   height: 40px;
 }
-/* .show {
-  display: block;
-} */
 </style>

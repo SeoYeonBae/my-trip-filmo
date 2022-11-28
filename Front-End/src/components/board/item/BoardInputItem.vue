@@ -44,11 +44,7 @@
             accept="image/*"
           />
         </div>
-        <b-button
-          type="submit"
-          variant="primary"
-          class="m-1"
-          v-if="this.type === 'register'"
+        <b-button type="submit" variant="primary" class="m-1" v-if="this.type === 'register'"
           >글작성</b-button
         >
         <b-button type="submit" class="m-1" v-else>글수정</b-button>
@@ -90,10 +86,6 @@ export default {
   created() {
     if (this.type === "modify") {
       api.get(`/board/${this.$route.params.articleno}`).then(({ data }) => {
-        // this.article.articleno = data.article.articleno;
-        // this.article.userid = data.article.userid;
-        // this.article.subject = data.article.subject;
-        // this.article.content = data.article.content;
         this.article = data;
       });
       this.isUserid = true;
@@ -106,23 +98,16 @@ export default {
       let err = true;
       let msg = "";
       !this.article.userId &&
-        ((msg = "작성자 입력해주세요"),
-        (err = false),
-        this.$refs.userId.focus());
+        ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userId.focus());
       err &&
         !this.article.subject &&
-        ((msg = "제목 입력해주세요"),
-        (err = false),
-        this.$refs.subject.focus());
+        ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
       err &&
         !this.article.content &&
-        ((msg = "내용 입력해주세요"),
-        (err = false),
-        this.$refs.content.focus());
+        ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
 
       if (!err) alert(msg);
-      else
-        this.type === "register" ? this.registArticle() : this.modifyArticle();
+      else this.type === "register" ? this.registArticle() : this.modifyArticle();
     },
     onReset(event) {
       event.preventDefault();
@@ -137,11 +122,7 @@ export default {
     },
     registArticle() {
       // 파일 없이 글 등록
-      if (
-        typeof this.file == "undefined" ||
-        this.file == null ||
-        this.file == ""
-      ) {
+      if (typeof this.file == "undefined" || this.file == null || this.file == "") {
         api
           .post(`/board/register`, {
             userId: this.article.userId,
@@ -149,8 +130,7 @@ export default {
             content: this.article.content,
           })
           .then(({ data }) => {
-            let msg =
-              "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
+            let msg = "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
             if (data === "success") {
               msg = "등록이 완료되었습니다.";
             }
@@ -172,8 +152,7 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
           .then(({ data }) => {
-            let msg =
-              "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
+            let msg = "DB에 잘 들어가는데 왜 등록 처리시 문제가 발생했습니다.라는거야";
             if (data === "success") {
               msg = "등록이 완료되었습니다.";
             }

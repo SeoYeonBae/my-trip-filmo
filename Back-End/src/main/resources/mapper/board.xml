@@ -25,7 +25,19 @@
 		<result column="original_file" property="originalFile"/>
 		<result column="save_file" property="saveFile"/>
 	</resultMap>
+
+	<select id="getTotalArticleCount" parameterType="map" resultType="int">
+		select count(article_no)
+		from board
+	</select>
 		
+	<select id="listArticle" parameterType="map" resultMap="boardAll">
+		select article_no, user_id, subject, content, hit, register_time
+		from board
+		order by article_no desc
+		limit #{start}, #{listsize}
+	</select>	
+
 	<insert id="writeArticle" parameterType="boardDto">
 		insert into board (user_id, subject, content, hit, register_time)
 		values (#{userId}, #{subject}, #{content}, 0, now())
@@ -41,32 +53,6 @@
 			(#{articleNo}, #{fileinfo.saveFolder}, #{fileinfo.originalFile}, #{fileinfo.saveFile})
 		</foreach>
 	</insert>
-
-	<select id="preview" parameterType="int" resultMap="previewBoard">
-		select subject, user_id, hit
-		from board
-		order by article_no desc limit ${num}
-	</select>
-	
-	<select id="getTotalArticleCount" parameterType="map" resultType="int">
-		select count(article_no)
-		from board
-	</select>
-	
-	<select id="listArticle" parameterType="map" resultMap="boardAll">
-		select article_no, user_id, subject, content, hit, register_time
-		from board
-		order by article_no desc
-		limit #{start}, #{listsize}
-	</select>	
-
-	<select id="myListArticle" parameterType="map" resultMap="boardAll">
-		select article_no, user_id, subject, content, hit, register_time
-		from board
-		where user_id = #{id}
-		order by article_no desc
-		limit #{start}, #{listsize}
-	</select>	
 	
 
 	<select id="getArticle" parameterType="int" resultMap="viewArticle">
@@ -75,11 +61,11 @@
 		where article_no = #{articleNo}
 	</select>
 	
-	<select id="fileInfoList" resultMap="file">
-		select save_folder, original_file, save_file
-		from file_info
+	<update id="updateHit" parameterType="int">
+		update board
+		set hit = hit + 1
 		where article_no = #{articleNo}
-	</select>
+	</update>
 	
 	<update id="modifyArticle" parameterType="boardDto">
 		update board
@@ -87,20 +73,28 @@
 		where article_no = #{articleNo}
 	</update>
 	
-	<update id="updateHit" parameterType="int">
-		update board
-		set hit = hit + 1
+	<select id="fileInfoList" resultMap="file">
+		select save_folder, original_file, save_file
+		from file_info
 		where article_no = #{articleNo}
-	</update>
+	</select>
+	
+	<delete id="deleteArticle" parameterType="int">
+		delete from board
+		where article_no = #{articleNo}
+	</delete>
 	
 	<delete id="deleteFile" parameterType="int">
 		delete from file_info
 		where article_no = #{articleNo}
 	</delete>
 	
-	<delete id="deleteArticle" parameterType="int">
-		delete from board
-		where article_no = #{articleNo}
-	</delete>
+	<select id="myListArticle" parameterType="map" resultMap="boardAll">
+		select article_no, user_id, subject, content, hit, register_time
+		from board
+		where user_id = #{id}
+		order by article_no desc
+		limit #{start}, #{listsize}
+	</select>	
 	
 </mapper>
