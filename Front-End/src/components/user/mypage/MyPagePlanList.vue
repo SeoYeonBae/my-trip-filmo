@@ -12,7 +12,7 @@
         :key="idx"
         no-body
         class="overflow-hidden mb-5"
-        style="max-width: 540px"
+        style="max-width: 100%; max-height: 250px"
       >
         <b-row
           no-gutters
