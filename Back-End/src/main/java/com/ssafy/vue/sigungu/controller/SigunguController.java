@@ -63,43 +63,5 @@ public class SigunguController extends HttpServlet {
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		return new ResponseEntity<String>("Error : " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
-//	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		String act = request.getParameter("act");
-//		
-//		if("list".equals(act)) {
-//			list(request, response);
-//		} else {
-//			redirect(request, response, "/index.jsp");
-//		}
-//		
-//	}
-//
-//	private void list(HttpServletRequest request, HttpServletResponse response) {
-//		int areaCode = Integer.parseInt(request.getParameter("areaCode"));
-//		try {
-//			List<SigunguDto> list = new ArrayList<SigunguDto>();
-//			list = sigugnuService.list(areaCode);
-//			ObjectMapper mapper = new ObjectMapper();
-//			String jsonInString = mapper.writeValueAsString(list);
-//			response.setContentType("application/json;charset=utf-8");
-//			PrintWriter out = response.getWriter();
-//			out.print(jsonInString);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//	}
-//
-//
-//	private void redirect(HttpServletRequest request, HttpServletResponse response, String path) throws IOException {
-//		response.sendRedirect(request.getContextPath() + path);
-//		
-//	}
-//
-//	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		request.setCharacterEncoding("utf-8");
-//		doGet(request, response);
-//	}
 
 }

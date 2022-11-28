@@ -47,7 +47,7 @@ public class DoController extends HttpServlet {
 	public ResponseEntity<?> doGet() {
 		try {
 			List<DoDto> list = doService.list();
-			logger.debug("도!!! " + list);
+			logger.debug("도 리스트 " + list);
 			if (list != null) {
 				return new ResponseEntity<List<DoDto>>(list, HttpStatus.OK);
 			} else {
