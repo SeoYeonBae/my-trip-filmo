@@ -8,13 +8,11 @@ import com.ssafy.vue.util.PageNavigation;
 
 public interface NoticeService {
 
-	int countArticle() throws Exception;
-	int writeArticle(NoticeDto noticeDto) throws Exception;
-	PageNavigation makePageNavigation(Map<String, String> map) throws Exception;
 	List<NoticeDto> listArticle(Map<String, String> map) throws Exception;
-	List<NoticeDto> preview(int num) throws Exception;
+	int writeArticle(NoticeDto noticeDto) throws Exception;
 	NoticeDto getArticle(int articleNo) throws Exception;
 	void updateHit(int articleNo) throws Exception;
 	void modifyArticle(NoticeDto noticeDto) throws Exception;
 	void deleteArticle(int articleNo) throws Exception;
+	int countArticle() throws Exception;
 }

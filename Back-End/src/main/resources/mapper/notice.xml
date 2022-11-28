@@ -9,43 +9,19 @@
 		<result column="hit" property="hit"/>
 	</resultMap>
 	
-		<resultMap type="NoticeDto" id="noticeAll" extends="previewNotice">
+	<resultMap type="NoticeDto" id="noticeAll" extends="previewNotice">
 		<result column="user_id" property="userId"/>
 		<result column="article_no" property="articleNo"/>
 		<result column="content" property="content"/>
 		<result column="register_time" property="registerTime"/>
 	</resultMap>
 	
-	<select id="preview" parameterType="int" resultMap="previewNotice">
-		select subject, hit
-		from notice
-		order by article_no desc limit ${num}
-	</select>
-	
-	<select id="getTotalArticleCount" parameterType="map" resultType="int">
-		select count(article_no)
-		from notice
-		<include refid="search"></include>
-	</select>
-	
 	<select id="listArticle" parameterType="map" resultMap="noticeAll">
 		select article_no, user_id, subject, content, hit, register_time
 		from notice
-		<include refid="search"></include>
 		order by article_no desc
 		limit #{start}, #{listsize}
-	</select>
-	
-	<sql id="search">
-		<if test="word != null and word != ''">
-			<if test="key == 'subject'">
-				where subject like concat('%', #{word}, '%')
-			</if>
-			<if test="key != 'subject'">
-				where user_id = #{word}
-			</if>
-		</if>
-	</sql>
+	</select>	
 	
 	<insert id="writeArticle" parameterType="noticeDto">
 		insert into notice (user_id, subject, content, hit, register_time)
@@ -64,17 +40,15 @@
 		where article_no = #{articleNo}
 	</update>
 	
-	<delete id="deleteArticle" parameterType="int">
-		delete from notice
-		where article_no = #{artcielNo}
-	</delete>
-	
 	<update id="modifyArticle" parameterType="noticeDto">
 		update notice
 		set subject = #{subject}, content = #{content}
 		where article_no = #{articleNo}
 	</update>
-	
-		 
+
+	<delete id="deleteArticle" parameterType="int">
+		delete from notice
+		where article_no = #{artcielNo}
+	</delete>
 		
 </mapper>
