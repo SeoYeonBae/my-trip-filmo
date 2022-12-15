@@ -10,7 +10,8 @@
 <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logoJavaScript&logoColor=white"/>
 <img src="https://img.shields.io/badge/HTML5-E34F26?style=flat&logo=HTML5&logoColor=white"/>
 <img src="https://img.shields.io/badge/npm-CB3837?style=flat&logo=npm&logoColor=white"/>
-<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"/><br/>
+<img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=Node.js&logoColor=white"/><br/>
+<img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat&logo=Spring Boot&logoColor=white"/>
 <img src="https://img.shields.io/badge/Apache Tomcat-F8DC75?style=flat&logo=Apache Tomcat&logoColor=white"/>   
 <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat&logo=MySQL&logoColor=white"/>  
 <img src="https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white"/>
@@ -28,8 +29,7 @@
 - 국내 관광지 활성화를 위해 한국관광공사의 관광정보 서비스 API를 이용해 여행지 추천 서비스를 제공한다. 여행을 계획하는 사용자를 위한 여행 계획하기 기능도 제공해 편의를 돕고자 하였으며 게시판을 만들어 사이트 이용자들끼리 자신이 가진 핫플레이스 정보와 사진을 공유하며 댓글을 달아 커뮤니티를 생성하였다.
 
 ## :heavy_check_mark: 기술 스택
-![여행의 주연](https://user-images.githubusercontent.com/101535851/204295033-1df91678-169f-480a-80c4-76bb124932bb.png)
-
+![여행의 주연](https://user-images.githubusercontent.com/101535851/207857964-b2fe214f-d52b-4cfb-bdf2-478c0dc2dafc.png)
 
 ## :heavy_check_mark: 사용한 외부 API
 - [한국국문관광공사 국문 관광정보 서비스 GW](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15101578)
