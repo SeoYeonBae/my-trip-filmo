@@ -1,7 +1,9 @@
 <div align="center">
    
 # :airplane: 여행의 주연
-국내 관광지 정보와 여행 계획 서비스를 제공하는 웹사이트
+   ![여행의주연](https://github.com/SeoYeonBae/my-trip-filmo/assets/63834758/1817768e-d02c-47a7-a0e4-ad52b9648110)
+
+### 국내 관광지 정보와 여행 계획 서비스를 제공하는 웹사이트
    
 [![Since](https://img.shields.io/badge/since-2022.11.18-333333.svg?style=flat-square)](https://github.com/SeoYeonBae/my-trip-filmo)
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FSeoYeonBae%2Fmy-trip-filmo&count_bg=%23FFD1FB&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=hits&edge_flat=false)](https://hits.seeyoufarm.com)
@@ -26,7 +28,9 @@
 </div>
 
 ## :heavy_check_mark: 프로젝트 소개
-- 국내 관광지 활성화를 위해 한국관광공사의 관광정보 서비스 API를 이용해 여행지 추천 서비스를 제공한다. 여행을 계획하는 사용자를 위한 여행 계획하기 기능도 제공해 편의를 돕고자 하였으며 게시판을 만들어 사이트 이용자들끼리 자신이 가진 핫플레이스 정보와 사진을 공유하며 댓글을 달아 커뮤니티를 생성하였다.
+국내 관광지 활성화를 위해 **한국관광공사의 관광정보 서비스 API** 를 이용한 여행지 추천 서비스를 제공한다.  
+여행을 계획하는 사용자를 위한 **여행 계획 기능** 을 제공해 편의를 돕고자 하였으며,  
+게시판을 통해 사이트 이용자들끼리 자신이 가진 **핫플레이스 정보와 사진을 공유하고 댓글을 달 수 있는 커뮤니티** 를 생성하였다.
 
 ## :heavy_check_mark: 기술 스택
 ![여행의 주연](https://user-images.githubusercontent.com/101535851/207857964-b2fe214f-d52b-4cfb-bdf2-478c0dc2dafc.png)
