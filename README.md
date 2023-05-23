@@ -33,7 +33,8 @@
 게시판을 통해 사이트 이용자들끼리 자신이 가진 **핫플레이스 정보와 사진을 공유하고 댓글을 달 수 있는 커뮤니티** 를 생성하였다.
 
 ## :heavy_check_mark: 기술 스택
-![여행의 주연](https://user-images.githubusercontent.com/101535851/207857964-b2fe214f-d52b-4cfb-bdf2-478c0dc2dafc.png)
+![여행의주연](https://github.com/SeoYeonBae/my-trip-filmo/assets/63834758/ab4dbd39-9ff1-4cde-becd-5ac82f7333a5)
+
 
 ## :heavy_check_mark: 사용한 외부 API
 - [한국국문관광공사 국문 관광정보 서비스 GW](https://www.data.go.kr/tcs/dss/selectApiDataDetailView.do?publicDataPk=15101578)
