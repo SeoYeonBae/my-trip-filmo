@@ -33,7 +33,10 @@
 게시판을 통해 사이트 이용자들끼리 자신이 가진 **핫플레이스 정보와 사진을 공유하고 댓글을 달 수 있는 커뮤니티** 를 생성하였다.
 
 ## :heavy_check_mark: 기술 스택
-![여행의주연](https://github.com/SeoYeonBae/my-trip-filmo/assets/63834758/ab4dbd39-9ff1-4cde-becd-5ac82f7333a5)
+![image](https://github.com/SeoYeonBae/my-trip-filmo/assets/101535851/e5679615-3abb-4c0b-8e3a-d22a2ca0aac4)
+
+## :heavy_check_mark: ERD
+![image](https://github.com/SeoYeonBae/my-trip-filmo/assets/101535851/4fd51bc3-3034-4950-a53f-3bcb7513a576)
 
 
 ## :heavy_check_mark: 사용한 외부 API
